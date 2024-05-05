@@ -1,0 +1,63 @@
+{
+  "name": "use-siwa",
+  "version": "0.0.1",
+  "private": true,
+  "author": "headline-design",
+  "license": "MIT",
+  "description": "Connecting a wallet, made simple.",
+  "type": "module",
+  "exports": {
+    "import": "./build/index.es.js",
+    "types": "./build/index.d.ts"
+  },
+  "types": "./build/index.d.ts",
+  "engines": {
+    "node": ">=12.4"
+  },
+  "files": [
+    "build",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "avm",
+    "react-hook",
+    "blockchain",
+    "hooks",
+    "algorand",
+    "react"
+  ],
+  "dependencies": {
+    "@tanstack/query-core": "^5.24.1",
+    "@tanstack/react-query": "^5.24.1",
+    "buffer": "^6.0.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-transition-state": "^1.1.4",
+    "react-use-measure": "^2.1.1",
+    "tslib": "^1.9.3",
+    "typescript-plugin-styled-components": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": ">=5.0.0",
+    "react": "17.x || 18.x",
+    "react-dom": "17.x || 18.x"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.18",
+    "@types/qrcode": "^1.4.2",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
+    "eslint": "8.15.0",
+    "tsup": "8.0.2",
+    "typescript": "5.4.3"
+  },
+  "resolutions": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

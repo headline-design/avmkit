@@ -1,0 +1,25 @@
+{
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+    "noEmitOnError": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noImplicitUseStrict": false,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+  },
+  "include": ["src/**/*"]
+}
