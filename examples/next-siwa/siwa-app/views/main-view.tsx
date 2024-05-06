@@ -13,7 +13,7 @@ export default function MainView2() {
           <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
             <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm ">
+                <div className="inline-block rounded-lg bg-lime px-3 py-1 text-sm text-lime-foreground ">
                   Auth Framework
                 </div>
                 <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] md:block text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
@@ -35,7 +35,7 @@ export default function MainView2() {
               <div className="flex items-center justify-center">
                 <img
                   alt="Image"
-                  className="aspect-video overflow-hidden rounded-xl object-cover object-center border"
+                  className="aspect-video overflow-hidden object-cover object-center primary-hero-bg"
                   height="310"
                   src="/fuse.svg"
                   width="550"
@@ -48,7 +48,7 @@ export default function MainView2() {
           <div className="container grid items-center gap-6 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm ">
+                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm ">
                   New Features
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -65,7 +65,7 @@ export default function MainView2() {
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
               <img
                 alt="Image"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center border"
+                className="mx-auto aspect-video overflow-hidden object-cover object-center secondary-hero-bg"
                 height="310"
                 src="/lightning-stand.svg"
                 width="550"
@@ -137,7 +137,7 @@ export default function MainView2() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:px-10 md:gap-16 lg:grid-cols-2">
               <div className="space-y-4">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm ">
+                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm ">
                   Performance
                 </div>
                 <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
@@ -148,7 +148,7 @@ export default function MainView2() {
                 </ButtonLink>
               </div>
               <div className="flex flex-col items-start space-y-4">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm ">
+                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm ">
                   Security
                 </div>
                 <p className="mx-auto max-w-[700px]  md:text-xl/relaxed text-muted-foreground">
