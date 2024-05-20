@@ -66,11 +66,13 @@ export const authOptions: NextAuthOptions = {
             algoSignature: credentials?.algoSignature || '',
             nonce: await getCsrfToken({ req }),
           });
+
+          console.log('result', result);
           // success
           if (result.success) {
             // Check if wallet exists
             let wallet = await prisma.wallet.findUnique({
-              where: { address: result.data.address },
+              where: { address: result.data.algoAddress },
             });
 
             // If wallet does not exist, check for user or create user and wallet
@@ -79,15 +81,16 @@ export const authOptions: NextAuthOptions = {
               let user = await prisma.user.create({
                 data: {
                   // Assuming 'id' field is auto-generated or you have a method to generate it
-                  name: result.data.address,
-                  email: `${result.data.address}@xspace.web3`, // Or any other data you have for user email
+                  name: result.data.algoAddress,
+                  email: `${result.data.algoAddress}@siwa.web3`, // Arbitrary temp email
                 },
               });
 
               // Create wallet associated with the found or newly created user
               let userWallet = await prisma.wallet.create({
                 data: {
-                  address: result.data.address,
+                  address: result.data.algoAddress,
+                  hexAddress: result.data.address,
                   chainId: result.data.chainId,
                   userId: user.id, // Use the user's ID here
                 },
@@ -179,7 +182,7 @@ export const authOptions: NextAuthOptions = {
         sameSite: 'lax',
         path: '/',
         // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT ? 'voiager.org' : 'localhost',
+        domain: VERCEL_DEPLOYMENT ? 'siwa.org' : 'localhost',
         secure: VERCEL_DEPLOYMENT,
       },
     },
@@ -206,9 +209,8 @@ export const authOptions: NextAuthOptions = {
       }
       if (!user.email && !session?.user.email) {
         // assign a generic email to the user
-        user.email = `${
-          user.name ? user.name : user.username ? user.username : session?.user.id
-        }@${account.provider}-provider.com`;
+        user.email = `${user.name ? user.name : user.username ? user.username : session?.user.id
+          }@${account.provider}-provider.com`;
       }
       if (
         account?.provider === 'google' ||
@@ -376,31 +378,31 @@ const withUserAuth =
       needUserDetails?: boolean;
     } = {},
   ) =>
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getSession();
-    if (!session?.user.id) return res.status(401).end('Unauthorized: Login required.');
+    async (req: NextApiRequest, res: NextApiResponse) => {
+      const session = await getSession();
+      if (!session?.user.id) return res.status(401).end('Unauthorized: Login required.');
 
-    if (req.method === 'GET') return handler(req, res, session);
+      if (req.method === 'GET') return handler(req, res, session);
 
-    if (needUserDetails) {
-      const user = (await prisma.user.findUnique({
-        where: {
-          id: session.user.id,
-        },
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          gh_username: true,
-          email: true,
-        },
-      })) as UserProps;
+      if (needUserDetails) {
+        const user = (await prisma.user.findUnique({
+          where: {
+            id: session.user.id,
+          },
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            gh_username: true,
+            email: true,
+          },
+        })) as UserProps;
 
-      return handler(req, res, session, user);
-    }
+        return handler(req, res, session, user);
+      }
 
-    return handler(req, res, session);
-  };
+      return handler(req, res, session);
+    };
 
 export { withUserAuth };
 
@@ -432,111 +434,111 @@ export const withAuth =
       allowAnonymous?: boolean;
     } = {},
   ) =>
-  async (req: Request, { params }: { params: Record<string, string> | undefined }) => {
-    const searchParams = getSearchParams(req.url);
-    const slug = params?.slug || searchParams.projectSlug;
-    const domain = params?.domain || searchParams.domain;
-    const key = searchParams.key;
+    async (req: Request, { params }: { params: Record<string, string> | undefined }) => {
+      const searchParams = getSearchParams(req.url);
+      const slug = params?.slug || searchParams.projectSlug;
+      const domain = params?.domain || searchParams.domain;
+      const key = searchParams.key;
 
-    let session: Session | undefined;
-    let headers = {};
+      let session: Session | undefined;
+      let headers = {};
 
-    const authorizationHeader = req.headers.get('Authorization');
-    if (authorizationHeader) {
-      if (!authorizationHeader.includes('Bearer ')) {
-        return new Response(
-          "Misconfigured authorization header. Did you forget to add 'Bearer '? Learn more: https://voiager.org ",
-          {
-            status: 400,
-          },
-        );
-      }
-      const apiKey = authorizationHeader.replace('Bearer ', '');
+      const authorizationHeader = req.headers.get('Authorization');
+      if (authorizationHeader) {
+        if (!authorizationHeader.includes('Bearer ')) {
+          return new Response(
+            "Misconfigured authorization header. Did you forget to add 'Bearer '? Learn more: https://voiager.org ",
+            {
+              status: 400,
+            },
+          );
+        }
+        const apiKey = authorizationHeader.replace('Bearer ', '');
 
-      const hashedKey = hashToken(apiKey, {
-        noSecret: true,
-      });
+        const hashedKey = hashToken(apiKey, {
+          noSecret: true,
+        });
 
-      const user = await prisma.user.findFirst({
-        where: {
-          tokens: {
-            some: {
-              hashedKey,
+        const user = await prisma.user.findFirst({
+          where: {
+            tokens: {
+              some: {
+                hashedKey,
+              },
             },
           },
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      });
-      if (!user) {
-        return new Response('Unauthorized: Invalid API key.', {
-          status: 401,
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
         });
-      }
-
-      const { success, limit, reset, remaining } = await ratelimit(10, '1 s').limit(apiKey);
-
-      headers = {
-        'Retry-After': reset.toString(),
-        'X-RateLimit-Limit': limit.toString(),
-        'X-RateLimit-Remaining': remaining.toString(),
-        'X-RateLimit-Reset': reset.toString(),
-      };
-
-      if (!success) {
-        return new Response('Too many requests.', {
-          status: 429,
-          headers,
-        });
-      }
-      await prisma.token.update({
-        where: {
-          hashedKey,
-        },
-        data: {
-          lastUsed: new Date(),
-        },
-      });
-      session = {
-        user: {
-          id: user.id,
-          name: user.name || '',
-          email: user.email || '',
-        },
-      };
-    } else {
-      session = await getSession();
-      if (!session?.user.id) {
-        // for demo services, we allow anonymous service creation
-        if (allowAnonymous) {
-          // @ts-expect-error
-          return handler({
-            req,
-            params: params || {},
-            searchParams,
-            headers,
+        if (!user) {
+          return new Response('Unauthorized: Invalid API key.', {
+            status: 401,
           });
         }
 
-        return new Response('Unauthorized: Login required.', {
-          status: 401,
-          headers,
-        });
-      }
-    }
+        const { success, limit, reset, remaining } = await ratelimit(10, '1 s').limit(apiKey);
 
-    return handler({
-      req,
-      params: params || {},
-      searchParams,
-      headers,
-      session,
-      domain,
-    });
-  };
+        headers = {
+          'Retry-After': reset.toString(),
+          'X-RateLimit-Limit': limit.toString(),
+          'X-RateLimit-Remaining': remaining.toString(),
+          'X-RateLimit-Reset': reset.toString(),
+        };
+
+        if (!success) {
+          return new Response('Too many requests.', {
+            status: 429,
+            headers,
+          });
+        }
+        await prisma.token.update({
+          where: {
+            hashedKey,
+          },
+          data: {
+            lastUsed: new Date(),
+          },
+        });
+        session = {
+          user: {
+            id: user.id,
+            name: user.name || '',
+            email: user.email || '',
+          },
+        };
+      } else {
+        session = await getSession();
+        if (!session?.user.id) {
+          // for demo services, we allow anonymous service creation
+          if (allowAnonymous) {
+            // @ts-expect-error
+            return handler({
+              req,
+              params: params || {},
+              searchParams,
+              headers,
+            });
+          }
+
+          return new Response('Unauthorized: Login required.', {
+            status: 401,
+            headers,
+          });
+        }
+      }
+
+      return handler({
+        req,
+        params: params || {},
+        searchParams,
+        headers,
+        session,
+        domain,
+      });
+    };
 
 interface WithSessionHandler {
   ({
@@ -554,15 +556,15 @@ interface WithSessionHandler {
 
 export const withSession =
   (handler: WithSessionHandler) =>
-  async (req: Request, { params }: { params: Record<string, string> }) => {
-    const session = await getSession();
-    if (!session?.user.id) {
-      return new Response('Unauthorized: Login required.', { status: 401 });
-    }
+    async (req: Request, { params }: { params: Record<string, string> }) => {
+      const session = await getSession();
+      if (!session?.user.id) {
+        return new Response('Unauthorized: Login required.', { status: 401 });
+      }
 
-    const searchParams = getSearchParams(req.url);
-    return handler({ req, params, searchParams, session });
-  };
+      const searchParams = getSearchParams(req.url);
+      return handler({ req, params, searchParams, session });
+    };
 
 // Pass secure keys to the JWT token
 export const getAuthToken = async (req) => {
@@ -575,36 +577,6 @@ export const getAuthToken = async (req) => {
   }
 };
 
-export function withGuideAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    guideId: string,
-    key: string | null,
-  ) => {
-    const session = await getSession();
-    if (!session?.user.id) {
-      return {
-        error: "Not authenticated",
-      };
-    }
-    const guide = await prisma.guide.findUnique({
-      where: {
-        id: guideId,
-      },
-      include: {
-        project: true,
-      },
-    });
-    if (!guide || guide.userId !== session.user.id) {
-      return {
-        error: "Guide not found",
-      };
-    }
-
-    return action(formData, guide, key);
-  };
-}
-
 //route handler for public data
 
 export const withPrismaPublic =
@@ -614,22 +586,22 @@ export const withPrismaPublic =
       allowAnonymous?: boolean;
     } = {},
   ) =>
-  async (req: Request, { params }: { params: Record<string, string> | undefined }) => {
-    const searchParams = getSearchParams(req.url);
-    const slug = params?.slug || searchParams.projectSlug;
-    const domain = params?.domain || searchParams.domain;
-    const key = searchParams.key;
+    async (req: Request, { params }: { params: Record<string, string> | undefined }) => {
+      const searchParams = getSearchParams(req.url);
+      const slug = params?.slug || searchParams.projectSlug;
+      const domain = params?.domain || searchParams.domain;
+      const key = searchParams.key;
 
-    let headers = {};
+      let headers = {};
 
-    return handler({
-      req,
-      params: params || {},
-      searchParams,
-      headers,
-      domain,
-    });
-  };
+      return handler({
+        req,
+        params: params || {},
+        searchParams,
+        headers,
+        domain,
+      });
+    };
 
 interface WithoutSessionHandler {
   ({
@@ -649,40 +621,12 @@ interface WithoutSessionHandler {
 
 export const withPublic =
   (handler: WithoutSessionHandler) =>
-  async (req: Request, { params }: { params: Record<string, string> }) => {
-    const searchParams = getSearchParams(req.url);
-    return handler({
-      req,
-      params: params || {},
-      searchParams,
-      headers: {},
-    });
-  };
-
-export function withProjectAuth(action: any) {
-  return async (formData: FormData | null, projectId: string, key: string | null) => {
-    const session = await getSession();
-    console.log('Creating guide for project:', session, projectId);
-
-    if (!session) {
-      return {
-        error: 'Not authenticated',
-      };
-    }
-
-    const project = await prisma.project.findUnique({
-      where: {
-        id: projectId,
-        userId: session.user.id,
-      },
-    });
-
-    if (!project) {
-      return {
-        error: 'Not authorized',
-      };
-    }
-
-    return action(formData, project, key);
-  };
-}
+    async (req: Request, { params }: { params: Record<string, string> }) => {
+      const searchParams = getSearchParams(req.url);
+      return handler({
+        req,
+        params: params || {},
+        searchParams,
+        headers: {},
+      });
+    };

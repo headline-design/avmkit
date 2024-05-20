@@ -75,6 +75,7 @@ model VerificationToken {
 
 model Wallet {
   address   String   @id
+  hexAddress String
   network   String?
   chainId   Int?
   userId    String

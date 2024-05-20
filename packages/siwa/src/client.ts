@@ -351,7 +351,7 @@ export class SiwaMessage {
             if (!isValid) {
               return {
                 success: false,
-                data: this,
+                data: { ...this, algoAddress: params.algoAddress},
                 error: new SiwaError(
                   SiwaErrorType.INVALID_SIGNATURE,
                   addr,
@@ -361,7 +361,7 @@ export class SiwaMessage {
             }
             return {
               success: true,
-              data: this,
+              data:  { ...this, algoAddress: params.algoAddress},
             };
           })
           .catch(error => {

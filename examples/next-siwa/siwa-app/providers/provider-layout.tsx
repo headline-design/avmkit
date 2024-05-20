@@ -18,7 +18,7 @@ const ProviderLayout = ({
 
   return (
     <React.StrictMode>
-      <ThemeProvider attribute="class">
+      <ThemeProvider attribute="class" defaultTheme="dark">
         <Suspense>
             <div className="flex flex-col min-h-[100dvh] bg-background">
               <Header />

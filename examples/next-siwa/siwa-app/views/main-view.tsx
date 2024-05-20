@@ -3,12 +3,33 @@ import { Link } from "react-router-dom";
 import { Button } from "@/siwa-app/components/ui/button";
 import { Input } from "@/siwa-app/components/ui/input";
 import { ButtonLink } from "@/siwa-app/components/ui/button-link";
-import { IconGithub } from "../icons";
-import { useContext, useState } from "react";
+
+import {
+  IconGithub,
+  IconWallet,
+  IconCheck,
+  IconMail,
+  IconSignOut,
+  IconShield,
+} from "../icons"; // Assume these icons are available
+import { useContext } from "react";
 import { ModalContext } from "../providers/modal-provider";
+import { useUser } from "../contexts/user-context";
+import { signOut, useSession } from "next-auth/react";
+import { wallet } from "../../x-wallet/constants";
+import SIWADetails from "./siwa-details";
 
 export default function MainView2() {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
+  const { user } = useUser();
+  const { data: session } = useSession();
+
+  console.log("user", user);
+  console.log("session", session);
+
+  const handleOpenModal = () => {
+    setShowLoginModal(true);
+  };
 
   const handleCloseModal = () => {
     setShowLoginModal(false);
@@ -88,8 +109,8 @@ export default function MainView2() {
                 <ul className="grid gap-6">
                   <li>
                     <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        Step 1: Connect Wallet
+                      <h3 className="text-xl font-bold flex items-center">
+                        <IconWallet className="mr-2" /> Step 1: Connect Wallet
                       </h3>
                       <p className="text-muted-foreground">
                         Connect your Algorand wallet to start the authentication
@@ -99,8 +120,8 @@ export default function MainView2() {
                   </li>
                   <li>
                     <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        Step 2: Sign Message
+                      <h3 className="text-xl font-bold flex items-center">
+                        <IconCheck className="mr-2" /> Step 2: Sign Message
                       </h3>
                       <p className="text-muted-foreground">
                         Sign a message with your wallet to prove ownership.
@@ -109,8 +130,8 @@ export default function MainView2() {
                   </li>
                   <li>
                     <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        Step 3: Verify Signature
+                      <h3 className="text-xl font-bold flex items-center">
+                        <IconCheck className="mr-2" /> Step 3: Verify Signature
                       </h3>
                       <p className="text-muted-foreground">
                         Our server verifies the signature to complete the login.
@@ -153,7 +174,69 @@ export default function MainView2() {
             </div>
           </div>
         </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 border-b">
+          <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16 ">
+            <div className="flex items-center justify-center py-12">
+              <div className="mx-auto grid w-[350px] gap-6">
+                <div className="grid gap-2 text-center">
+                  <h1 className="text-3xl font-bold">Try SIWA</h1>
+                  <p className="text-balance text-muted-foreground">
+                    Connect your Algorand wallet to start the authentication
+                    process.
+                  </p>
+                </div>
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Button
+                      size="lg"
+                      onClick={handleOpenModal}
+                      className="w-full flex items-center justify-center"
+                    >
+                      Connect Wallet
+                    </Button>
 
+                    {user || session ? (
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={() => signOut()}
+                        className="flex items-center justify-center"
+                      >
+                        <IconSignOut className="mr-2" /> Logout
+                      </Button>
+                    ) : null}
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex items-center">
+                      <span className="text-xs">
+                        SIWA currently supports Kibisis and X Wallet with more
+                        wallet support coming soon
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center py-12 lg:border-l">
+              <div className="text-muted-foreground text-center h-full w-full flex align-middle justify-center ">
+                {user || session ? (
+                  <>
+                    <SIWADetails
+                      user={session?.user || user}
+                      signOut={signOut}
+                    />
+                  </>
+                ) : (
+                  <div className="flex flex-col justify-center items-center">
+                    <IconShield className="w-20 h-20" />
+                    <span> Connect your wallet to see your SIWA details. </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
         {/* Performance Section */}
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">

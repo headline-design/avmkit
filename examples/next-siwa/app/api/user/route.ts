@@ -19,6 +19,7 @@ export const GET = withAuth(async (res) => {
       where: { id: session.user.id },
       include: {
         accounts: true, // Fetching account information
+        wallets: true,
       },
     });
 
