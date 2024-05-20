@@ -65,6 +65,9 @@ export const checkContractWalletSignature = async (
   algoSignatureBase64: string,
   address: string
 ): Promise<boolean> => {
+
+  //console.log('message.prepareMessage()',message, algoSignatureBase64, address );
+
   const hashedMessage = new Uint8Array(
     Buffer.from(JSON.stringify(message.prepareMessage()))
   );
@@ -75,7 +78,6 @@ export const checkContractWalletSignature = async (
   );
 
   try {
-
     const isValid = algosdk.verifyBytes(
       new Uint8Array(Buffer.from(hashedMessage)),
       signatureUint8Array,

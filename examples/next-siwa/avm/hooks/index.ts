@@ -1,0 +1,1 @@
+export {default as useAccountEffect} from './use-account-effect';

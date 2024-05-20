@@ -14,7 +14,7 @@ import { hashToken } from './crypto';
 import { ratelimit } from './upstash';
 import credentialsProvider from 'next-auth/providers/credentials';
 import { getCsrfToken } from 'next-auth/react';
-import { SiwaMessage } from 'siwa';
+import { SiwaMessage } from '@siwa/siwa';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -55,12 +55,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         try {
-         const siwa = new SiwaMessage(
-          JSON.parse(credentials?.message || "{}"),
-        );
+          const siwa = new SiwaMessage(JSON.parse(credentials?.message || '{}'));
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL);
 
-// VerifyParams
+          // VerifyParams
           const result = await siwa.verify({
             signature: credentials?.signature || '',
             domain: nextAuthUrl.host,
@@ -577,6 +575,36 @@ export const getAuthToken = async (req) => {
   }
 };
 
+export function withGuideAuth(action: any) {
+  return async (
+    formData: FormData | null,
+    guideId: string,
+    key: string | null,
+  ) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Not authenticated",
+      };
+    }
+    const guide = await prisma.guide.findUnique({
+      where: {
+        id: guideId,
+      },
+      include: {
+        project: true,
+      },
+    });
+    if (!guide || guide.userId !== session.user.id) {
+      return {
+        error: "Guide not found",
+      };
+    }
+
+    return action(formData, guide, key);
+  };
+}
+
 //route handler for public data
 
 export const withPrismaPublic =
@@ -630,3 +658,31 @@ export const withPublic =
       headers: {},
     });
   };
+
+export function withProjectAuth(action: any) {
+  return async (formData: FormData | null, projectId: string, key: string | null) => {
+    const session = await getSession();
+    console.log('Creating guide for project:', session, projectId);
+
+    if (!session) {
+      return {
+        error: 'Not authenticated',
+      };
+    }
+
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+        userId: session.user.id,
+      },
+    });
+
+    if (!project) {
+      return {
+        error: 'Not authorized',
+      };
+    }
+
+    return action(formData, project, key);
+  };
+}

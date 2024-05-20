@@ -3,7 +3,7 @@ import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { NextRequest, NextResponse } from 'next/server';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
-export const APP_NAME = 'Atlas';
+export const APP_NAME = 'Next Siwa App';
 export const COOKIE_NAME = 'web3session';
 
 if (!process.env.SESSION_SECRET) {
@@ -33,6 +33,7 @@ class SiwaSession {
   address?: string;
   teamId?: string;
   userId?: string;
+  algoAddress: string | undefined;
 
   constructor(session?: ISiwaSession) {
     this.nonce = session?.nonce;

@@ -1,7 +1,7 @@
 import { tap } from '@/dashboard/lib/utils';
 import prisma from '@/dashboard/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import { SiwaErrorType, SiwaMessage, generateNonce } from 'siwa';
+import { SiwaErrorType, SiwaMessage, generateNonce } from '@siwa/siwa';
 import SiwaSession from '@/dashboard/lib/siwa-session';
 import { getSession } from '@/dashboard/lib/auth';
 

@@ -1,0 +1,320 @@
+.xwallet-popup-layer,.xwallet-popup-layer-visible {
+    visibility: visible;
+    opacity: 1
+}
+
+.xwallet-popup-layer {
+    opacity: 0;
+    transition: opacity .3s;
+    z-index: 10012;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0
+}
+
+.xwallet-select-option-pc.align-left,.xwallet-select-option-pc.align-right {
+    left: unset
+}
+
+.xwallet-select-option-pc {
+    display: flex;
+    flex-direction: column;
+    max-height: 248px;
+    padding-top: var(--xwallet-select-drop-box-margin-top);
+    cursor: initial
+}
+
+.xwallet-select-option-pc .xwallet-select-option-box {
+    display: flex;
+    height: 100%;
+    padding: 4px 0;
+    border: 1px solid var(--xwallet-select-drop-box-border-color);
+    border-radius: var(--xwallet-select-drop-box-border-radius);
+    flex-direction: column;
+    background: var(--xwallet-select-drop-box-bg);
+    box-shadow: var(--xwallet-select-drop-box-shadow);
+    overflow: auto
+}
+
+.xwallet-select-option-pc .pc-option-scroll {
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch
+}
+
+.option-md .xwallet-select-item {
+    padding: var(--xwallet-select-md-option-padding-vertical) var(--xwallet-select-md-option-padding-horizontal);
+    line-height: var(--xwallet-select-md-option-line-height);
+    font-size: var(--xwallet-select-md-option-font-size)
+}
+
+.xwallet-dropdown-option {
+    white-space: nowrap
+}
+
+.xwallet-select-item {
+    display: flex;
+    align-items: center;
+    color: var(--xwallet-select-option-default-text-color);
+    font-weight: 400;
+    min-width: 90px;
+    cursor: pointer
+}
+
+[dir=ltr] ._main_9vz6j_1 ._optionIcon_9vz6j_52 {
+    margin-right: 12px
+}
+
+._main_9vz6j_1 ._optionIcon_9vz6j_52 {
+    font-size: 18px
+}
+
+._wallet-icon__xs_1knxl_54 {
+    width: 16px;
+    height: 16px;
+    font-size: 16px
+}
+
+._wallet-icon__radius_1knxl_22 {
+    border-radius: 50%
+}
+
+._wallet-icon_1knxl_1 {
+    position: relative;
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    color: inherit;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center
+}
+
+:root {
+    --xwallet-popover-background: var(--xwallet-color-text-white);
+    --xwallet-popover-link-color: var(--xwallet-color-blue-800);
+    --xwallet-popover-action-color: var(--xwallet-color-blue-800);
+    --xwallet-popover-title-color: var(--xwallet-color-gray-900);
+    --xwallet-popover-title-line-height: 20px;
+    --xwallet-popover-title-background: var(--xwallet-color-background-2);
+    --xwallet-popover-desc-color: var(--xwallet-color-gray-700);
+    --xwallet-popover-md-font-size: 14px;
+    --xwallet-popover-md-title-font-size: 16px;
+    --xwallet-popover-md-line-height: 20px;
+    --xwallet-popover-sm-font-size: 12px;
+    --xwallet-popover-sm-title-font-size: 14px;
+    --xwallet-popover-sm-line-height: 16px;
+    --xwallet-popover-common-padding: 12px;
+    --xwallet-popover-common-layer-width: 280px;
+    --xwallet-popover-common-layer-shadow: rgba(0, 0, 0, .05) 0px 4px 6px -2px, rgba(0, 0, 0, .1) 0px 10px 15px -3px;
+    --xwallet-popover-desc-background: var(--xwallet-color-background-1);
+    --xwallet-popover-layer-background: var(--xwallet-color-background-1);
+    --xwallet-popover-layer-border-color: rgba(0, 0, 0, .02);
+    --xwallet-select-common-placeholder-color: var(--xwallet-color-gray-300);
+    --xwallet-select-common-text-color: var(--xwallet-color-gray-700);
+    --xwallet-select-common-title-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-common-border-color: var(--xwallet-color-gray-100);
+    --xwallet-select-option-default-text-color: var(--xwallet-color-content-primary);
+    --xwallet-select-option-hover-text-color: var(--xwallet-color-text-amplifed);
+    --xwallet-select-option-active-text-color: var(--xwallet-color-content-primary);
+    --xwallet-select-option-disabled-text-color: var(--xwallet-color-content-disabled);
+    --xwallet-select-option-default-bg: var(--xwallet-color-common-transparent);
+    --xwallet-select-option-hover-bg: var(--xwallet-color-gray-050);
+    --xwallet-select-option-active-bg: var(--xwallet-color-common-transparent);
+    --xwallet-select-option-disabled-bg: var(--xwallet-color-common-transparent);
+    --xwallet-select-check-default-icon-color: var(--xwallet-color-content-primary);
+    --xwallet-select-empty-default-icon-color: var(--xwallet-color-content-tertiary);
+    --xwallet-select-empty-default-text-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-search-input-bg: var(--xwallet-color-gray-100);
+    --xwallet-select-search-input-placeholder-color: var(--xwallet-color-gray-400);
+    --xwallet-select-search-input-color: var(--xwallet-color-text-amplifed);
+    --xwallet-select-search-input-icon-color: var(--xwallet-color-gray-500);
+    --xwallet-select-search-input-border-radius: 4px;
+    --xwallet-select-drop-box-border-color: var(--xwallet-color-border-primary);
+    --xwallet-select-drop-box-shadow: var(--xwallet-shadow-lg);
+    --xwallet-select-drop-box-bg: var(--xwallet-color-container-primary);
+    --xwallet-select-drop-box-margin-top: 6px;
+    --xwallet-select-drop-box-border-radius: 4px;
+    --xwallet-select-text-select-default-icon-size: var(--xwallet-font-size-xs);
+    --xwallet-select-text-select-default-font-color: var(--xwallet-color-content-secondary);
+    --xwallet-select-text-select-hover-font-color: var(--xwallet-color-content-primary);
+    --xwallet-select-text-select-select-font-color: var(--xwallet-color-content-primary);
+    --xwallet-select-text-select-disabled-font-color: var(--xwallet-color-content-disabled);
+    --xwallet-select-text-select-default-icon-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-text-select-hover-icon-color: var(--xwallet-color-content-primary);
+    --xwallet-select-text-select-select-icon-color: var(--xwallet-color-content-primary);
+    --xwallet-select-text-select-disabled-icon-color: var(--xwallet-color-content-disabled);
+    --xwallet-select-input-select-default-icon-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-input-select-default-icon-size: 16px;
+    --xwallet-select-md-title-font-size: 10px;
+    --xwallet-select-sm-title-font-size: 10px;
+    --xwallet-select-xs-title-font-size: 10px;
+    --xwallet-select-md-title-line-height: var(--xwallet-select-md-title-font-size);
+    --xwallet-select-sm-title-line-height: var(--xwallet-select-md-title-font-size);
+    --xwallet-select-xs-title-line-height: var(--xwallet-select-md-title-font-size);
+    --xwallet-select-md-title-padding-horizontal: 16px;
+    --xwallet-select-md-title-padding-top: 12px;
+    --xwallet-select-md-title-padding-bottom: 4px;
+    --xwallet-select-sm-title-padding-horizontal: 12px;
+    --xwallet-select-sm-title-padding-top: 4px;
+    --xwallet-select-sm-title-padding-bottom: 4px;
+    --xwallet-select-xs-title-padding-horizontal: 12px;
+    --xwallet-select-xs-title-padding-top: 4px;
+    --xwallet-select-xs-title-padding-bottom: 4px;
+    --xwallet-select-md-text-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-sm-text-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-xs-text-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-md-option-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-sm-option-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-xs-option-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-md-option-line-height: var(--xwallet-line-height-md);
+    --xwallet-select-sm-option-line-height: var(--xwallet-line-height-xs);
+    --xwallet-select-xs-option-line-height: var(--xwallet-line-height-xs);
+    --xwallet-select-md-option-padding-horizontal: 16px;
+    --xwallet-select-md-option-padding-vertical: 12px;
+    --xwallet-select-sm-option-padding-horizontal: 12px;
+    --xwallet-select-sm-option-padding-vertical: 8px;
+    --xwallet-select-xs-option-padding-horizontal: 12px;
+    --xwallet-select-xs-option-padding-vertical: 8px;
+    --xwallet-select-md-check-icon-font-size: 16px;
+    --xwallet-select-sm-check-icon-font-size: 16px;
+    --xwallet-select-xs-check-icon-font-size: 16px;
+    --xwallet-select-md-empty-icon-font-size: 24px;
+    --xwallet-select-sm-empty-icon-font-size: 24px;
+    --xwallet-select-xs-empty-icon-font-size: 24px;
+    --xwallet-select-md-empty-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-sm-empty-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-xs-empty-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-md-search-input-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-sm-search-input-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-xs-search-input-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-md-search-icon-size: 18px;
+    --xwallet-select-sm-search-icon-size: 18px;
+    --xwallet-select-xs-search-icon-size: 18px;
+    --xwallet-select-md-text-select-font-size: var(--xwallet-font-size-md);
+    --xwallet-select-sm-text-select-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-xs-text-select-font-size: var(--xwallet-font-size-xs);
+    --xwallet-select-md-search-margin-vertical: 8px;
+    --xwallet-select-md-search-margin-horizontal: 16px;
+    --xwallet-select-md-search-height: 28px;
+    --xwallet-select-sm-search-margin-vertical: 8px;
+    --xwallet-select-sm-search-margin-horizontal: 12px;
+    --xwallet-select-sm-search-height: 28px;
+    --xwallet-select-xs-search-margin-vertical: 8px;
+    --xwallet-select-xs-search-margin-horizontal: 12px;
+    --xwallet-select-xs-search-height: 28px;
+    --xwallet-select-option-common-line-color: var(--xwallet-color-border-primary);
+    --xwallet-select-option-common-line-height: 1px;
+    --xwallet-select-option-common-line-margin-vertical: 6px;
+    --xwallet-select-md-search-padding-vertical: 5px;
+    --xwallet-select-md-search-padding-horizontal: 8px;
+    --xwallet-select-sm-search-padding-vertical: 5px;
+    --xwallet-select-sm-search-padding-horizontal: 8px;
+    --xwallet-select-xs-search-padding-vertical: 5px;
+    --xwallet-select-xs-search-padding-horizontal: 8px;
+    --xwallet-select-mobile-option-container-padding-vertical: 8px;
+    --xwallet-select-mobile-option-item-container-padding-top: 8px;
+    --xwallet-select-search-input-clear-icon-color: var(--xwallet-color-text-lighter);
+    --xwallet-select-md-search-clear-icon-size: 14px;
+    --xwallet-select-sm-search-clear-icon-size: 14px;
+    --xwallet-select-xs-search-clear-icon-size: 14px;
+    --xwallet-select-lg-title-padding-top: 12px;
+    --xwallet-select-lg-title-padding-bottom: 4px;
+    --xwallet-select-lg-title-padding-horizontal: 16px;
+    --xwallet-select-lg-title-font-size: 12px;
+    --xwallet-select-lg-title-line-height: var(--xwallet-select-lg-title-font-size);
+    --xwallet-select-lg-option-line-height: var(--xwallet-select-lg-option-line-height);
+    --xwallet-select-lg-option-padding-vertical: 12px;
+    --xwallet-select-lg-option-padding-horizontal: 16px;
+    --xwallet-select-lg-option-font-size: 14px;
+    --xwallet-select-lg-empty-icon-font-size: 24px;
+    --xwallet-select-lg-empty-font-size: 14px;
+    --xwallet-select-lg-search-margin-horizontal: 16px;
+    --xwallet-select-lg-search-margin-vertical: 8px;
+    --xwallet-select-lg-search-padding-horizontal: 8px;
+    --xwallet-select-lg-search-padding-vertical: 4px;
+    --xwallet-select-lg-search-height: 28px;
+    --xwallet-select-lg-search-icon-size: 18px;
+    --xwallet-select-lg-search-clear-icon-size: 14px;
+    --xwallet-select-lg-search-input-font-size: 14px;
+    --xwallet-select-lg-text-select-font-size: 14px;
+    --xwallet-select-lg-check-icon-font-size: var(--xwallet-select-md-check-icon-font-size);
+    --xwallet-select-lg-text-font-size: 14px;
+    --xwallet-select-xl-title-padding-top: 12px;
+    --xwallet-select-xl-title-padding-bottom: 4px;
+    --xwallet-select-xl-title-padding-horizontal: 16px;
+    --xwallet-select-xl-title-font-size: 12px;
+    --xwallet-select-xl-title-line-height: var(--xwallet-select-xl-title-font-size);
+    --xwallet-select-xl-option-line-height: var(--xwallet-select-xl-option-line-height);
+    --xwallet-select-xl-option-padding-vertical: 12px;
+    --xwallet-select-xl-option-padding-horizontal: 16px;
+    --xwallet-select-xl-option-font-size: 14px;
+    --xwallet-select-xl-empty-icon-font-size: 24px;
+    --xwallet-select-xl-empty-font-size: 14px;
+    --xwallet-select-xl-search-margin-horizontal: 16px;
+    --xwallet-select-xl-search-margin-vertical: 8px;
+    --xwallet-select-xl-search-padding-horizontal: 8px;
+    --xwallet-select-xl-search-padding-vertical: 4px;
+    --xwallet-select-xl-search-height: 28px;
+    --xwallet-select-xl-search-icon-size: 18px;
+    --xwallet-select-xl-search-clear-icon-size: 14px;
+    --xwallet-select-xl-search-input-font-size: 14px;
+    --xwallet-select-xl-text-select-font-size: 14px;
+    --xwallet-select-xl-check-icon-font-size: var(--xwallet-select-md-check-icon-font-size);
+    --xwallet-select-xl-text-font-size: 14px;
+    --xwallet-select-mobile-option-line-height: 20px;
+    --xwallet-select-mobile-option-padding-vertical: 18px;
+    --xwallet-select-mobile-option-padding-horizontal: 16px;
+    --xwallet-select-mobile-option-font-size: 16px;
+    --xwallet-select-mobile-option-icon-font-size: 24px;
+    --xwallet-select-mobile-option-title-padding-top: var(--xwallet-select-md-title-padding-top);
+    --xwallet-select-mobile-option-title-padding-bottom: var(--xwallet-select-md-title-padding-bottom);
+    --xwallet-select-mobile-option-title-padding-horizontal: var(--xwallet-select-md-title-padding-horizontal);
+    --xwallet-select-mobile-option-title-font-size: var(--xwallet-select-md-title-font-size);
+    --xwallet-select-mobile-option-title-line-height: var(--xwallet-select-md-title-line-height);
+    --xwallet-select-xl-option-icon-font-size: 20px;
+    --xwallet-select-lg-option-icon-font-size: 20px;
+    --xwallet-select-md-option-icon-font-size: 20px;
+    --xwallet-select-sm-option-icon-font-size: 16px;
+    --xwallet-select-xs-option-icon-font-size: 16px;
+    --xwallet-select-xl-tag-icon-font-size: 16px;
+    --xwallet-select-lg-tag-icon-font-size: 16px;
+    --xwallet-select-md-tag-icon-font-size: 16px;
+    --xwallet-select-sm-tag-icon-font-size: 14px;
+    --xwallet-select-xs-tag-icon-font-size: 14px;
+    --xwallet-select-xl-reference-icon-font-size: 20px;
+    --xwallet-select-lg-reference-icon-font-size: 20px;
+    --xwallet-select-md-reference-icon-font-size: 20px;
+    --xwallet-select-sm-reference-icon-font-size: 16px;
+    --xwallet-select-xs-reference-icon-font-size: 16px;
+    --xwallet-select-xl-tag-text-font-size: 14px;
+    --xwallet-select-lg-tag-text-font-size: 14px;
+    --xwallet-select-md-tag-text-font-size: 14px;
+    --xwallet-select-sm-tag-text-font-size: 12px;
+    --xwallet-select-xs-tag-text-font-size: 12px;
+    --xwallet-select-xl-tag-height: 40px;
+    --xwallet-select-lg-tag-height: 36px;
+    --xwallet-select-md-tag-height: 32px;
+    --xwallet-select-sm-tag-height: 24px;
+    --xwallet-select-xs-tag-height: 20px;
+    --xwallet-select-tag-default-background: var(--xwallet-color-background-surface-primary);
+    --xwallet-select-tag-disabled-background: var(--xwallet-color-background-surface-disable);
+    --xwallet-select-tag-text-default-color: var(--xwallet-color-content-primary);
+    --xwallet-select-tag-text-disabled-color: var(--xwallet-color-content-disabled);
+    --xwallet-select-tag-icon-default-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-tag-icon-hover-color: var(--xwallet-color-content-primary);
+    --xwallet-select-tag-icon-disabled-color: var(--xwallet-color-content-disabled);
+    --xwallet-select-reference-icon-default-color: var(--xwallet-color-content-contrast);
+    --xwallet-select-reference-icon-hover-color: var(--xwallet-color-content-primary);
+    --xwallet-select-xl-arrow-icon-font-size: 16px;
+    --xwallet-select-lg-arrow-icon-font-size: 16px;
+    --xwallet-select-md-arrow-icon-font-size: 16px;
+    --xwallet-select-sm-arrow-icon-font-size: 14px;
+    --xwallet-select-xs-arrow-icon-font-size: 14px
+}
+
+.xwallet-select-item:hover, .xwallet-select-item.hover {
+    background: var(--xwallet-select-option-hover-bg);
+    color: var(--xwallet-select-option-hover-text-color);
+}

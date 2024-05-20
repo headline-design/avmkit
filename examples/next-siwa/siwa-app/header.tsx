@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ThemeToggle from "./components/theme-toggle";
-import { IconShield } from "./icons/shield";
+import { IconShield } from "./icons";
 
 export const Header = () => {
 

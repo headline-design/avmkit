@@ -3,6 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "noImplicitAny": false,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -20,9 +21,15 @@
     "paths": {
       "@/*": ["./*"],
       "@/dashboard": ["./siwa-app/"],
-      "@/dashboard/*": ["./siwa-app/*"]
+      "@/dashboard/*": ["./siwa-app/*"],
+      "@/wallet": ["./x-wallet"],
+      "@/wallet/*": ["./x-wallet/*"],
+      "@/siwa": ["./use-siwa"],
+      "@/siwa/*": ["./use-siwa/*"],
+      "@/avm": ["./avm"],
+      "@/avm/*": ["./avm/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "siwa-app/utils/functions.js"],
   "exclude": ["node_modules"]
 }

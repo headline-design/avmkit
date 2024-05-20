@@ -1,6 +1,6 @@
 # SIWA - Sign In with Algorand
 
-siwa/
+@siwa/siwa/
 ├── src/
 │   ├── index.ts                  # Entry point to export all modules
 │   ├── algorand-utils.ts          # Utility functions for Algorand operations

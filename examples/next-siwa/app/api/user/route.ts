@@ -19,13 +19,6 @@ export const GET = withAuth(async (res) => {
       where: { id: session.user.id },
       include: {
         accounts: true, // Fetching account information
-        userTasks: true, // Fetching user tasks
-        followingProjects: {
-          // Fetching projects the user follows
-          include: {
-            project: true, // Include details of the projects
-          },
-        },
       },
     });
 
@@ -44,21 +37,12 @@ export const GET = withAuth(async (res) => {
       twitter: !!user.accounts.some((acc) => acc.provider === 'twitter'),
     };
 
-    // Map project follows to provide project IDs the user is following
-    const followedProjects = user.followingProjects.map((fp) => ({
-      id: fp.project.id,
-      name: fp.project.name,
-      domain: fp.project.domain,
-    }));
-
     // Construct the safe user data to return
     const safeUserData = {
       id: user.id,
       name: user.name,
       email: user.email, // Include only non-sensitive user details
       connectedAccounts,
-      followedProjects, // Include followed projects
-      userTasks: user?.userTasks,
     };
 
     return NextResponse.json(safeUserData);

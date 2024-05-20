@@ -1,0 +1,49 @@
+{
+  "name": "@siwa/pipeline",
+  "version": "1.9.0",
+  "description": "Class to send transactions to Algorand network with MyAlgo Connect",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
+    "serve": "serve -s dist"
+  },
+  "keywords": [
+    "Algorand",
+    "Blockchain",
+    "JavaScript",
+    "Class"
+  ],
+  "author": "Headline",
+  "dependencies": {
+    "@agoralabs-sh/algorand-provider": "^1.1.0",
+    "@json-rpc-tools/utils": "^1.7.6",
+    "@msgpack/msgpack": "^2.7.1",
+    "@perawallet/connect": "^1.2.3",
+    "@walletconnect/modal-sign-html": "^2.5.6",
+    "algo-msgpack-with-bigint": "^2.1.1",
+    "algosdk": "^2.7.0",
+    "buffer": "5.0.0",
+    "encrypt-with-password": "^1.0.0",
+    "eslint": "8.15.0",
+    "file-saver": "^2.0.5",
+    "hi-base32": "^0.5.1",
+    "regenerator-runtime": "^0.13.9",
+    "serve": "^13.0.2",
+    "tslib": "2.4.0"
+  },
+  "devDependencies": {
+    "@types/mime": "^2.0.0",
+    "eslint": "8.15.0",
+    "tsup": "8.0.2",
+    "typescript": "5.4.3"
+  }
+}
