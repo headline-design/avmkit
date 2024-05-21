@@ -122,7 +122,7 @@ export const SIWAProvider = ({
         address,
         algoAddress: Pipeline.address,
         chainId: 100,
-        nonce: "00000000",
+        nonce: nonce?.data,
       });
 
       const hashedMessage = new Uint8Array(

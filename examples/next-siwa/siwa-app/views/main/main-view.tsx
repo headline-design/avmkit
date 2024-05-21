@@ -292,38 +292,37 @@ export default function MainView2() {
             </div>
           </div>
         </section>
-        {/* Performance Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-10 sm:px-10 md:gap-16 lg:grid-cols-2">
-              <div className="space-y-4">
-                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
-                  Performance
-                </div>
-                <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-                  Robust and Scalable Infrastructure
-                </h2>
-                <ButtonLink size="lg" to="/getting-started">
-                  Get Started
-                </ButtonLink>
-              </div>
-              <div className="flex flex-col items-start space-y-4">
-                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
-                  Security
-                </div>
-                <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
-                  Fully managed infrastructure designed to scale dynamically
-                  with your traffic, a global edge to ensure your site is fast
-                  for every customer, and the tools to monitor every aspect of
-                  your app.
-                </p>
-                <ButtonLink size="lg" variant="outline" to="/contact">
-                  Contact Sales
-                </ButtonLink>
-              </div>
-            </div>
-          </div>
-        </section>
+{/* Performance Section */}
+<section className="w-full py-12 md:py-24 lg:py-32">
+  <div className="container px-4 md:px-6">
+    <div className="grid gap-10 sm:px-10 md:gap-16 lg:grid-cols-2">
+      <div className="space-y-4">
+        <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
+          Performance
+        </div>
+        <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
+          Advanced Blockchain Authentication
+        </h2>
+        <ButtonLink size="lg" to="/getting-started">
+          Get Started
+        </ButtonLink>
+      </div>
+      <div className="flex flex-col items-start space-y-4">
+        <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
+          Security
+        </div>
+        <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
+          SIWA provides a robust and scalable authentication system built on Algorand's blockchain. Ensure the highest level of security for your users with our state-of-the-art protocol.
+        </p>
+        <ButtonLink size="lg" variant="outline" to="/contact">
+          Contact Sales
+        </ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">

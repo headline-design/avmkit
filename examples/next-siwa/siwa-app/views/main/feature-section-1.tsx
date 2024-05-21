@@ -14,7 +14,7 @@ export const FeatureSection1 = () => (
       <div className="mx-auto px-6 max-w-6xl text-zinc-500">
         <div className="relative">
           <div className="relative z-10 grid gap-3 grid-cols-6">
-            <div className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8  border   ">
+            <div className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 border">
               <div className="size-fit m-auto relative">
                 <div className="relative h-24 w-56 flex items-center">
                   <IconSharpieCircle />
@@ -23,43 +23,41 @@ export const FeatureSection1 = () => (
                   </span>
                 </div>
                 <h2 className="mt-6 text-center font-semibold text-zinc-950 dark:text-white text-3xl">
-                  Customizable
+                  Configurable
                 </h2>
               </div>
             </div>
-            <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8   border   ">
+            <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 border">
               <div>
                 <div className="relative aspect-square rounded-full size-32 flex border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
                   <IconFingerprint />
                 </div>
                 <div className="mt-6 text-center relative z-10 space-y-2">
                   <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
-                    Secure by default
+                    Built-in Security
                   </h2>
                   <p className="dark:text-zinc-300 text-zinc-700">
-                    Provident fugit and vero voluptate. magnam magni doloribus
-                    dolores voluptates a sapiente nisi.
+                    SIWA ensures secure and tamper-proof authentication using Algorand's blockchain technology.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8   border   ">
+            <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 border">
               <div>
                 <div className="pt-6 lg:px-6 flex justify-center">
                   <IconSelectRange />
                 </div>
                 <div className="mt-4 text-center relative z-10 space-y-2">
                   <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
-                    Faster than light
+                    Multi-point Validation
                   </h2>
                   <p className="dark:text-zinc-300 text-zinc-700">
-                    Provident fugit vero voluptate. magnam magni doloribus
-                    dolores voluptates inventore nisi.
+                    SIWA validates multiple data points during sign-in, ensuring comprehensive security.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-span-full lg:col-span-3 overflow-hidden relative p-8   border   ">
+            <div className="col-span-full lg:col-span-3 overflow-hidden relative p-8 border">
               <div className="grid sm:grid-cols-2">
                 <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
                   <div className="relative aspect-square rounded-full size-12 flex border dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
@@ -80,27 +78,26 @@ export const FeatureSection1 = () => (
                   </div>
                   <div className="space-y-2">
                     <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
-                      Faster than light
+                      Transparent Process
                     </h2>
                     <p className="dark:text-zinc-300 text-zinc-700">
-                      Provident fugit vero voluptate. Voluptates a sapiente
-                      inventore nisi.
+                      Understand and trust every step with SIWA's transparent authentication process.
                     </p>
                   </div>
                 </div>
-                <div className="overflow-hidden relative mt-6 sm:mt-auto h-fit -mb-[34px] -mr-[34px] sm:ml-6 py-6 p-6 border rounded-tl-lg  dark:border-white/10">
+                <div className="overflow-hidden relative mt-6 sm:mt-auto h-fit -mb-[34px] -mr-[34px] sm:ml-6 py-6 p-6 border rounded-tl-lg dark:border-white/10">
                   <div className="absolute flex gap-1 top-2 left-3">
                     <span className="block size-2 rounded-full border dark:border-white/10 dark:bg-white/10" />
                     <span className="block size-2 rounded-full border dark:border-white/10 dark:bg-white/10" />
                     <span className="block size-2 rounded-full border dark:border-white/10 dark:bg-white/10" />
                   </div>
-                  <div className="flex flex-auto justify-center align-middle text-lime-400 ">
+                  <div className="flex flex-auto justify-center align-middle text-lime-400">
                     <IconFolderLock />
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-span-full lg:col-span-3 overflow-hidden relative p-8   border   ">
+            <div className="col-span-full lg:col-span-3 overflow-hidden relative p-8 border">
               <div className="h-full grid sm:grid-cols-2">
                 <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
                   <div className="relative aspect-square rounded-full size-12 flex border dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
@@ -127,29 +124,28 @@ export const FeatureSection1 = () => (
                   </div>
                   <div className="space-y-2">
                     <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
-                      Keep your loved ones safe
+                      Data Security
                     </h2>
                     <p className="dark:text-zinc-300 text-zinc-700">
-                      Voluptate. magnam magni doloribus dolores voluptates a
-                      sapiente inventore nisi.
+                      Ensure data integrity with SIWA's secure client-server authentication.
                     </p>
                   </div>
                 </div>
-                <div className="mt-6 relative sm:-mr-[--card-padding] sm:-my-8 before:absolute before:w-px before:inset-0 before:mx-auto before:bg-border ">
+                <div className="mt-6 relative sm:-mr-[--card-padding] sm:-my-8 before:absolute before:w-px before:inset-0 before:mx-auto before:bg-border">
                   <div className="relative space-y-6 py-6 flex flex-col justify-center h-full">
                     <div className="flex items-center justify-end gap-2 w-[calc(50%+0.875rem)] relative">
                       <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-zinc-800 dark:border-white/5 dark:text-white">
                         Server
                       </span>
                       <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
-                        <div className="rounded-full  border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
+                        <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconServer className="w-4 h-4 text-muted-foreground" />
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 ml-[calc(50%-1rem)] relative">
                       <div className="size-8 ring-4 ring-white dark:ring-[--card-dark-bg]">
-                        <div className="rounded-full  border border-lime-600 size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
+                        <div className="rounded-full border border-lime-600 size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconShield />
                         </div>
                       </div>
@@ -162,7 +158,7 @@ export const FeatureSection1 = () => (
                         Client
                       </span>
                       <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
-                        <div className="rounded-full  border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
+                        <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconClient className="w-4 h-4 text-muted-foreground" />
                         </div>
                       </div>
