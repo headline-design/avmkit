@@ -84,10 +84,6 @@ export default function MainView2() {
           </div>
         </section>
 
-        {/*Cards Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <DemoGithub />
-        </section>
         {/* Feature Section */}
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container grid items-center gap-6 px-4 md:px-6">
@@ -279,6 +275,10 @@ export default function MainView2() {
               </div>
             </div>
           </div>
+        </section>
+   {/*Cards Section */}
+   <section className="w-full py-12 md:py-24 lg:py-32">
+          <DemoGithub />
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
