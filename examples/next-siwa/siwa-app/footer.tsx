@@ -7,7 +7,7 @@ export const Footer = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="text-xl font-semibold text-zinc-800">
-              Fuse
+              SIWA
             </Link>
           </div>
           <nav className="flex items-center">

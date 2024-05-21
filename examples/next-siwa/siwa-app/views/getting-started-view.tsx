@@ -49,7 +49,7 @@ const GettingStartedView = () => {
             variant={"ghost"}
             onClick={() =>
               handleCopy(
-                "git clone https://github.com/headline-design/react-fuse.git",
+                "git clone https://github.com/headline-design/siwa.git",
                 "clone"
               )
             }
@@ -57,7 +57,7 @@ const GettingStartedView = () => {
             {copiedCommand === "clone" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            git clone https://github.com/headline-design/react-fuse.git
+            git clone https://github.com/headline-design/siwa.git
           </code>
         </div>
 

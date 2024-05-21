@@ -41,7 +41,7 @@ export function constructMetadata({
       creator: '@headline_crypto',
     },
     icons,
-    metadataBase: new URL('https://react-fuse-iota.vercel.app'),
+    metadataBase: new URL('https://next-siwa.vercel.app'),
     ...(noIndex && {
       robots: {
         index: false,

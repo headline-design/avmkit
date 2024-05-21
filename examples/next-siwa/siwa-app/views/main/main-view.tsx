@@ -65,7 +65,7 @@ export default function MainView2() {
                     target="_blank"
                     size="lg"
                     variant="outline"
-                    to="https://github.com/headline-design/react-fuse"
+                    to="https://github.com/headline-design/siwa"
                   >
                     <IconGithub /> Github
                   </ButtonLink>
@@ -76,7 +76,7 @@ export default function MainView2() {
                   alt="Sign In With Algorand"
                   className="aspect-video overflow-hidden object-cover object-center primary-hero-bg"
                   height="310"
-                  src="/fuse.svg"
+                  src="/shield-stack.svg"
                   width="550"
                 />
               </div>
