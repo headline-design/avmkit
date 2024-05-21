@@ -1,0 +1,169 @@
+.codeBlock_root {
+    border: 0 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+.codeBlock_wrapper {
+    margin: 16px 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.codeBlock_wrapper {
+    position: relative;
+    border: 1px solid hsl(var(--border));
+}
+
+.codeBlock_root > div {
+    border-color: hsl(var(--border));
+}
+
+.codeBlock_header {
+    padding: 0 12px 0 16px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    height: 48px;
+    align-items: center;
+    background: var(--ds-background-200);
+}
+
+.codeBlock_fileName {
+    color: hsl(var(--muted-foreground));
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    min-width: 0;
+    margin: 0 auto 0 0;
+}
+
+.codeBlock_iconWrapper {
+    width: 16px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.code-block_filename {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.codeBlock_actions {
+    display: flex;
+    gap: 4px;
+}
+
+.codeBlock_copyButton {
+    height: 32px;
+    width: 32px;
+    border-radius: 5px !important;
+    border: none;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    padding: 0px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: inherit;
+    position: relative;
+    transition: background .2s ease;
+}
+
+.codeBlock_wrapper.codeBlock_hasFileName .codeBlock_pre {
+    border-radius: 0 0 6px 6px;
+    background: var(--ds-background-100);
+}
+
+.codeBlock_root pre {
+    --padding: 16px;
+}
+
+.codeBlock_pre {
+    max-height: 350px !important;
+    --padding: 20px !important;
+    padding: var(--padding) 0 !important;
+    margin: 0 !important;
+    overflow-x: auto !important;
+    background: var(--ds-background-100) !important;
+    counter-reset: line;
+}
+
+.line {
+    display: flex;
+    position: relative;
+    padding-left: 1.5em; /* Adjust this for enough space for the line numbers */
+}
+
+.line:before {
+    display: inline-block;
+    counter-increment: line;
+    width: 16px;
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+    font-family: var(--font-mono);
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    text-align: right;
+    flex-shrink: 0;
+    margin-right: var(--padding);
+    z-index: 1;
+    content: counter(line);
+}
+
+@supports (content: "visual text" / "alt text") {
+    .highlighted-line:before, .line:before {
+        content: counter(line) / "";
+    }
+}
+
+.token-line {
+    flex: 1;
+}
+
+.codeBlock_code {
+    display: grid;
+    color: var(--ds-gray-1000);
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    font-size: 13px !important;
+    line-height: 20px;
+    font-family: var(--font-mono);
+    font-feature-settings: "ss09", none;
+    font-variant-ligatures: none;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    hyphens: none;
+}
+
+.codeBlock_root .keyword {
+    color: var(--ds-red-900) !important;
+}
+
+.keyword {
+    color: var(--ds-red-900) !important;
+}
+
+.punctuation {
+    color: hsl(var(--muted-foreground));
+}
+
+.string {
+    color: var(--ds-green-700);
+}
+
+.comment {
+    color: var(--ds-gray-600);
+}

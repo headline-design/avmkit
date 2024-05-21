@@ -11,13 +11,17 @@ import {
   IconMail,
   IconSignOut,
   IconShield,
-} from "../icons"; // Assume these icons are available
+} from "../../icons"; // Assume these icons are available
 import { useContext } from "react";
-import { ModalContext } from "../providers/modal-provider";
-import { useUser } from "../contexts/user-context";
+import { ModalContext } from "../../providers/modal-provider";
+import { useUser } from "../../contexts/user-context";
 import { signOut, useSession } from "next-auth/react";
-import { wallet } from "../../x-wallet/constants";
+import { wallet } from "../../../x-wallet/constants";
 import SIWADetails from "./siwa-details";
+import { DemoGithub } from "../../components/cards/github-card";
+import { FeatureSection1 } from "./feature-section-1";
+import { FeatureSection2 } from "./feature-section-2";
+import { CodeSection } from "./code-section";
 
 export default function MainView2() {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
@@ -80,6 +84,10 @@ export default function MainView2() {
           </div>
         </section>
 
+        {/*Cards Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <DemoGithub />
+        </section>
         {/* Feature Section */}
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container grid items-center gap-6 px-4 md:px-6">
@@ -143,7 +151,10 @@ export default function MainView2() {
             </div>
           </div>
         </section>
-
+        <FeatureSection1 />
+        <FeatureSection2 />
+        {/* Feature Section 2 */}
+        <CodeSection />
         {/* Workflow Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 border-t border-b">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">

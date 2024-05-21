@@ -32,8 +32,9 @@
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
     --ds-background-100: #fff;
-    --ds-backdrop-100: rgba(0,0,0,.4);
-    --ds-backdrop-200: rgba(0,0,0,.25);
+    --ds-background-200: #fafafa;
+    --ds-backdrop-100: rgba(0, 0, 0, .4);
+    --ds-backdrop-200: rgba(0, 0, 0, .25);
   }
 
   .dark {
@@ -62,11 +63,50 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --ds-background-100: #0a0a0a;
-    --ds-backdrop-100: rgba(0,0,0,.4);
-    --ds-backdrop-200: rgba(0,0,0,.75);
+    --ds-background-200: #000;
+    --ds-backdrop-100: rgba(0, 0, 0, .4);
+    --ds-backdrop-200: rgba(0, 0, 0, .75);
   }
 }
 
+:root {
+  --accordion-border-radius: 1.5rem;
+  --accordion-shadow: 0 4px 6px -1px rgb(2 3 4 / var(--accordion-shadow-opacity)), 0 2px 4px -2px rgb(2 3 4 / var(--accordion-shadow-opacity));
+  --accordion-shadow-opacity: 4%;
+  --alert-border-radius: 1.5rem;
+  --alert-shadow: 0 4px 6px -1px rgb(2 3 4 / var(--alert-shadow-opacity)), 0 2px 4px -2px rgb(2 3 4 / var(--alert-shadow-opacity));
+  --alert-shadow-opacity: 4%;
+  --annonce-border-radius: 9999px;
+  --avatar-border-radius: 9999px;
+  --avatar-status-position: 1px;
+  --badge-border-radius: 9999px;
+  --btn-border-radius: 1rem;
+  --btn-border-width: undefinedpx;
+  --card-border-radius: 1.5rem;
+  --card-shadow: 0 4px 6px -1px rgb(2 3 4 / var(--card-shadow-opacity)), 0 2px 4px -2px rgb(2 3 4 / var(--card-shadow-opacity));
+  --card-shadow-opacity: 4%;
+  --card-padding: 2rem;
+  --menu-border-radius: 0.75rem;
+  --menu-light-bg-opacity: 80%;
+  --menu-dark-bg-opacity: 50%;
+  --menu-shadow: 0 4px 6px -1px rgb(2 3 4 / var(--menu-shadow-opacity)), 0 2px 4px -2px rgb(2 3 4 / var(--menu-shadow-opacity));
+  --menu-shadow-opacity: 4%;
+  --menu-light-backdrop-blur: 3rem;
+  --menu-dark-backdrop-blur: 3rem;
+  --feedback-shadow: 0 4px 6px -1px rgb(2 3 4 / var(--feedback-shadow-opacity)), 0 2px 4px -2px rgb(2 3 4 / var(--feedback-shadow-opacity));
+  --feedback-shadow-opacity: 4%;
+  --flag-border-radius: 1.5rem;
+  --flag-padding: 1.5rem;
+  --field-border-radius: 0.5rem;
+  --popover-border-radius: 1.5rem;
+  --popover-padding: 1.5rem;
+  --switch-border-radius: 9999px;
+  --tabs-border-radius: 9999px;
+  --tabs-soft-border-radius: 9999px;
+  --tabs-bottom-indicator-border-radius: 9999px;
+  --tooltip-border-radius: 9999px;
+  --toast-border-radius: 1.5rem;
+}
 
 * {
   border-color: hsl(var(--border));

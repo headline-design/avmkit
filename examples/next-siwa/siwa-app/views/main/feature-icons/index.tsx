@@ -1,0 +1,12 @@
+export { default as IconPrisma } from "./prisma";
+export { default as IconNext } from "./next";
+export { default as IconSupabase } from "./supabase";
+export { default as IconNextAuth } from "./next-auth";
+export { default as IconRedux } from "./redux";
+export { default as IconRedis } from "./redis";
+export { default as IconGithub } from "./github";
+export { default as IconExternalLink } from "./external-link";
+export { default as IconFingerprint } from "./fingerprint";
+export { default as IconShield } from "./shield";
+export { default as IconSharpieCircle } from "./sharpie-circle";
+export { default as IconSquares } from "./squares";

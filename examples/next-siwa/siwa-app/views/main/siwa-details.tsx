@@ -1,4 +1,4 @@
-import { Button } from "../components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,10 +6,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { IconShield, IconSignOut } from "../icons";
-import { shorten } from "../lib/utils";
-import { truncateMicroString } from "../utils/functions";
+} from "../../components/ui/card";
+import { IconShield, IconSignOut } from "../../icons";
+import { shorten } from "../../lib/utils";
+import { truncateMicroString } from "../../utils/functions";
 
 export default function SIWADetails({ user, signOut }) {
   return (
@@ -38,7 +38,7 @@ export default function SIWADetails({ user, signOut }) {
               </CardDescription>
             </div>
             <div className="ml-auto flex items-center gap-1">
-                <IconShield color="#01dc94"/>
+              <IconShield color="#01dc94" />
             </div>
           </CardHeader>
           <CardContent className="p-6 text-sm">

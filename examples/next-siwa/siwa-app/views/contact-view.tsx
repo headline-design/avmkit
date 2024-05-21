@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { Label } from "@/siwa-app/components/ui/label"
-import { Input } from "@/siwa-app/components/ui/input"
-import { Button } from "@/siwa-app/components/ui/button"
-import { Textarea } from "@/siwa-app/components/ui/text-area"
+import { Label } from "@/siwa-app/components/ui/label";
+import { Input } from "@/siwa-app/components/ui/input";
+import { Button } from "@/siwa-app/components/ui/button";
+import { Textarea } from "@/siwa-app/components/ui/text-area";
 
 export default function ContactView() {
   return (
@@ -11,8 +11,12 @@ export default function ContactView() {
       <div className="container grid max-w-2xl px-4 gap-10 sm:gap-20">
         <div className="space-y-4">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl/none">Contact Us</h1>
-            <p className="text-gray-500 dark:text-gray-400">We'll get back to you as soon as possible.</p>
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl/none">
+              Contact Us
+            </h1>
+            <p className="text-zinc-500 dark:text-zinc-400">
+              We'll get back to you as soon as possible.
+            </p>
           </div>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -31,13 +35,16 @@ export default function ContactView() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="message">Message</Label>
-              <Textarea className="min-h-[100px]" id="message" placeholder="Enter your message" />
+              <Textarea
+                className="min-h-[100px]"
+                id="message"
+                placeholder="Enter your message"
+              />
             </div>
             <Button>Send message</Button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
