@@ -45,7 +45,7 @@ export default function MainView2() {
         {/* Hero Section */}
         <section className="w-full pt-12 pb-12 md:pt-24 lg:pt-32 border-b">
           <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
-            <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
+            <div className="grid max-w-[1300px] mx-auto gap-8 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-lime px-3 py-1 text-sm text-lime-foreground">
                   Auth Framework
@@ -85,7 +85,7 @@ export default function MainView2() {
         </section>
 
         {/* Feature Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-12 md:py-24 lg:py-32 border-b">
           <div className="container grid items-center gap-6 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -106,43 +106,91 @@ export default function MainView2() {
                 alt="Secure Authentication"
                 className="mx-auto aspect-video overflow-hidden object-cover object-center secondary-hero-bg"
                 height="310"
-                src="/lightning-stand.svg"
+                src="/search-data.svg"
                 width="550"
               />
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-6">
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold flex items-center">
-                        <IconWallet className="mr-2" /> Step 1: Connect Wallet
-                      </h3>
-                      <p className="text-muted-foreground">
-                        Connect your Algorand wallet to start the authentication
-                        process.
-                      </p>
+              <div aria-label="Progress">
+                <ol role="list" className="overflow-hidden">
+                  <li className="relative pb-10">
+                    <div
+                      className="absolute left-4 top-4 h-full w-0.5 bg-lime"
+                      aria-hidden="true"
+                    ></div>
+                    <div className="group flex items-start">
+                      <span className="flex items-center h-9">
+                        <span className="relative z-10 flex items-center justify-center w-8 h-8 bg-lime rounded-full group-hover:bg-lime">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5 text-black"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="ml-4 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium text-zinc-950 dark:text-white">
+                          Step 1: Connect Wallet
+                        </span>
+                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                          Connect your Algorand wallet to start the
+                          authentication process.
+                        </span>
+                      </span>
                     </div>
                   </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold flex items-center">
-                        <IconCheck className="mr-2" /> Step 2: Sign Message
-                      </h3>
-                      <p className="text-muted-foreground">
-                        Sign a message with your wallet to prove ownership.
-                      </p>
+
+                  <li className="relative pb-10">
+                    <div
+                      className="absolute left-4 top-4 h-full w-0.5 bg-gray-300"
+                      aria-hidden="true"
+                    ></div>
+                    <div className="group flex items-start">
+                      <span className="flex items-center h-9">
+                        <span className="relative z-10 flex items-center justify-center w-8 h-8 bg-background border-2 border-lime rounded-full group-hover:border-lime-hover">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5 text-lime group-hover:text-lime-hover"
+                          >
+                            <circle cx="10" cy="10" r="3" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="ml-4 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium text-muted-foreground group-hover:text-lime-hover">
+                          Step 2: Sign Message
+                        </span>
+                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                          Sign a message with your wallet to prove ownership.
+                        </span>
+                      </span>
                     </div>
                   </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold flex items-center">
-                        <IconCheck className="mr-2" /> Step 3: Verify Signature
-                      </h3>
-                      <p className="text-muted-foreground">
-                        Our server verifies the signature to complete the login.
-                      </p>
+
+                  <li className="relative">
+                    <div className="group flex items-start">
+                      <span className="flex items-center h-9">
+                        <span className="relative z-10 flex items-center justify-center w-8 h-8 bg-background border-2 border-gray-300 rounded-full group-hover:border-gray-400"></span>
+                      </span>
+                      <span className="ml-4 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium text-muted-foreground">
+                          Step 3: Verify Signature
+                        </span>
+                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                          Our server verifies the signature to complete the
+                          login.
+                        </span>
+                      </span>
                     </div>
                   </li>
-                </ul>
+                </ol>
               </div>
             </div>
           </div>
@@ -275,10 +323,6 @@ export default function MainView2() {
               </div>
             </div>
           </div>
-        </section>
-   {/*Cards Section */}
-   <section className="w-full py-12 md:py-24 lg:py-32">
-          <DemoGithub />
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">

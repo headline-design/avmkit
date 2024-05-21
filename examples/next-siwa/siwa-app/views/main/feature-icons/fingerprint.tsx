@@ -17,7 +17,7 @@ const IconFingerprint = () => (
       />
     </g>
     <path
-      className="text-teal-600 dark:text-teal-500"
+      className="text-lime-400 dark:text-lime-500"
       d="M3 72H209"
       stroke="currentColor"
       strokeWidth={6}
@@ -38,7 +38,7 @@ const IconFingerprint = () => (
           style={{ stopColor: "none", stopOpacity: 0 }}
         />
         <stop
-          className="text-teal-600 dark:text-teal-500"
+          className="text-lime-400 dark:text-lime-500"
           offset={1}
           stopColor="currentColor"
         />

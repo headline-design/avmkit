@@ -18,7 +18,7 @@ export const FeatureSection1 = () => (
               <div className="size-fit m-auto relative">
                 <div className="relative h-24 w-56 flex items-center">
                   <IconSharpieCircle />
-                  <span className="w-fit block mx-auto text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-teal-300 to-teal-600">
+                  <span className="w-fit block mx-auto text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-br dark:from-lime-300 dark:to-lime-600 from-lime-300 to-lime-400">
                     100%
                   </span>
                 </div>
@@ -45,10 +45,10 @@ export const FeatureSection1 = () => (
             </div>
             <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8   border   ">
               <div>
-                <div className="pt-6 lg:px-6">
+                <div className="pt-6 lg:px-6 flex justify-center">
                   <IconSelectRange />
                 </div>
-                <div className="mt-14 text-center relative z-10 space-y-2">
+                <div className="mt-4 text-center relative z-10 space-y-2">
                   <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
                     Faster than light
                   </h2>
@@ -94,8 +94,8 @@ export const FeatureSection1 = () => (
                     <span className="block size-2 rounded-full border dark:border-white/10 dark:bg-white/10" />
                     <span className="block size-2 rounded-full border dark:border-white/10 dark:bg-white/10" />
                   </div>
-                  <div className="flex flex-auto justify-center align-middle text-teal-400 ">
-                  <IconFolderLock />
+                  <div className="flex flex-auto justify-center align-middle text-lime-400 ">
+                    <IconFolderLock />
                   </div>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export const FeatureSection1 = () => (
                     </div>
                     <div className="flex items-center gap-2 ml-[calc(50%-1rem)] relative">
                       <div className="size-8 ring-4 ring-white dark:ring-[--card-dark-bg]">
-                        <div className="rounded-full  border border-teal-600 size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
+                        <div className="rounded-full  border border-lime-600 size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconShield />
                         </div>
                       </div>

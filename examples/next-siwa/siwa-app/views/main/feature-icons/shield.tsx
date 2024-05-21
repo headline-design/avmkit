@@ -3,7 +3,7 @@ const IconShield = () => (
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 22.23643 19.94824"
-    className="w-4 h-4 text-teal-600 "
+    className="w-4 h-4 dark:text-lime-300 text-lime-500"
     color="currentcolor"
     height={32}
     width={32}

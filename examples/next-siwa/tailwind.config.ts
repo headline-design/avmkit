@@ -39,6 +39,7 @@ module.exports = {
         "lime": {
           DEFAULT: "hsl(var(--lime))",
           foreground: "hsl(var(--lime-foreground))",
+          hover: "hsl(var(--tomato))",
         },
         "tomato": {
           DEFAULT: "hsl(var(--tomato))",
