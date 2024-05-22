@@ -9,7 +9,6 @@ const ThemeToggle = () => {
 
   return (
     <Button
-    size="sm"
     className="ml-4"
     variant={"ghost"}
 

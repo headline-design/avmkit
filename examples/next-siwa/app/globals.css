@@ -8,15 +8,20 @@
   :root {
     --portal-opacity: 0.25;
     --background: 0 0% 100%;
+    --border: var(--accents-2);
+    --border-muted: var(--ds-gray-400);
+    --border-hover: var(--accents-4);
+    --card: 240 10% 3.9%;
+    --card-foreground: 240 10% 3.9%;
+    --card-shadow: var(--ds-shadow-border), 0 4px 6px rgba(0, 0, 0, .04);
+    --primary: 240 5.9% 10%;
+
+    --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --lime: 72deg 98.84% 66.27%;
@@ -35,6 +40,34 @@
     --ds-background-200: #fafafa;
     --ds-backdrop-100: rgba(0, 0, 0, .4);
     --ds-backdrop-200: rgba(0, 0, 0, .25);
+
+    --accents-0: #fff;
+    --accents-1: #fafafa;
+    --accents-2: #eaeaea;
+    --accents-3: #999;
+    --accents-4: #888;
+    --accents-5: #666;
+    --accents-6: #444;
+    --accents-7: #333;
+    --accents-8: #111;
+
+    --themed-hover-bg: var(--ds-gray-100);
+    --themed-hover-border: rgba(0, 0, 0, .12);
+    --radius-lg: 8px;
+    --radius: 6px;
+
+    --text-active: var(--foreground);
+    --text-link: var(--ds-gray-900);
+    --text-primary: var(--ds-gray-1000);
+    --text-secondary: var(--accents-6);
+    --text-tertiary: var(--ds-gray-900);
+
+    --primary-foreground: 0 0% 98%;
+    --primary-background: var(--ds-background-200);
+    --primary-background-2: #fff;
+
+    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 240 4.8% 95.9%;
   }
 
   .dark {
@@ -45,10 +78,6 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --lime: 72deg 98.84% 66.27%;
@@ -66,6 +95,35 @@
     --ds-background-200: #000;
     --ds-backdrop-100: rgba(0, 0, 0, .4);
     --ds-backdrop-200: rgba(0, 0, 0, .75);
+
+    --accents-0: #000;
+    --accents-1: #111;
+    --accents-2: #333;
+    --accents-3: #444;
+    --accents-4: #666;
+    --accents-5: #888;
+    --accents-6: #999;
+    --accents-7: #eaeaea;
+    --accents-8: #fafafa;
+
+    --text-active: var(--foreground);
+    --text-link: var(--ds-gray-900);
+    --text-primary: var(--ds-gray-1000);
+    --text-secondary: var(--accents-6);
+    --text-tertiary: #a1a1a1;
+    --primary: 0 0% 98%;
+    --primary-accent: #fff;
+    --primary-foreground: 240 5.9% 10%;
+    --primary-background: var(--ds-background-200);
+    --primary-background-2: var(--ds-background-100);
+
+    --primary-foreground-2: #fff;
+    --secondary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --themed-hover-bg: var(--ds-gray-200);
+    --themed-hover-border: hsla(0, 0%, 100%, .17);
+    --radius-lg: 8px;
+    --radius: 6px;
   }
 }
 
@@ -122,10 +180,10 @@
 
 .secondary-hero-bg {
   background: linear-gradient(45deg,
-  rgba(255, 255, 255, 0) 4%,
-  rgba(220, 254, 84, 1) 4%,
-  rgba(220, 254, 84, 1) 96%,
-  rgba(255, 255, 255, 0) 96%);
+      rgba(255, 255, 255, 0) 4%,
+      rgba(220, 254, 84, 1) 4%,
+      rgba(220, 254, 84, 1) 96%,
+      rgba(255, 255, 255, 0) 96%);
 }
 
 
@@ -143,4 +201,94 @@
 
 .rust-modal {
   z-index: 4999 !important;
+}
+
+:root {
+  --ds-backdrop-100: rgba(0, 0, 0, .4);
+  --ds-backdrop-200: rgba(0, 0, 0, .25);
+  --ds-background-100: #fff;
+  --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, .02), 0px 4px 8px -4px rgba(0, 0, 0, .04), 0px 16px 24px -8px rgba(0, 0, 0, .06);
+  --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, .08);
+  --ds-gray-100-value: 0, 0%, 95%;
+  --ds-gray-200: hsla(var(--ds-gray-200-value), 1);
+  --ds-gray-200-value: 0, 0%, 92%;
+  --ds-gray-1000-value: 0, 0%, 9%;
+  --ds-gray-alpha-100: rgba(0, 0, 0, .05);
+  --ds-gray-400: hsla(var(--ds-gray-400-value), 1);
+  --ds-gray-400-value: 0, 0%, 92%;
+  --ds-gray-600: hsla(var(--ds-gray-600-value), 1);
+  --ds-gray-600-value: 0, 0%, 66%;
+  --ds-gray-1000: hsla(var(--ds-gray-1000-value), 1);
+  --ds-gray-100: hsla(var(--ds-gray-100-value), 1);
+  --ds-gray-900-value: 0, 0%, 40%;
+  --ds-gray-700: hsla(var(--ds-gray-700-value), 1);
+  --ds-gray-700-value: 0, 0%, 56%;
+  --ds-gray-alpha-300: rgba(0, 0, 0, .1);
+  --ds-gray-alpha-600: rgba(0, 0, 0, .34);
+  --ds-gray-900: hsla(var(--ds-gray-900-value), 1);
+  --ds-gray-alpha-600: rgba(0, 0, 0, .34);
+  --ds-gray-alpha-400: rgba(0, 0, 0, .08);
+  --ds-gray-alpha-200: rgba(0, 0, 0, .08);
+}
+
+.dark {
+  --ds-gray-100-value: 0, 0%, 10%;
+  --ds-gray-200: hsla(var(--ds-gray-200-value), 1);
+  --ds-gray-200-value: 0, 0%, 12%;
+  --ds-gray-1000-value: 0, 0%, 93%;
+  --ds-gray-1000: hsla(var(--ds-gray-1000-value), 1);
+  --ds-gray-400: hsla(var(--ds-gray-400-value), 1);
+  --ds-gray-400-value: 0, 0%, 18%;
+  --ds-gray-600: hsla(var(--ds-gray-600-value), 1);
+  --ds-gray-600-value: 0, 0%, 53%;
+  --ds-gray-100: hsla(var(--ds-gray-100-value), 1);
+  --ds-gray-200: hsla(var(--ds-gray-200-value), 1);
+  --ds-gray-900-value: 0, 0%, 63%;
+  --ds-gray-900: hsla(var(--ds-gray-900-value), 1);
+  --ds-gray-alpha-600: hsla(0, 0%, 100%, .51);
+  --ds-gray-alpha-100: hsla(0, 0%, 100%, .06);
+  --ds-gray-alpha-200: hsla(0, 0%, 100%, .09);
+  --ds-gray-alpha-400: hsla(0, 0%, 100%, .14);
+  --ds-gray-alpha-300: hsla(0, 0%, 100%, .13);
+  --ds-backdrop-100: rgba(0, 0, 0, .4);
+  --ds-backdrop-200: rgba(0, 0, 0, .75);
+  --ds-background-100: #0a0a0a;
+
+  --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, .02), 0px 4px 8px -4px rgba(0, 0, 0, .04), 0px 16px 24px -8px rgba(0, 0, 0, .06);
+  --ds-shadow-border: 0 0 0 1px hsla(0, 0%, 100%, .145);
+
+}
+
+.border-shadow {
+  box-shadow: 0 0 0 1px var(--themed-border, transparent);
+}
+
+.themed-border {
+  --themed-bg: var(--ds-background-100);
+  --themed-fg: var(--ds-gray-1000);
+  --themed-border: var(--ds-gray-alpha-400);
+}
+
+.modal-actions>div {
+  display: flex;
+  gap: 16px;
+}
+
+
+.themed-border:hover {
+  background-color: var(--themed-hover-bg);
+  --themed-border: var(--themed-hover-border);
+  color: var(--themed-fg);
+}
+
+.themed-bg {
+  --themed-bg: var(--ds-background-100);
+  --themed-fg: var(--ds-gray-1000);
+
+}
+
+.themed-bg:hover {
+  background: var(--accents-2) !important;
+  color: var(--themed-fg);
+  --themed-border: var(--ds-gray-alpha-200) !important;
 }

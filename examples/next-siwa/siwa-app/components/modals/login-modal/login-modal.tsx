@@ -98,8 +98,9 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     walletStatus,
     activeProvider,
     session?.user?.id,
-    provider?.connector,
+    provider.connector,
     pipeState,
+    provider,
   ]);
 
   const handleSocialLogin = async (providerId) => {
@@ -254,7 +255,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     const [showMore, setShowMore] = useState(false);
 
     return (
-      <div className="m-4 space-y-2">
+      <div className="space-y-2">
         <button onClick={handleShowWallets} className={BUTTON_CLASS}>
           <IconPrism className={ICON_CLASS} />
           Web3
@@ -292,7 +293,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   };
 
   const WalletsScreen = ({ handleWalletConnect, loading }) => (
-    <div className="m-4 space-y-2">
+    <div className="space-y-2">
       {WEB3_PROVIDERS.map((wallet) => (
         <button
           disabled={wallet.id === "pera"}
@@ -381,7 +382,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     const { signIn: signInWithSIWA } = useSIWA();
     return (
       <>
-        <div className="m-4 space-y-2">
+        <div className="space-y-2">
           <div>{getScreenMessage("siwaConnect")}</div>
           <div className="flex flex-col gap-3 w-full items-center justify-center">
             <button
@@ -501,38 +502,31 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     }
   };
 
+  const Button = ({ onClick, children }) => (
+    <button
+      onClick={onClick}
+      className="inline-flex items-center justify-center px-4 py-2 space-x-2 whitespace-nowrap text-sm font-medium transition-all themed-border bg-background hover:text-accent-foreground border-shadow h-10 rounded"
+    >
+      {children}
+    </button>
+  );
+
   const getScreenLeftButton = (screen) => {
-    switch (screen) {
-      case "wallets":
-        return (
-          <button
-            onClick={handleResetScreen}
-            className="absolute left-3 top-[20px] flex items-center rounded-full p-[6px] text-md text-skin-link transition-colors duration-200"
-          >
-            <IconArrowLeft />
-          </button>
-        );
-      case "siwaConnect":
-        return (
-          <button
-            onClick={handleBackOneScreen}
-            className="absolute left-3 top-[20px] flex items-center rounded-full p-[6px] text-md text-skin-link transition-colors duration-200"
-          >
-            <IconArrowLeft />
-          </button>
-        );
-      case "provider":
-        return (
-          <button
-            onClick={handleBackOneScreen}
-            className="absolute left-3 top-[20px] flex items-center rounded-full p-[6px] text-md text-skin-link transition-colors duration-200"
-          >
-            <IconArrowLeft />
-          </button>
-        );
-      default:
-        return null;
-    }
+    const onClickHandlers = {
+      wallets: handleResetScreen,
+      siwaConnect: handleBackOneScreen,
+      provider: handleBackOneScreen,
+    };
+
+    const onClick = onClickHandlers[screen];
+
+    if (!onClick) return null;
+
+    return (
+      <Button onClick={onClick}>
+        <IconArrowLeft /> Previous
+      </Button>
+    );
   };
 
   const onClose = () => {
@@ -543,17 +537,23 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   };
 
   return (
-    <Modal
-    showModal={showLoginModal}
-    setShowModal={setShowLoginModal}
-   >
-      <div className="border-b p-4 text-center">
-        {getScreenLeftButton(currentScreen)}
-        <h3 className="m-0 text-lg font-medium leading-6 ">
+    <Modal showModal={showLoginModal} setShowModal={setShowLoginModal}>
+      <div className="relative flex flex-row items-start justify-center border-b bg-accents-1 px-6 py-5">
+        <h3 className="text-lg font-medium text-center">
           {getScreenTitle(currentScreen)}
         </h3>
       </div>
-      <div className="modal-body">{renderScreen()}</div>
+      <div className="modal-body relative flex flex-col p-6">
+        {renderScreen()}
+      </div>
+      <div className="sticky bottom-0 modal-actions  flex items-center justify-between rounded-b-lg border-t bg-accents-1 px-6 py-5">
+        <div>
+          <button className="inline-flex items-center justify-center px-4 py-2 space-x-2 whitespace-nowrap text-sm font-medium transition-all themed-border bg-background hover:text-accent-foreground border-shadow h-10 rounded">
+            cancel
+          </button>
+          {getScreenLeftButton(currentScreen)}
+        </div>
+      </div>
     </Modal>
   );
 };

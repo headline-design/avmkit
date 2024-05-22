@@ -19,18 +19,38 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: {
+          DEFAULT: "var(--border)",
+        },
+        textColor: {
+          DEFAULT: "var(--text)",
+          primary: {
+            DEFAULT: "var(--text-primary)",
+            foreground: "hsl(var(--primary-foreground))",
+          },
+          secondary: {
+            DEFAULT: "var(--text-secondary)",
+            accent: "var(--accents-5)",
+          },
+          tertiary: {
+            DEFAULT: "var(--text-tertiary)",
+          },
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          accent: "var(--primary-background)",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          accent: "var(--primary-accent)",
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+        tooltip: {
+          DEFAULT: "var(--primary-foreground-2)",
+          foreground: "var(--primary-accent)",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
@@ -61,12 +81,44 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "accents-0": {
+          DEFAULT: "var(--accents-0)",
+        },
+        "accents-1": {
+          DEFAULT: "var(--accents-1)",
+        },
+        "accents-2": {
+          DEFAULT: "var(--accents-2)",
+        },
+        "accents-3": {
+          DEFAULT: "var(--accents-3)",
+        },
+        "accents-4": {
+          DEFAULT: "var(--accents-4)",
+        },
+        "accents-5": {
+          DEFAULT: "var(--accents-5)",
+        },
+        "accents-6": {
+          DEFAULT: "var(--accents-6)",
+        },
+        "accents-7": {
+          DEFAULT: "var(--accents-7)",
+        },
+        "accents-8": {
+          DEFAULT: "var(--accents-8)",
+        },
+        "ds-100": {
+          DEFAULT: "var(--ds-background-100)",
+        },
+
       },
+
       borderRadius: {
-        xl: `calc(var(--radius) + 4px)`,
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
-        sm: "calc(var(--radius) - 4px)",
+        DEFAULT: "var(--radius)",
+        lg: `var(--radius-lg)`,
+        md: `calc(var(--radius-lg) - 2px)`,
+        sm: "calc(var(--radius-lg) - 4px)",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],

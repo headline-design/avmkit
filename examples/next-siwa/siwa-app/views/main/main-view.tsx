@@ -48,14 +48,16 @@ export default function MainView2() {
                   a seamless sign-in experience for your users.
                 </p>
                 <div className="flex flex-col gap-4 sm:gap-3 min-[400px]:flex-row">
-                  <ButtonLink size="lg" to="/getting-started">
+                  <ButtonLink rounded href="/getting-started" className="px-6">
                     Get Started
                   </ButtonLink>
                   <ButtonLink
                     target="_blank"
-                    size="lg"
+                    className="px-6"
+                    rounded
                     variant="outline"
-                    to="https://github.com/headline-design/siwa"
+                    shadow
+                    href="https://github.com/headline-design/siwa"
                   >
                     <IconGithub /> Github
                   </ButtonLink>
@@ -209,7 +211,7 @@ export default function MainView2() {
                   placeholder="Enter your email"
                   type="email"
                 />
-                <Button type="submit">Sign Up</Button>
+                <Button >Sign Up</Button>
               </form>
               <p className="text-xs text-muted-foreground">
                 Sign up to get notified when we launch.
@@ -234,7 +236,6 @@ export default function MainView2() {
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Button
-                      size="lg"
                       onClick={handleOpenModal}
                       className="w-full flex items-center justify-center"
                     >
@@ -243,8 +244,8 @@ export default function MainView2() {
 
                     {user || session ? (
                       <Button
-                        size="lg"
-                        variant="outline"
+                      rounded
+                      variant="outline"
                         onClick={() => signOut()}
                         className="flex items-center justify-center"
                       >
@@ -294,7 +295,7 @@ export default function MainView2() {
                 <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
                   Advanced Blockchain Authentication
                 </h2>
-                <ButtonLink size="lg" to="/getting-started">
+                <ButtonLink rounded href="/getting-started">
                   Get Started
                 </ButtonLink>
               </div>
@@ -307,7 +308,9 @@ export default function MainView2() {
                   built on Algorand's blockchain. Ensure the highest level of
                   security for your users with our state-of-the-art protocol.
                 </p>
-                <ButtonLink size="lg" variant="outline" to="/contact">
+                <ButtonLink  rounded
+                    variant="outline"
+                    shadow href="/contact">
                   Contact Sales
                 </ButtonLink>
               </div>

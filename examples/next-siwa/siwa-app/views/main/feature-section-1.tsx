@@ -10,7 +10,7 @@ import { IconFolderLock } from "./feature-icons/folder-lock";
 
 export const FeatureSection1 = () => (
   <section>
-    <div className="text-center py-16">
+    <div className="text-center pt-16">
       <h2 className="text-3xl text-foreground font-semibold">Key Features</h2>
     </div>
     <div className="py-16">
