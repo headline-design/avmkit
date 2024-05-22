@@ -211,7 +211,7 @@ export default function MainView2() {
                   placeholder="Enter your email"
                   type="email"
                 />
-                <Button >Sign Up</Button>
+                <Button>Sign Up</Button>
               </form>
               <p className="text-xs text-muted-foreground">
                 Sign up to get notified when we launch.
@@ -244,8 +244,8 @@ export default function MainView2() {
 
                     {user || session ? (
                       <Button
-                      rounded
-                      variant="outline"
+                        rounded
+                        variant="outline"
                         onClick={() => signOut()}
                         className="flex items-center justify-center"
                       >
@@ -308,9 +308,7 @@ export default function MainView2() {
                   built on Algorand's blockchain. Ensure the highest level of
                   security for your users with our state-of-the-art protocol.
                 </p>
-                <ButtonLink  rounded
-                    variant="outline"
-                    shadow href="/contact">
+                <ButtonLink rounded variant="outline" shadow href="/contact">
                   Contact Sales
                 </ButtonLink>
               </div>
