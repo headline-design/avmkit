@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/siwa-app/lib/utils";
+import { cn } from "@/dashboard/lib/utils";
 import { Link } from "react-router-dom";
 
 const buttonVariants = cva(
@@ -30,7 +30,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps
@@ -59,7 +59,7 @@ const ButtonLink = ({
 }) => {
   return (
     <Link
-    target={target}
+      target={target}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >

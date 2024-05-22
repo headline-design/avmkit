@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/siwa-app/components/code-block/code-block";
+import { CodeBlock } from "@/dashboard/components/code-block/code-block";
 import React from "react";
 
 export const CodeSection = () => {

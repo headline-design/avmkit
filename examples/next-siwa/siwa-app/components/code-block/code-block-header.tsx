@@ -2,15 +2,16 @@ import { useState } from "react";
 import styles from "./code-block.module.css";
 import { copyToClipboard } from "../copy-to-clipboard";
 import { Button } from "../ui";
-import { IconTick } from "@/siwa-app/icons/tick";
-import { IconCopy } from "@/siwa-app/icons/copy";
+import { IconTick } from "@/dashboard/icons/tick";
+import { IconCopy } from "@/dashboard/icons/copy";
 
 export const CodeBlockHeader = ({
   fileLocation,
   code,
 }: {
   fileLocation: string;
-  code: string}) => {
+  code: string;
+}) => {
   const [copiedCommand, setCopiedCommand] = useState("");
 
   // Function to handle copy action

@@ -3,8 +3,8 @@ import {
   CardContent,
   CardFooter,
   Card,
-} from "@/siwa-app/components/ui/card";
-import { Button } from "@/siwa-app/components/ui/button";
+} from "@/dashboard/components/ui/card";
+import { Button } from "@/dashboard/components/ui/button";
 
 export default function PricingView() {
   return (

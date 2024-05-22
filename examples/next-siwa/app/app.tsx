@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import AppProvider from '@/dashboard/providers/AppProvider';
+import AppProvider from '@/dashboard/providers/app-provider';
 
 import { configureReduxStores } from '@/dashboard/redux/store';
 

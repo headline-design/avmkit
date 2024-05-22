@@ -120,7 +120,7 @@ const GettingStartedView = () => {
           <pre className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
             <code>
               import GettingStartedView from
-              "@/siwa-app/views/getting-started-view";
+              "@/dashboard/views/getting-started-view";
             </code>
           </pre>
           <li>

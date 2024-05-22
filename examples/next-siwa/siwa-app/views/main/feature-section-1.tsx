@@ -1,4 +1,4 @@
-import { IconClient, IconServer } from "@/siwa-app/icons";
+import { IconClient, IconServer } from "@/dashboard/icons";
 import {
   IconFingerprint,
   IconSharpieCircle,
@@ -11,9 +11,7 @@ import { IconFolderLock } from "./feature-icons/folder-lock";
 export const FeatureSection1 = () => (
   <section>
     <div className="text-center py-16">
-      <h2 className="text-3xl text-foreground font-semibold">
-        Key Features
-      </h2>
+      <h2 className="text-3xl text-foreground font-semibold">Key Features</h2>
     </div>
     <div className="py-16">
       <div className="mx-auto px-6 max-w-6xl text-zinc-500">

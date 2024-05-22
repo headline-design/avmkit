@@ -1,4 +1,4 @@
-import { cn } from "@/siwa-app/lib/utils";
+import { cn } from "@/dashboard/lib/utils";
 import { CodeBlockHeader } from "./code-block-header";
 import styles from "./code-block.module.css";
 import { themes, Highlight } from "prism-react-renderer";

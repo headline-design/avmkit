@@ -1,3 +1,5 @@
+/* eslint-disable import/no-anonymous-default-export */
+
 import actions from './globalActions'
 import { DefaultPipeState, PIPECONNECT_STATE_KEY } from '@/dashboard/utils/constants/common'
 

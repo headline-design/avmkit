@@ -9,6 +9,7 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
+//@ts-ignore
     userDarkMode: getLocalStorageItemSafely(IS_DARK_THEME_KEY, true),
 }
 

@@ -34,7 +34,6 @@ import {
 } from './constants';
 
 let local_network_env = 'mainnet';
-let local_db_env = 'remote';
 let local_chain_env = 'algorand';
 let local_runtime_env = 'node';
 
@@ -55,9 +54,7 @@ let STAMP_URL: string;
 
 const configureURLs = () => {
   const network_env: string = process.env.NETWORK_ENV || local_network_env;
-  const db_env: string = process.env.DB_ENV || local_db_env;
   const chain_env: string = process.env.CHAIN_ENV || local_chain_env;
-  const runtime_env: string = process.env.RUNTIME_ENV || local_runtime_env;
 
   if (chain_env === 'algorand') {
     if (network_env === 'testnet') {
@@ -112,11 +109,9 @@ const configureURLs = () => {
 configureURLs(); // Initial configuration
 
 export const loadConfig = (
-  { network, chain, db, runtime } = {
+  { network, chain } = {
     network: local_network_env,
     chain: local_chain_env,
-    db: local_db_env,
-    runtime: local_runtime_env,
   }
 ) => {
   if (network) {
@@ -124,12 +119,6 @@ export const loadConfig = (
   }
   if (chain) {
     local_chain_env = chain;
-  }
-  if (db) {
-    local_db_env = db;
-  }
-  if (runtime) {
-    local_runtime_env = runtime;
   }
   configureURLs();
 };

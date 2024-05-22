@@ -4,8 +4,6 @@
 const NODE_ENV = 'production';
 const NETWORK_ENV = 'mainnet';
 const CHAIN_ENV = 'algorand';
-const DB_ENV = 'remote';
-const RUNTIME_ENV = 'node';
 
 // Algo Testnet
 const ALGO_TESTNET_NODE_URL =
@@ -68,7 +66,6 @@ export {
   NODE_ENV,
   NETWORK_ENV,
   CHAIN_ENV,
-  DB_ENV,
   ALGO_TESTNET_INDEXER_URL,
   ALGO_TESTNET_INDEXER_ALT_URL,
   ALGO_TESTNET_INDEXER_HEALTH_URL,

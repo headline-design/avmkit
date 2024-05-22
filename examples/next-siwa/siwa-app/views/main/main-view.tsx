@@ -1,24 +1,17 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import { Link } from "react-router-dom";
-import { Button } from "@/siwa-app/components/ui/button";
-import { Input } from "@/siwa-app/components/ui/input";
-import { ButtonLink } from "@/siwa-app/components/ui/button-link";
 
-import {
-  IconGithub,
-  IconWallet,
-  IconCheck,
-  IconMail,
-  IconSignOut,
-  IconShield,
-} from "../../icons"; // Assume these icons are available
+import { Link } from "react-router-dom";
+import { Button } from "@/dashboard/components/ui/button";
+import { Input } from "@/dashboard/components/ui/input";
+import { ButtonLink } from "@/dashboard/components/ui/button-link";
+
+import { IconGithub, IconSignOut, IconShield } from "@/dashboard/icons"; // Assume these icons are available
 import { useContext } from "react";
 import { ModalContext } from "../../providers/modal-provider";
 import { useUser } from "../../contexts/user-context";
 import { signOut, useSession } from "next-auth/react";
-import { wallet } from "../../../x-wallet/constants";
 import SIWADetails from "./siwa-details";
-import { DemoGithub } from "../../components/cards/github-card";
 import { FeatureSection1 } from "./feature-section-1";
 import { FeatureSection2 } from "./feature-section-2";
 import { CodeSection } from "./code-section";

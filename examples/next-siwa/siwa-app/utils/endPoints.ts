@@ -63,27 +63,6 @@ export const getEndpoints = () => {
   return endpoints[String(isMainnet)];
 };
 
-export const getEndKeys = () => {
-  const isMainnet = getNetworkType();
-
-  const endKeys = {
-    false: {
-      wizardAddress: 'IDJ2C65EBWIWKIWJHBDB23XR2FM6DCCAI7XV6GANOCADQRBMUUQGSEX7YI',
-      wizardHex: '0x40d3a17ba40d916522c938461d6ef1d159e1884047ef5f180d708038442ca520',
-      assetId: 10458941,
-      appId: 222917185,
-    },
-    true: {
-      wizardAddress: 'PPFMWPQEQOIKGUO5WST7X6VKQ65NCMT6R6AOY6QYZTRCREGVSLOKUB72UY',
-      wizardHex: '0x7bcacb3e048390a351ddb4a7fbfaaa87bad1327e8f80ec7a18cce22890d592dc',
-      assetId: 137594422,
-      appId: 1136066393,
-    },
-  };
-
-  return endKeys[String(isMainnet)];
-};
-
 export const staticEndpoints = {
   algoPrice: ALGO_PRICE_URL,
   assetPrice: ASSET_PRICE_URL,

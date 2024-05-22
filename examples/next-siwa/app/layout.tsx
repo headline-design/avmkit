@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import App from "./app";
-import ClientBoundary from "@/siwa-app/lib/client-boundary";
+import ClientBoundary from "@/dashboard/lib/client-boundary";
 
 const inter = Inter({ subsets: ["latin"] });
 

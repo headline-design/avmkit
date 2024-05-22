@@ -31,7 +31,7 @@ export const ratelimit = (
     }),
     limiter: Ratelimit.slidingWindow(requests, seconds),
     analytics: true,
-    prefix: "xspace",
+    prefix: "siwa-next",
   });
 };
 
@@ -42,7 +42,7 @@ export async function setRandomKey(
   /* recursively set link till successful */
   const key = nanoid();
   const response = await redis.set(
-    `xspace.nexus:${key}`,
+    `siwa-next.vercel.app:${key}`,
     {
       url,
     },

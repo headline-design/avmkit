@@ -26,7 +26,7 @@ export function configureReduxStores(preloadedState?: PreloadedState<any>) {
     reducer,
     middleware: (getDefaultMiddleware) =>
       process.env.NEXT_ENV !== 'production'
-        ? getDefaultMiddleware().concat(logger)
+        ? getDefaultMiddleware().concat(logger as any)
         : getDefaultMiddleware(),
     devTools: process.env.NEXT_ENV !== 'production',
     preloadedState,

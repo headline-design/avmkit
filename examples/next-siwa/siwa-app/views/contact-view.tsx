@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { Label } from "@/siwa-app/components/ui/label";
-import { Input } from "@/siwa-app/components/ui/input";
-import { Button } from "@/siwa-app/components/ui/button";
-import { Textarea } from "@/siwa-app/components/ui/text-area";
+import { Label } from "@/dashboard/components/ui/label";
+import { Input } from "@/dashboard/components/ui/input";
+import { Button } from "@/dashboard/components/ui/button";
+import { Textarea } from "@/dashboard/components/ui/text-area";
 
 export default function ContactView() {
   return (

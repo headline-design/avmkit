@@ -16,16 +16,6 @@ export const USERS_SIZE_KEY = 'usersSize';
 export const NETWORKS_KEY = 'networks';
 export const USER_DATA_KEY = 'userData';
 
-/** SessionStorage Keys **/
-export const MY_GRID_KEY = 'my-grid';
-
-/** SQL Limits **/
-export const SqlLimits = {
-  Homepage: 50,
-  Storefront: 50,
-  NftSearchBar: 3,
-};
-
 // width
 export const Sizes = {
   general: 400,
@@ -47,33 +37,6 @@ export const Chains = {
   Voi: 'Voi',
 };
 
-/** Filter Bar **/
-
-export const defaultNftData = { Collections: [], NFTs: [], Users: [] };
-
-export const normalMasonryBreakpoints = {
-  default: 5,
-  1750: 5,
-  1420: 4,
-  1050: 3,
-  850: 2,
-  390: 1,
-};
-
-export const moreItemsMasonryBreakpoints = {
-  default: 5,
-  1100: 4,
-  700: 3,
-  500: 2,
-};
-
-export const filterOpenMasonryBreakpoints = {
-  default: 3,
-  1100: 2,
-  700: 2,
-  500: 1,
-};
-
 export const userBreakpoints = {
   1750: 4,
   default: 5,
@@ -92,24 +55,6 @@ export const TokenAssetIDs = {
   HDL: 137594422,
   PLANET: 27165954,
 };
-
-
-export const CollectionIDs = {
-  FACTORY: 150,
-};
-
-export enum Sort {
-  RecentlyListed,
-  PriceHtoL,
-  PriceLtoH,
-  EndingSoon,
-}
-
-export enum Status {
-  Minted,
-  OnSale,
-  OnAuction,
-}
 
 /** Pipe Connectors */
 
@@ -172,12 +117,4 @@ export const uuid = uuidv4;
 export const Languages = {
   EN: 'English',
   IT: 'Italian',
-};
-
-export const priceChart = {
-  1: 100,
-  2: 50,
-  3: 30,
-  4: 10,
-  5: 1,
 };

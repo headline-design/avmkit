@@ -1,3 +1,5 @@
 import authInitializer from './auth/authInitializer';
 
-export default [authInitializer];
+const initializers = [authInitializer];
+
+export default initializers;
