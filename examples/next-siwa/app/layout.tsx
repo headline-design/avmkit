@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     images: ["/siwa-og.png"],
     creator: "@headline_crypto",
   },
-  metadataBase: new URL("https://next-siwa.vercel.app"),
+  metadataBase: new URL("https://siwa-next.vercel.app"),
 };
 
 export default function RootLayout({

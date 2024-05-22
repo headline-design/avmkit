@@ -9,52 +9,12 @@ import { AVMProvider, WalletProvider } from "@/avm";
 import { createConfig } from "@/avm/createConfig";
 import { createStorage } from "@/avm/createStorage";
 
-export interface SIWASession {
-  address: string;
-  chainId: number;
-}
-
 export interface SIWACreateMessageArgs {
   nonce: string;
   address: string;
   algoAddress: string;
   chainId: number;
 }
-
-export interface SIWAVerifyMessageArgs {
-  message: string;
-  signature: string;
-  address: string;
-  algoAddress: string;
-  algoSignature: string;
-}
-
-export interface SIWAClientMethods {
-  getNonce: (address?: string) => Promise<string>;
-  createMessage: (args: SIWACreateMessageArgs) => string;
-  verifyMessage: (args: SIWAVerifyMessageArgs) => Promise<boolean>;
-  getSession: () => Promise<SIWASession | null>;
-  signOut: () => Promise<boolean>;
-  onSignIn?: (session?: SIWASession) => void;
-  onSignOut?: () => void;
-}
-
-export interface SIWAConfig extends SIWAClientMethods {
-  // Defaults to true
-  enabled?: boolean;
-  // In milliseconds, defaults to 5 minutes
-  nonceRefetchIntervalMs?: number;
-  // In milliseconds, defaults to 5 minutes
-  sessionRefetchIntervalMs?: number;
-  // Defaults to true
-  signOutOnDisconnect?: boolean;
-  // Defaults to true
-  signOutOnAccountChange?: boolean;
-  // Defaults to true
-  signOutOnNetworkChange?: boolean;
-}
-
-const APP_NAME = "Xspace";
 
 const algorand = {
   id: "algorand",
@@ -120,9 +80,9 @@ export const getDefaultConfig = (config: any) => {
   return {
     setState: () => {},
     connect: () => {},
-    appName: APP_NAME,
+    appName: "SIWA Connect",
     appIcon: "/favicon.ico",
-    appDescription: "Xspace",
+    appDescription: "SIWE Connect is a demo application for SIWA.",
     appUrl: window.location.origin,
     walletConnectProjectId: "",
     chains: [],
@@ -133,7 +93,7 @@ export const getDefaultConfig = (config: any) => {
 
 const config = createConfig(
   getDefaultConfig({
-    appName: APP_NAME,
+    appName: "SIWA Connect",
     ssr: true,
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
     chains: [algorand, voiNetwork],

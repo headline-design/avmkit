@@ -55,6 +55,24 @@ export default function SIWADetails({ user, signOut }) {
                     {shorten(user?.wallets[0]?.hexAddress)}
                   </span>
                 </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Database</span>
+                  <span className="text-ellipsis overflow-hidden">
+                    Postgres
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    DB Provider
+                  </span>
+                  <span className="text-ellipsis overflow-hidden">
+                    Supabase
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">ORM</span>
+                  <span className="text-ellipsis overflow-hidden">Prisma</span>
+                </li>
               </ul>
               <Separator className="my-2" />
               <ul className="grid gap-3">

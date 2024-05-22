@@ -28,9 +28,6 @@ export default function MainView2() {
   const { user } = useUser();
   const { data: session } = useSession();
 
-  console.log("user", user);
-  console.log("session", session);
-
   const handleOpenModal = () => {
     setShowLoginModal(true);
   };
