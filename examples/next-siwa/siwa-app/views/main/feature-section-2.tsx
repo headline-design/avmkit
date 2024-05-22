@@ -98,7 +98,7 @@ export const FeatureSection2 = () => {
               href={item.link}
               target="_blank"
               rel="noreferrer"
-              className="group  disabled:border *:select-none [&>*:not(.sr-only)]:relative *:disabled:opacity-20 disabled:text-zinc-950 disabled:border/50 disabled:bg-zinc-100 dark:disabled:border disabled:dark:bg-zinc-900 dark:*:disabled:!text-white text-zinc-950 bg-zinc-100 hover:bg-zinc-200/75 active:bg-zinc-100 dark:text-white dark:bg-zinc-500/10 dark:hover:bg-zinc-500/15 dark:active:bg-zinc-500/10 flex gap-1.5 items-center text-sm h-8 px-3.5 justify-center"
+              className="group rounded-full  disabled:border *:select-none [&>*:not(.sr-only)]:relative *:disabled:opacity-20 disabled:text-zinc-950 disabled:border/50 disabled:bg-zinc-100 dark:disabled:border disabled:dark:bg-zinc-900 dark:*:disabled:!text-white text-zinc-950 bg-zinc-100 hover:bg-zinc-200/75 active:bg-zinc-100 dark:text-white dark:bg-zinc-500/10 dark:hover:bg-zinc-500/15 dark:active:bg-zinc-500/10 flex gap-1.5 items-center text-sm h-8 px-3.5 justify-center"
             >
               <span>Learn more</span>
             </a>
@@ -106,7 +106,7 @@ export const FeatureSection2 = () => {
               href={item.githubLink}
               target="_blank"
               rel="noreferrer"
-              className="group flex items-center  disabled:border *:select-none [&>*:not(.sr-only)]:relative *:disabled:opacity-20 disabled:text-zinc-950 disabled:border-zinc-200 disabled:bg-zinc-100 dark:disabled:border-zinc-800/50 disabled:dark:bg-zinc-900 dark:*:disabled:!text-white text-zinc-950 bg-zinc-100 hover:bg-zinc-200/75 active:bg-zinc-100 dark:text-white dark:bg-zinc-500/10 dark:hover:bg-zinc-500/15 dark:active:bg-zinc-500/10 size-8 justify-center"
+              className="rounded-lg group flex items-center  disabled:border *:select-none [&>*:not(.sr-only)]:relative *:disabled:opacity-20 disabled:text-zinc-950 disabled:border-zinc-200 disabled:bg-zinc-100 dark:disabled:border-zinc-800/50 disabled:dark:bg-zinc-900 dark:*:disabled:!text-white text-zinc-950 bg-zinc-100 hover:bg-zinc-200/75 active:bg-zinc-100 dark:text-white dark:bg-zinc-500/10 dark:hover:bg-zinc-500/15 dark:active:bg-zinc-500/10 size-8 justify-center"
             >
               <span className="sr-only">Source Code</span>
               <IconGithub />

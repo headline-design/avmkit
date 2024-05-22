@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: "Sign In With Algorand",
     images: [
       {
-        url: "/fuse-og.png",
+        url: "/siwa-og.png",
       },
     ],
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SIWA",
     description: "Sign In With Algorand",
-    images: ["/fuse-og.png"],
+    images: ["/siwa-og.png"],
     creator: "@headline_crypto",
   },
   metadataBase: new URL("https://next-siwa.vercel.app"),

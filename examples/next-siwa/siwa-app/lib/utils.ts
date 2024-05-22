@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 export function constructMetadata({
   title = 'React Fuse',
   description = 'The Next.js SPA.',
-  image = '/fuse-og.png',
+  image = '/siwa-og.png',
   icons = '/favicon.ico',
   noIndex = false,
 }: {

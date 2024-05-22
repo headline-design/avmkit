@@ -12,17 +12,9 @@ export const DEBOUNCE_MS = 800;
 /* ----- Constants ----- */
 export const CHAIN_NETWORK_KEY = 'isMainNet';
 export const ALT_CHAIN_NETWORK_KEY = 'isAltChainEnabled';
-export const NFTS_SIZE_KEY = 'nftsSize';
-export const COLLECTIONS_SIZE_KEY = 'collectionsSize';
 export const USERS_SIZE_KEY = 'usersSize';
-export const PROJECTS_KEY = 'projects';
-export const PROJECT_DATA_KEY = 'projectData';
 export const NETWORKS_KEY = 'networks';
-export const MY_PROJECTS_KEY = 'myProjects';
 export const USER_DATA_KEY = 'userData';
-export const DOMAIN_DATA_KEY = 'domainData';
-export const EXPLORE_DATA_KEY = 'exploreData';
-export const LATEST_PROJECTS_SEARCH_KEY = 'latestProjectsSearch';
 
 /** SessionStorage Keys **/
 export const MY_GRID_KEY = 'my-grid';
@@ -32,23 +24,6 @@ export const SqlLimits = {
   Homepage: 50,
   Storefront: 50,
   NftSearchBar: 3,
-};
-
-/** Imgix **/
-
-export const CacherDomain = {
-  IPFS: 'https://xgov-ipfs.imgix.net/',
-};
-
-export const ImgixVideoFormat = {
-  HLS: 'hls',
-  MP4: 'mp4',
-};
-
-export const ImgixMp4Resolution = {
-  HIGH: 'high',
-  MEDIUM: 'medium',
-  LOW: 'low',
 };
 
 // width
@@ -112,38 +87,16 @@ export enum Grid {
   WIDE,
 }
 
-export const Tokens = {
-  ALGO: 'ALGO',
-  HDL: 'HDL',
-  PLANET: 'PLANET',
-};
-
 export const TokenAssetIDs = {
   ALGO: 0,
   HDL: 137594422,
   PLANET: 27165954,
 };
 
-export const DEXs = {
-  TINYMAN: 'tinyman',
-};
 
 export const CollectionIDs = {
   FACTORY: 150,
 };
-
-export enum MainCategories {
-  Owned,
-  OnSale,
-  Created,
-  NFTs,
-  Collections,
-  Profiles,
-  Activity,
-  Items,
-  Community,
-  Liked,
-}
 
 export enum Sort {
   RecentlyListed,
@@ -212,11 +165,6 @@ export const DefaultPipeState = {
 
 export const User = {
   myAddress: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.myAddress || '',
-};
-
-export const nftTypes = {
-  image: 'image',
-  video: 'video',
 };
 
 export const uuid = uuidv4;

@@ -11,7 +11,7 @@ const GettingStartedView = () => {
   // Function to handle copy action
   const handleCopy = (
     text: string,
-    commandId: React.SetStateAction<string>
+    commandId: React.SetStateAction<string>,
   ) => {
     copyToClipboard(text)
       .then(() => {
@@ -45,20 +45,18 @@ const GettingStartedView = () => {
         <div className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
           <Button
             size="sm"
-            className="absolute right-1 top-1"
+            className="absolute right-1 top-1 rounded-md px-2"
             variant={"ghost"}
             onClick={() =>
               handleCopy(
                 "git clone https://github.com/headline-design/siwa.git",
-                "clone"
+                "clone",
               )
             }
           >
             {copiedCommand === "clone" ? <IconTick /> : <IconCopy />}
           </Button>
-          <code>
-            git clone https://github.com/headline-design/siwa.git
-          </code>
+          <code>git clone https://github.com/headline-design/siwa.git</code>
         </div>
 
         {/* Install dependencies section */}
@@ -68,7 +66,7 @@ const GettingStartedView = () => {
         <div className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
           <Button
             size="sm"
-            className="absolute right-1 top-1"
+            className="absolute right-1 top-1 rounded-sm px-2"
             variant={"ghost"}
             onClick={() => handleCopy("cd react-fuse\nnpm install", "install")}
           >
@@ -189,8 +187,8 @@ const GettingStartedView = () => {
       </div>
 
       <p className="text-center font-semibold mt-6">
-        Explore and build your application with SIWA, leveraging Next.js
-        and Tailwind CSS.
+        Explore and build your application with SIWA, leveraging Next.js and
+        Tailwind CSS.
       </p>
     </div>
   );

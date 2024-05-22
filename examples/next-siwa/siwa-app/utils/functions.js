@@ -308,18 +308,3 @@ getBalances("ZW3ISEHZUHPO7OZGMKLKIIMKVICOUDRCERI454I3DB2BH52HGLSO67W754", [47307
   console.log(DATA)
 })
 */
-
-// Image caching
-export function getFallbackSrc(url) {
-  return url?.replace('https://ipfs.io/ipfs/', CacherDomain.IPFS) + `?w=${Sizes.general}&fit=clip`;
-}
-
-export function getCacherImageUrl(url, width) {
-  const endPoints = getEndpoints();
-  if (url) {
-    if (url.startsWith(endPoints.ipfs)) {
-      return url.replace(endPoints.ipfs, CacherDomain.IPFS) + `?w=${width}&fit=clip`;
-    }
-  }
-  return url;
-}

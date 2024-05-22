@@ -84,7 +84,7 @@ export default function AboutView() {
               </h2>
               <Link
                 className="inline-flex h-9 items-center justify-center rounded-md border border-zinc-200  bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50   dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-300"
-                to="/pricing"
+                to="/contact"
               >
                 Contact Sales
               </Link>
@@ -101,9 +101,9 @@ export default function AboutView() {
               </p>
               <Link
                 className="inline-flex h-9 items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
-                to="/pricing"
+                to="/contact"
               >
-                Contact Sales
+                Contact
               </Link>
             </div>
           </div>

@@ -3,7 +3,6 @@ import ThemeToggle from "./components/theme-toggle";
 import { IconShield } from "./icons";
 
 export const Header = () => {
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
@@ -21,12 +20,6 @@ export const Header = () => {
           </Link>
           <Link
             className="text-sm font-medium text-foreground/60 hover:text-foreground "
-            to="/pricing"
-          >
-            Pricing
-          </Link>
-          <Link
-           className="text-sm font-medium text-foreground/60 hover:text-foreground "
             to="/about"
           >
             About

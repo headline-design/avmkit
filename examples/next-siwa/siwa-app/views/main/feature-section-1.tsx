@@ -10,6 +10,11 @@ import { IconFolderLock } from "./feature-icons/folder-lock";
 
 export const FeatureSection1 = () => (
   <section>
+    <div className="text-center py-16">
+      <h2 className="text-3xl text-foreground font-semibold">
+        Key Features
+      </h2>
+    </div>
     <div className="py-16">
       <div className="mx-auto px-6 max-w-6xl text-zinc-500">
         <div className="relative">
@@ -37,7 +42,8 @@ export const FeatureSection1 = () => (
                     Built-in Security
                   </h2>
                   <p className="dark:text-zinc-300 text-zinc-700">
-                    SIWA ensures secure and tamper-proof authentication using Algorand's blockchain technology.
+                    SIWA ensures secure and tamper-proof authentication using
+                    Algorand's blockchain technology.
                   </p>
                 </div>
               </div>
@@ -52,7 +58,8 @@ export const FeatureSection1 = () => (
                     Multi-point Validation
                   </h2>
                   <p className="dark:text-zinc-300 text-zinc-700">
-                    SIWA validates multiple data points during sign-in, ensuring comprehensive security.
+                    SIWA validates multiple data points during sign-in, ensuring
+                    comprehensive security.
                   </p>
                 </div>
               </div>
@@ -81,7 +88,8 @@ export const FeatureSection1 = () => (
                       Transparent Process
                     </h2>
                     <p className="dark:text-zinc-300 text-zinc-700">
-                      Understand and trust every step with SIWA's transparent authentication process.
+                      Understand and trust every step with SIWA's transparent
+                      authentication process.
                     </p>
                   </div>
                 </div>
@@ -127,7 +135,8 @@ export const FeatureSection1 = () => (
                       Data Security
                     </h2>
                     <p className="dark:text-zinc-300 text-zinc-700">
-                      Ensure data integrity with SIWA's secure client-server authentication.
+                      Ensure data integrity with SIWA's secure client-server
+                      authentication.
                     </p>
                   </div>
                 </div>
@@ -137,14 +146,14 @@ export const FeatureSection1 = () => (
                       <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-zinc-800 dark:border-white/5 dark:text-white">
                         Server
                       </span>
-                      <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
+                      <div className="size-7 ring-4 ring-background ">
                         <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconServer className="w-4 h-4 text-muted-foreground" />
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 ml-[calc(50%-1rem)] relative">
-                      <div className="size-8 ring-4 ring-white dark:ring-[--card-dark-bg]">
+                      <div className="size-8 ring-4 ring-background">
                         <div className="rounded-full border border-lime-600 size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconShield />
                         </div>
@@ -157,7 +166,7 @@ export const FeatureSection1 = () => (
                       <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-zinc-800 dark:border-white/5 dark:text-white">
                         Client
                       </span>
-                      <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
+                      <div className="size-7 ring-4 ring-background">
                         <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
                           <IconClient className="w-4 h-4 text-muted-foreground" />
                         </div>

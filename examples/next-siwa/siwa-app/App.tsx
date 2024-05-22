@@ -9,7 +9,6 @@ import { ErrorView } from "@/siwa-app/views/error-view";
 import FeaturesView from "@/siwa-app/views/features-view";
 import GettingStartedView from "@/siwa-app/views/getting-started-view";
 import MainView from "@/siwa-app/views/main/main-view";
-import PricingView from "@/siwa-app/views/pricing-view";
 import PrivacyView from "@/siwa-app/views/privacy-view";
 import TermsView from "@/siwa-app/views/terms-view";
 import React, { lazy, useMemo, useState } from "react";
@@ -45,7 +44,6 @@ function App(queryClient) {
         }
       >
         <Route index element={<MainView />} />
-        <Route path="/pricing/*" element={<PricingView />} />
         <Route path="/contact/*" element={<ContactView />} />
         <Route path="/features/*" element={<FeaturesView />} />
         <Route path="/about/*" index element={<AboutView />} />

@@ -46,18 +46,18 @@ export default function MainView2() {
         <section className="w-full pt-12 pb-12 md:pt-24 lg:pt-32 border-b">
           <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
             <div className="grid max-w-[1300px] mx-auto gap-8 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-lime px-3 py-1 text-sm text-lime-foreground">
                   Auth Framework
                 </div>
-                <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1]">
+                <h1 className="!leading-tight	 md:text-6xl text-3xl font-bold tracking-tighter  lg:leading-[1.1] ">
                   Sign In With Algorand
                 </h1>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl lg:text-base xl:text-xl">
                   An AVM auth standard that integrates with Algorand to provide
                   a seamless sign-in experience for your users.
                 </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <div className="flex flex-col gap-4 sm:gap-3 min-[400px]:flex-row">
                   <ButtonLink size="lg" to="/getting-started">
                     Get Started
                   </ButtonLink>
@@ -90,7 +90,7 @@ export default function MainView2() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
-                  New Features
+                  Auth Flow
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Secure and Seamless Authentication
@@ -101,7 +101,7 @@ export default function MainView2() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+            <div className="mx-auto grid max-w-5xl items-center gap-8 py-12 lg:grid-cols-2 lg:gap-12">
               <img
                 alt="Secure Authentication"
                 className="mx-auto aspect-video overflow-hidden object-cover object-center secondary-hero-bg"
@@ -195,6 +195,7 @@ export default function MainView2() {
             </div>
           </div>
         </section>
+
         <FeatureSection1 />
         <FeatureSection2 />
         {/* Feature Section 2 */}
@@ -292,37 +293,37 @@ export default function MainView2() {
             </div>
           </div>
         </section>
-{/* Performance Section */}
-<section className="w-full py-12 md:py-24 lg:py-32">
-  <div className="container px-4 md:px-6">
-    <div className="grid gap-10 sm:px-10 md:gap-16 lg:grid-cols-2">
-      <div className="space-y-4">
-        <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
-          Performance
-        </div>
-        <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-          Advanced Blockchain Authentication
-        </h2>
-        <ButtonLink size="lg" to="/getting-started">
-          Get Started
-        </ButtonLink>
-      </div>
-      <div className="flex flex-col items-start space-y-4">
-        <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
-          Security
-        </div>
-        <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
-          SIWA provides a robust and scalable authentication system built on Algorand's blockchain. Ensure the highest level of security for your users with our state-of-the-art protocol.
-        </p>
-        <ButtonLink size="lg" variant="outline" to="/contact">
-          Contact Sales
-        </ButtonLink>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+        {/* Performance Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-10 sm:px-10 md:gap-16 lg:grid-cols-2">
+              <div className="space-y-4">
+                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
+                  Performance
+                </div>
+                <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
+                  Advanced Blockchain Authentication
+                </h2>
+                <ButtonLink size="lg" to="/getting-started">
+                  Get Started
+                </ButtonLink>
+              </div>
+              <div className="flex flex-col items-start space-y-4">
+                <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
+                  Security
+                </div>
+                <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
+                  SIWA provides a robust and scalable authentication system
+                  built on Algorand's blockchain. Ensure the highest level of
+                  security for your users with our state-of-the-art protocol.
+                </p>
+                <ButtonLink size="lg" variant="outline" to="/contact">
+                  Contact Sales
+                </ButtonLink>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">
