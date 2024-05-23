@@ -1,5 +1,5 @@
 import React, { ReactNode, FC } from "react";
-import { LoadingDots, LoadingSpinner } from "@/dashboard/components/ui/icons";
+import { LoadingDots, LoadingSpinner } from "@/dashboard/ui/icons";
 import { cn } from "@/dashboard/lib/utils";
 import Tooltip from "./tooltip";
 
@@ -161,7 +161,7 @@ export const Button: FC<ButtonProps> = ({
             </span>
           )}
           {actionLetter && (
-            <kbd className="hidden rounded bg-accents-7 px-2 py-0.5 text-xs font-light text-white transition-all duration-75 group-hover:bg-accent group-hover:text-primary-foreground dark:text-secondary-accent md:inline-block">
+            <kbd className="hidden rounded bg-accents-7 px-2 py-0.5 text-xs font-light text-white transition-all duration-75 group-hover:bg-accent group-hover:text-primary-foreground dark:text-secondary md:inline-block">
               {actionLetter}
             </kbd>
           )}

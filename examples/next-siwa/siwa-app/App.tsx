@@ -4,15 +4,14 @@ import ScrollToTop from "@/dashboard/components/scroll-to-top";
 import ErrorBoundary from "@/dashboard/lib/error-boundary";
 import ProviderLayout from "@/dashboard/providers/provider-layout";
 import AboutView from "@/dashboard/views/about-view";
-import ContactView from "@/dashboard/views/contact-view";
+import ContactView from "@/dashboard/views/contact/contact-view";
 import { ErrorView } from "@/dashboard/views/error-view";
 import FeaturesView from "@/dashboard/views/features-view";
 import GettingStartedView from "@/dashboard/views/getting-started-view";
 import MainView from "@/dashboard/views/main/main-view";
 import PrivacyView from "@/dashboard/views/privacy-view";
 import TermsView from "@/dashboard/views/terms-view";
-import React, { lazy, useMemo, useState } from "react";
-import { QueryClient } from "@tanstack/react-query";
+import React, { useMemo } from "react";
 import { XWalletProvider } from "@/x-wallet/xwallet-context";
 import { UserProvider } from "@/dashboard/contexts/user-context";
 import { WalletConnectionProvider } from "@/dashboard/contexts/wallet-connection-context";
@@ -25,17 +24,18 @@ import {
   Route,
   RouterProvider,
   Outlet,
-  useLocation,
 } from "react-router-dom";
+import SupportView from "./views/contact/support/support-view";
+import SalesView from "./views/contact/sales/sales-view";
 
-function App(queryClient) {
+function App() {
   const routes = useMemo(
     () => [
       <Route
         key="main"
         path=""
         element={
-          <ProviderLayout queryClient={queryClient}>
+          <ProviderLayout>
             <ErrorBoundary fallbackRender={({ error }) => <ErrorView />}>
               <ScrollToTop />
               <Outlet />
@@ -44,7 +44,13 @@ function App(queryClient) {
         }
       >
         <Route index element={<MainView />} />
-        <Route path="/contact/*" element={<ContactView />} />
+
+        <Route path="/contact" element={<Outlet />}>
+          <Route path="/contact/*" element={<ContactView />} index/>
+          <Route path="/contact/support/*" element={<SupportView />} />
+          <Route path="/contact/sales/*" element={<SalesView />} />
+        </Route>
+
         <Route path="/features/*" element={<FeaturesView />} />
         <Route path="/about/*" index element={<AboutView />} />
         <Route path="/getting-started/*" element={<GettingStartedView />} />
@@ -53,7 +59,7 @@ function App(queryClient) {
       </Route>,
       <Route key="error" path="*" element={<ErrorView />} />,
     ],
-    [queryClient],
+    [],
   );
 
   const memoizedRouter = useMemo(

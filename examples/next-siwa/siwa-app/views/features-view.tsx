@@ -25,7 +25,7 @@ export default function FeaturesView() {
             <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
               The Future of Authentication
             </h2>
-            <p className="max-w-[900px] text-gray-600 md:text-xl lg:text-2xl dark:text-gray-300">
+            <p className="max-w-[900px] text-secondary md:text-xl lg:text-2xl dark:text-secondary">
               SIWA (Sign In With Algorand) combines cutting-edge security with
               seamless integration, providing a superior authentication
               experience. Explore the key features that make SIWA a game-changer
@@ -45,7 +45,7 @@ export default function FeaturesView() {
               <h3 className="text-2xl font-bold tracking-tighter mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-secondary dark:text-secondary">
                 {feature.description}
               </p>
             </div>

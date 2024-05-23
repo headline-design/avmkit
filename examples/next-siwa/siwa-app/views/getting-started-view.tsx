@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
-import { copyToClipboard } from "../components/copy-to-clipboard";
-import { IconTick } from "../icons/tick";
-import { IconCopy } from "../icons/copy";
-import { Button } from "../components/ui/button";
+import { copyToClipboard } from "@/dashboard/components/copy-to-clipboard";
+import { IconTick } from "@/dashboard/icons/tick";
+import { IconCopy } from "@/dashboard/icons/copy";
+import { Button } from "@/dashboard/ui/button";
 
 const GettingStartedView = () => {
   const [copiedCommand, setCopiedCommand] = useState("");

@@ -14,7 +14,7 @@ export const FeatureSection1 = () => (
       <h2 className="text-3xl text-foreground font-semibold">Key Features</h2>
     </div>
     <div className="py-16">
-      <div className="mx-auto px-6 max-w-6xl text-zinc-500">
+      <div className="mx-auto px-6 max-w-6xl text-secondary">
         <div className="relative">
           <div className="relative z-10 grid gap-3 grid-cols-6">
             <div className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 border">
@@ -36,10 +36,10 @@ export const FeatureSection1 = () => (
                   <IconFingerprint />
                 </div>
                 <div className="mt-6 text-center relative z-10 space-y-2">
-                  <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
+                  <h2 className="text-lg font-medium text-secondary transition group-hover:text-purple-950 dark:text-white">
                     Built-in Security
                   </h2>
-                  <p className="dark:text-zinc-300 text-zinc-700">
+                  <p className="text-secondary">
                     SIWA ensures secure and tamper-proof authentication using
                     Algorand's blockchain technology.
                   </p>
@@ -52,10 +52,10 @@ export const FeatureSection1 = () => (
                   <IconSelectRange />
                 </div>
                 <div className="mt-4 text-center relative z-10 space-y-2">
-                  <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
+                  <h2 className="text-lg font-medium text-secondary transition group-hover:text-purple-950 dark:text-white">
                     Multi-point Validation
                   </h2>
-                  <p className="dark:text-zinc-300 text-zinc-700">
+                  <p className="text-secondary">
                     SIWA validates multiple data points during sign-in, ensuring
                     comprehensive security.
                   </p>
@@ -82,10 +82,10 @@ export const FeatureSection1 = () => (
                     </svg>
                   </div>
                   <div className="space-y-2">
-                    <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
+                    <h2 className="text-lg font-medium text-secondary transition group-hover:text-purple-950 dark:text-white">
                       Transparent Process
                     </h2>
-                    <p className="dark:text-zinc-300 text-zinc-700">
+                    <p className="text-secondary">
                       Understand and trust every step with SIWA's transparent
                       authentication process.
                     </p>
@@ -129,10 +129,10 @@ export const FeatureSection1 = () => (
                     </svg>
                   </div>
                   <div className="space-y-2">
-                    <h2 className="text-lg font-medium text-zinc-800 transition group-hover:text-purple-950 dark:text-white">
+                    <h2 className="text-lg font-medium text-secondary transition group-hover:text-purple-950 dark:text-white">
                       Data Security
                     </h2>
-                    <p className="dark:text-zinc-300 text-zinc-700">
+                    <p className="text-secondary">
                       Ensure data integrity with SIWA's secure client-server
                       authentication.
                     </p>
@@ -146,7 +146,7 @@ export const FeatureSection1 = () => (
                       </span>
                       <div className="size-7 ring-4 ring-background ">
                         <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
-                          <IconServer className="w-4 h-4 text-muted-foreground" />
+                          <IconServer className="w-4 h-4 text-secondary" />
                         </div>
                       </div>
                     </div>
@@ -166,7 +166,7 @@ export const FeatureSection1 = () => (
                       </span>
                       <div className="size-7 ring-4 ring-background">
                         <div className="rounded-full border size-full dark:bg-zinc-800 flex bg-background justify-center align-middle items-center">
-                          <IconClient className="w-4 h-4 text-muted-foreground" />
+                          <IconClient className="w-4 h-4 text-secondary" />
                         </div>
                       </div>
                     </div>

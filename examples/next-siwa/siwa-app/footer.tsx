@@ -6,12 +6,12 @@ export const Footer = () => {
       <div className="container px-6 mx-auto">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-xl font-semibold text-zinc-800">
+            <Link to="/" className="text-xl font-semibold text-secondary">
               SIWA
             </Link>
           </div>
           <nav className="flex items-center">
-            <Link to="/about" className="mr-4 text-zinc-800">
+            <Link to="/about" className="mr-4 text-secondary">
               About
             </Link>
             <Link

@@ -10,7 +10,7 @@ export default function AboutView() {
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 About SIWA
               </h1>
-              <p className="max-w-[800px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+              <p className="max-w-[800px] text-secondary md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-secondary">
                 SIWA (Sign In With Algorand) is a decentralized authentication
                 protocol that allows users to sign in to websites and
                 applications using their Algorand wallet. Built on the Algorand
@@ -28,7 +28,7 @@ export default function AboutView() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Easy Setup
               </h2>
-              <p className="max-w-[600px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+              <p className="max-w-[600px] text-secondary md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-secondary">
                 SIWA comes with a straightforward setup process. Start your
                 project with a few commands and integrate SIWA easily into your
                 existing applications, ensuring a secure and efficient sign-in
@@ -39,7 +39,7 @@ export default function AboutView() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 EVM Compatibility
               </h2>
-              <p className="max-w-[600px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+              <p className="max-w-[600px] text-secondary md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-secondary">
                 SIWA is fully compatible with SIWE (Sign In With Ethereum),
                 making it easy for developers to integrate Algorand-based
                 authentication into their Ethereum applications. Leverage the
@@ -51,7 +51,7 @@ export default function AboutView() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 NextJS Support
               </h2>
-              <p className="max-w-[600px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+              <p className="max-w-[600px] text-secondary md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-secondary">
                 SIWA supports NextJS, a popular React framework. Build fast,
                 scalable web applications with seamless integration of SIWA,
                 providing a secure and robust authentication method for your
@@ -62,7 +62,7 @@ export default function AboutView() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Enterprise Security
               </h2>
-              <p className="max-w-[600px] text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+              <p className="max-w-[600px] text-secondary md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-secondary">
                 SIWA offers an enterprise-grade security model with on-chain
                 protocols, ensuring user data is protected. Implement best
                 practices in security and provide a safe authentication process
@@ -93,7 +93,7 @@ export default function AboutView() {
               <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">
                 Security
               </div>
-              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl/relaxed dark:text-zinc-400">
+              <p className="mx-auto max-w-[700px] text-secondary md:text-xl/relaxed dark:text-secondary">
                 SIWA leverages Algorand's secure and decentralized blockchain
                 technology to provide a robust authentication protocol. Ensure
                 your applications are protected with SIWA's enterprise-level

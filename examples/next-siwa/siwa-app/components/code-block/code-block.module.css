@@ -12,17 +12,17 @@
 
 .codeBlock_wrapper {
     position: relative;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--border);
 }
 
 .codeBlock_root > div {
-    border-color: hsl(var(--border));
+    border-color: var(--border);
 }
 
 .codeBlock_header {
     padding: 0 12px 0 16px;
     border-radius: 6px 6px 0 0;
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 1px solid var(--border);
     display: flex;
     height: 48px;
     align-items: center;

@@ -42,20 +42,20 @@ export const POST = async (req: NextRequest) => {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 border-t">
       <div>
-        <div className="mx-auto px-6 max-w-6xl text-zinc-500">
+        <div className="mx-auto px-6 max-w-6xl text-secondary">
           <div className="grid gap-12 md:gap-0 md:grid-cols-2 lg:grid-cols-5 items-center lg:gap-24">
             <div className="lg:col-span-2">
               <div className="md:pr-6 lg:pr-0">
                 <h2 className="text-3xl text-zinc-950 dark:text-white font-semibold">
-                  All your favorite dev tools work with SIWA
+                  Secure Web3 sessions with SIWE
                 </h2>
-                <p className="mt-6 text-muted-foreground">
+                <p className="mt-6 text-secondary">
                   Simplify user authentication with Sign In with Algorand
-                  (SIWA). Enhance security and user experience with
+                  (SIWA). Enhance security and user experience with robust and
                   easy-to-implement authentication solutions.
                 </p>
               </div>
-              <ul className="mt-8 divide-y border-y divide-border *:py-3 *:flex *:items-center *:gap-3 text-zinc-700 dark:text-zinc-300">
+              <ul className="mt-8 divide-y border-y divide-border *:py-3 *:flex *:items-center *:gap-3 text-secondary dark:text-secondary">
                 <li>
                   <svg
                     className="size-5"

@@ -22,20 +22,6 @@ module.exports = {
         border: {
           DEFAULT: "var(--border)",
         },
-        textColor: {
-          DEFAULT: "var(--text)",
-          primary: {
-            DEFAULT: "var(--text-primary)",
-            foreground: "hsl(var(--primary-foreground))",
-          },
-          secondary: {
-            DEFAULT: "var(--text-secondary)",
-            accent: "var(--accents-5)",
-          },
-          tertiary: {
-            DEFAULT: "var(--text-tertiary)",
-          },
-        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: {
@@ -113,7 +99,22 @@ module.exports = {
         },
 
       },
-
+      textColor: {
+        DEFAULT: "var(--text)",
+        primary: {
+          DEFAULT: "var(--text-primary)",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "var(--text-secondary)",
+          accent: "var(--accents-5)",
+        },
+        tertiary: {
+          DEFAULT: "var(--text-tertiary)",
+        },
+        active: "var(--text-active)",
+        link: "var(--text-link)",
+      },
       borderRadius: {
         DEFAULT: "var(--radius)",
         lg: `var(--radius-lg)`,

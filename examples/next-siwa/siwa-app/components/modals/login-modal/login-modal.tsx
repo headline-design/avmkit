@@ -9,7 +9,7 @@ import {
 } from "@/dashboard/icons";
 import { useXWallet } from "@/wallet/xwallet-context";
 import { Pipeline } from "@siwa/pipeline";
-import { toast } from "@/dashboard/components/ui/toast";
+import { toast } from "@/dashboard/ui/toast";
 import { useSIWA } from "@/siwa";
 import {
   BUTTON_CLASS,
@@ -23,7 +23,8 @@ import { PipeConnectors } from "@/dashboard/utils/constants/common";
 import { cn, shorten } from "@/dashboard/lib/utils";
 import { useSelector } from "react-redux";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
-import Modal from "../../ui/dialog";
+import Modal from "@/dashboard/ui/dialog";
+import styles from "./styles.module.css";
 
 export interface Provider {
   id: string;
@@ -36,7 +37,7 @@ export interface Provider {
 const Button = ({ onClick, children }) => (
   <button
     onClick={onClick}
-    className="inline-flex items-center justify-center px-4 py-2 space-x-2 whitespace-nowrap text-sm font-medium transition-all themed-border bg-background hover:text-accent-foreground border-shadow h-10 rounded"
+    className="inline-flex items-center justify-center px-4 py-2 whitespace-nowrap text-sm font-medium transition-all themed-border bg-background hover:text-accent-foreground border-shadow h-10 rounded"
   >
     {children}
   </button>
@@ -58,7 +59,11 @@ const getScreenLeftButton = (
 
   return (
     <Button onClick={onClick}>
-      <IconArrowLeft /> Previous
+      <span className={styles.buttonPrefix}>
+        <IconArrowLeft />
+      </span><span className={styles.buttonContent}>
+      Previous
+      </span>
     </Button>
   );
 };

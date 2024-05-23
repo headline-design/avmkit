@@ -11,9 +11,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/dashboard/components/ui/card";
-import { Separator } from "@/dashboard/components/ui/separator";
-import { Button } from "@/dashboard/components/ui/button";
+} from "@/dashboard/ui/card";
+import { Separator } from "@/dashboard/ui/separator";
+import { Button } from "@/dashboard/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,7 +22,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/dashboard/components/ui/dropdown-menu";
+} from "@/dashboard/ui/dropdown-menu";
 
 // SIWA is Sign In With Algorand
 
@@ -33,7 +33,8 @@ export function DemoGithub() {
         <div className="space-y-1">
           <CardTitle>headline-design/siwa</CardTitle>
           <CardDescription>
-            A session authentication standard and library of utilities for Sign In with Algorand (SIWA).
+            A session authentication standard and library of utilities for Sign
+            In with Algorand (SIWA).
           </CardDescription>
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
@@ -70,7 +71,7 @@ export function DemoGithub() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex space-x-4 text-sm text-muted-foreground">
+        <div className="flex space-x-4 text-sm text-secondary">
           <div className="flex items-center">
             <CircleIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
             TypeScript

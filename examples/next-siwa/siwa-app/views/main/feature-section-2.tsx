@@ -85,11 +85,16 @@ export const FeatureSection2 = () => {
   const FeatureCard = ({ item }: { item?: any }) => {
     return (
       <div className="relative group overflow-hidden p-8 border ">
+        <div className="text-secondary group-hover:text-primary absolute top-8 right-8">
+          {" "}
+          {item.title}
+        </div>{" "}
         <div aria-hidden="true" className={item.class1} />
         <div className="relative">
           <div className={item.class2}>{item.icon}</div>
+
           <div className="mt-6 pb-6 rounded-b-[--card-border-radius]">
-            <p className="text-zinc-700 dark:text-zinc-300">
+            <p className="text-secondary dark:text-secondary">
               {item.description}
             </p>
           </div>
@@ -122,12 +127,12 @@ export const FeatureSection2 = () => {
       {/* component */}
       <section>
         <div className="py-16">
-          <div className="mx-auto px-6 max-w-6xl text-zinc-500">
+          <div className="mx-auto px-6 max-w-6xl text-secondary">
             <div className="text-center">
               <h2 className="text-3xl text-foreground font-semibold">
                 Featured Integrations
               </h2>
-              <p className="mt-6 text-muted-foreground">
+              <p className="mt-6 text-secondary">
                 The SIWA landing page and boilerplate app are jam-packed with
                 key integrations and services to help you get started quickly.
               </p>

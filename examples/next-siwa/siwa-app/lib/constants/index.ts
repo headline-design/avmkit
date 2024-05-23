@@ -1,6 +1,6 @@
 export const NETWORK_STATE = 'networkState';
 
-export const SIWA_DOMAIN =
+export const HOME_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
     ? 'https://siwa-next.vercel.app'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'

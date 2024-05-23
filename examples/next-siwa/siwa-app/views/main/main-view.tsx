@@ -2,14 +2,14 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { Link } from "react-router-dom";
-import { Button } from "@/dashboard/components/ui/button";
-import { Input } from "@/dashboard/components/ui/input";
-import { ButtonLink } from "@/dashboard/components/ui/button-link";
+import { Button } from "@/dashboard/ui/button";
+import { Input } from "@/dashboard/ui/input";
+import { ButtonLink } from "@/dashboard/ui/button-link";
 
 import { IconGithub, IconSignOut, IconShield } from "@/dashboard/icons"; // Assume these icons are available
 import { useContext } from "react";
-import { ModalContext } from "../../providers/modal-provider";
-import { useUser } from "../../contexts/user-context";
+import { ModalContext } from "@/dashboard/providers/modal-provider";
+import { useUser } from "@/dashboard/contexts/user-context";
 import { signOut, useSession } from "next-auth/react";
 import SIWADetails from "./siwa-details";
 import { FeatureSection1 } from "./feature-section-1";
@@ -33,7 +33,7 @@ export default function MainView2() {
     <>
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full pt-12 pb-12 md:pt-24 lg:pt-32 border-b">
+        <section className="w-full pt-12 pb-24 md:pt-24 lg:pt-32 border-b">
           <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
             <div className="grid max-w-[1300px] mx-auto gap-8 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div className="space-y-4">
@@ -43,7 +43,7 @@ export default function MainView2() {
                 <h1 className="!leading-tight	 md:text-6xl text-3xl font-bold tracking-tighter  lg:leading-[1.1] ">
                   Sign In With Algorand
                 </h1>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl lg:text-base xl:text-xl">
+                <p className="max-w-[700px] text-secondary md:text-xl lg:text-base xl:text-xl">
                   An AVM auth standard that integrates with Algorand to provide
                   a seamless sign-in experience for your users.
                 </p>
@@ -87,7 +87,7 @@ export default function MainView2() {
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Secure and Seamless Authentication
                 </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl lg:text-base xl:text-xl">
+                <p className="max-w-[900px] text-secondary md:text-xl lg:text-base xl:text-xl">
                   Integrate with Algorand to provide secure and seamless
                   authentication for your users.
                 </p>
@@ -129,7 +129,7 @@ export default function MainView2() {
                         <span className="text-sm font-medium text-zinc-950 dark:text-white">
                           Step 1: Connect Wallet
                         </span>
-                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                        <span className="text-sm text-secondary">
                           Connect your Algorand wallet to start the
                           authentication process.
                         </span>
@@ -156,10 +156,10 @@ export default function MainView2() {
                         </span>
                       </span>
                       <span className="ml-4 flex min-w-0 flex-col">
-                        <span className="text-sm font-medium text-muted-foreground group-hover:text-lime-hover">
+                        <span className="text-sm font-medium text-secondary group-hover:text-lime-hover">
                           Step 2: Sign Message
                         </span>
-                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                        <span className="text-sm text-secondary">
                           Sign a message with your wallet to prove ownership.
                         </span>
                       </span>
@@ -172,10 +172,10 @@ export default function MainView2() {
                         <span className="relative z-10 flex items-center justify-center w-8 h-8 bg-background border-2 border-gray-300 rounded-full group-hover:border-gray-400"></span>
                       </span>
                       <span className="ml-4 flex min-w-0 flex-col">
-                        <span className="text-sm font-medium text-muted-foreground">
+                        <span className="text-sm font-medium text-secondary">
                           Step 3: Verify Signature
                         </span>
-                        <span className="text-sm dark:text-zinc-300 text-zinc-700">
+                        <span className="text-sm text-secondary">
                           Our server verifies the signature to complete the
                           login.
                         </span>
@@ -187,48 +187,13 @@ export default function MainView2() {
             </div>
           </div>
         </section>
-
-        <FeatureSection1 />
-        <FeatureSection2 />
-        {/* Feature Section 2 */}
-        <CodeSection />
-        {/* Workflow Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 border-t border-b">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
-                Experience a Seamless Workflow
-              </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl lg:text-base xl:text-xl">
-                Integrate with Algorand to provide a secure and seamless
-                authentication experience for your users.
-              </p>
-            </div>
-            <div className="mx-auto w-full max-w-sm space-y-2">
-              <form className="flex space-x-2">
-                <Input
-                  className="max-w-lg flex-1"
-                  placeholder="Enter your email"
-                  type="email"
-                />
-                <Button>Sign Up</Button>
-              </form>
-              <p className="text-xs text-muted-foreground">
-                Sign up to get notified when we launch.
-                <Link className="underline underline-offset-2" to="/terms">
-                  Terms & Conditions
-                </Link>
-              </p>
-            </div>
-          </div>
-        </section>
         <section className="w-full py-12 md:py-24 lg:py-32 border-b">
           <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16 ">
             <div className="flex items-center justify-center py-12">
               <div className="mx-auto grid w-[350px] gap-6">
                 <div className="grid gap-2 text-center">
                   <h1 className="text-3xl font-bold">Try SIWA</h1>
-                  <p className="text-balance text-muted-foreground">
+                  <p className="text-balance text-secondary">
                     Connect your Algorand wallet to start the authentication
                     process.
                   </p>
@@ -266,7 +231,7 @@ export default function MainView2() {
             </div>
 
             <div className="flex items-center justify-center py-12 lg:border-l">
-              <div className="text-muted-foreground text-center h-full w-full flex align-middle justify-center ">
+              <div className="text-secondary text-center h-full w-full flex align-middle justify-center ">
                 {user || session ? (
                   <>
                     <SIWADetails
@@ -284,6 +249,41 @@ export default function MainView2() {
             </div>
           </div>
         </section>
+        <FeatureSection1 />
+        <FeatureSection2 />
+        {/* Feature Section 2 */}
+        <CodeSection />
+        {/* Workflow Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32 border-t border-b">
+          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+            <div className="space-y-3">
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                Experience a Seamless Workflow
+              </h2>
+              <p className="mx-auto max-w-[600px] text-secondary md:text-xl lg:text-base xl:text-xl">
+                Integrate with Algorand to provide a secure and seamless
+                authentication experience for your users.
+              </p>
+            </div>
+            <div className="mx-auto w-full max-w-sm space-y-2">
+              <form className="flex space-x-2">
+                <Input
+                  className="max-w-lg flex-1"
+                  placeholder="Enter your email"
+                  type="email"
+                />
+                <Button>Sign Up</Button>
+              </form>
+              <p className="text-xs text-secondary">
+                Sign up to get notified when we launch.
+                <Link className="underline underline-offset-2" to="/terms">
+                  Terms & Conditions
+                </Link>
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Performance Section */}
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
@@ -303,7 +303,7 @@ export default function MainView2() {
                 <div className="inline-block rounded-lg bg-lime text-lime-foreground px-3 py-1 text-sm">
                   Security
                 </div>
-                <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
+                <p className="mx-auto max-w-[700px] md:text-xl text-secondary">
                   SIWA provides a robust and scalable authentication system
                   built on Algorand's blockchain. Ensure the highest level of
                   security for your users with our state-of-the-art protocol.
@@ -316,25 +316,6 @@ export default function MainView2() {
           </div>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground">
-          © 2024 HEADLINE. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link
-            className="text-xs hover:underline underline-offset-4"
-            to="/terms"
-          >
-            Terms of Service
-          </Link>
-          <Link
-            className="text-xs hover:underline underline-offset-4"
-            to="/privacy"
-          >
-            Privacy
-          </Link>
-        </nav>
-      </footer>
     </>
   );
 }

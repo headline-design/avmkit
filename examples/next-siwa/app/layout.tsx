@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { satoshi, inter } from "@/dashboard/styles/fonts";
+import "@/dashboard/styles/globals.css";
 import App from "./app";
 import ClientBoundary from "@/dashboard/lib/client-boundary";
-
-const inter = Inter({ subsets: ["latin"] });
+import type { Viewport } from "next";
+import {cn} from "@/dashboard/lib/utils"
 
 export const metadata: Metadata = {
   title: "SIWA",
@@ -29,14 +29,21 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://siwa-next.vercel.app"),
 };
 
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html   lang="en"
+    suppressHydrationWarning
+    className={cn(satoshi.variable, inter.variable)}>
+       <body className="bg-background-accent">
         <ClientBoundary>
           <App />
         </ClientBoundary>
@@ -44,3 +51,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+
+
+

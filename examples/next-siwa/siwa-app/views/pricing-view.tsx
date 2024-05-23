@@ -1,10 +1,5 @@
-import {
-  CardHeader,
-  CardContent,
-  CardFooter,
-  Card,
-} from "@/dashboard/components/ui/card";
-import { Button } from "@/dashboard/components/ui/button";
+import { CardHeader, CardContent, CardFooter, Card } from "@/dashboard/ui/card";
+import { Button } from "@/dashboard/ui/button";
 
 export default function PricingView() {
   return (
@@ -13,7 +8,7 @@ export default function PricingView() {
         <Card className="max-w-sm">
           <CardHeader className="p-4">
             <h2 className="text-lg font-bold">Starter</h2>
-            <p className="text-sm text-muted-foreground">For hobby projects</p>
+            <p className="text-sm text-secondary">For hobby projects</p>
           </CardHeader>
           <CardContent className="p-4 flex items-center justify-center flex-col">
             <div className="text-4xl font-bold">Free</div>
@@ -31,9 +26,7 @@ export default function PricingView() {
         <Card className="max-w-sm">
           <CardHeader className="p-4">
             <h2 className="text-lg font-bold">Pro</h2>
-            <p className="text-sm text-muted-foreground">
-              For scaling applications
-            </p>
+            <p className="text-sm text-secondary">For scaling applications</p>
           </CardHeader>
           <CardContent className="p-4 flex items-center justify-center flex-col">
             <div className="text-4xl font-bold">Free</div>

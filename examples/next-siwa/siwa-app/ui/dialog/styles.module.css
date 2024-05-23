@@ -176,7 +176,7 @@
     height: -webkit-fill-available;
     width: 100vw;
     overflow: auto;
-    z-index: 50;
+    z-index: 115;
 
 }
 
@@ -192,7 +192,7 @@
     transition: opacity .35s cubic-bezier(.645, .045, .355, 1);
     background-color: #000;
     pointer-events: none;
-    z-index: 50;
+    z-index: 110;
     animation: fadeInOut .35s cubic-bezier(.645, .045, .355, 1);
 
 }

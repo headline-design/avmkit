@@ -3,7 +3,7 @@ const IconPendingClock = () => (
     viewBox="0 0 20 20"
     width="20px"
     height="20px"
-    className="text-zinc-400"
+    className="text-secondary"
     style={{ width: 16, height: 16 }}
   >
     <path

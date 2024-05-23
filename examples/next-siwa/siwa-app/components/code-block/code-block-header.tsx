@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./code-block.module.css";
 import { copyToClipboard } from "../copy-to-clipboard";
-import { Button } from "../ui";
+import { Button } from "@/dashboard/ui";
 import { IconTick } from "@/dashboard/icons/tick";
 import { IconCopy } from "@/dashboard/icons/copy";
 

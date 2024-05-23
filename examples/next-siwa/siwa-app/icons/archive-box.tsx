@@ -4,7 +4,7 @@ const IconArchiveBox = () => (
     viewBox="0 0 24 24"
     width="20px"
     height="20px"
-    className="text-zinc-400"
+    className="text-secondary"
     style={{ width: 16, height: 16 }}
   >
     <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />

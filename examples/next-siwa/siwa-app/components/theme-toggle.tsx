@@ -1,7 +1,7 @@
 import { useTheme } from 'next-themes';
-import { Button } from './ui/button';
-import { IconMoon } from '../icons/moon';
-import { IconSun } from '../icons/sun';
+import { Button } from '@/dashboard/ui/button';
+import { IconMoon } from '@/dashboard/icons/moon';
+import { IconSun } from '@/dashboard/icons/sun';
 import React from 'react';
 
 const ThemeToggle = () => {
