@@ -54,12 +54,15 @@
     "sonner": "^1.4.41",
     "store": "^2.0.12",
     "tailwind-merge": "^2.2.2",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss-radix": "^2.8.0",
     "uuid": "^9.0.0",
     "vaul": "^0.7.0"
   },
   "devDependencies": {
     "@prisma/client": "^5.5.2",
-    "@tailwindcss/typography": "^0.5.12",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

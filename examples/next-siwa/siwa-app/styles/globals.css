@@ -140,7 +140,7 @@
     --radius: 6px;
     --dark-only-border: hsla(0, 0%, 100%, .1);
 
-    --font-sans: var(--font-inter),  sans-serif;
+
     --foreground: 0 0% 98%;
     --header-background: rgba(0, 0, 0, .5);
     --header-border-bottom: 0 1px 0 0 hsla(0, 0%, 100%, .1);
@@ -150,6 +150,7 @@
 
 .dark,
 :root {
+  --font-sans: var(--font-inter),  sans-serif;
   --form-shadow: 0px 0px 0px 1px rgba(0, 0, 0, .03), 0px 2px 4px rgba(0, 0, 0, .05), 0px 12px 24px rgba(0, 0, 0, .05);
 }
 
@@ -537,7 +538,8 @@ div {
   }
 }
 
-.rust-footer, .rust-ship {
+.rust-footer,
+.rust-ship {
   background: var(--accents-1);
   border-top: 1px solid var(--accents-2);
 }
@@ -584,4 +586,8 @@ div {
 .theme-active {
   color: var(--ds-gray-1000);
   background-color: var(--ds-gray-100);
+}
+
+.bg-menu {
+  background-color: var(--primary-background-2);
 }

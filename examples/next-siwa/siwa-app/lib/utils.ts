@@ -41,7 +41,7 @@ export function constructMetadata({
       creator: '@headline_crypto',
     },
     icons,
-    metadataBase: new URL('https://siwa-next.vercel.app'),
+    metadataBase: new URL('https://siwa.org'),
     ...(noIndex && {
       robots: {
         index: false,

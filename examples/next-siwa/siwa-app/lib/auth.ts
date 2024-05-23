@@ -182,7 +182,7 @@ export const authOptions: NextAuthOptions = {
         sameSite: 'lax',
         path: '/',
         // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT ? 'siwa-next.vercel.app' : 'localhost',
+        domain: VERCEL_DEPLOYMENT ? 'siwa.org' : 'localhost',
         secure: VERCEL_DEPLOYMENT,
       },
     },
