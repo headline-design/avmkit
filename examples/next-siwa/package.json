@@ -30,6 +30,7 @@
     "@vercel/analytics": "1.2.2",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
+    "classnames": "",
     "clsx": "^2.1.0",
     "concurrently": "^8.0.1",
     "framer-motion": "11.2.6",

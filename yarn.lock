@@ -4301,6 +4301,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -10305,6 +10312,7 @@ __metadata:
     autoprefixer: ^10.0.1
     axios: ^1.7.2
     class-variance-authority: ^0.7.0
+    classnames: ""
     clsx: ^2.1.0
     concurrently: ^8.0.1
     eslint: ^8

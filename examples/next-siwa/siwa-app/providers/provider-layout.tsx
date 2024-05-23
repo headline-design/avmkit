@@ -8,13 +8,15 @@ const ProviderLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <React.StrictMode>
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <Suspense>
-          <div className="flex min-h-screen flex-col justify-between">
-            <Navbar location="home" />
-            <ModalProvider>{children}</ModalProvider>
-            <Footer />
-          </div>
-        </Suspense>
+        <ModalProvider>
+          <Suspense>
+            <div className="flex min-h-screen flex-col justify-between">
+              <Navbar location="home" />
+              {children}
+              <Footer />
+            </div>
+          </Suspense>
+        </ModalProvider>
       </ThemeProvider>
     </React.StrictMode>
   );

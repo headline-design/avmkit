@@ -6,9 +6,12 @@ import { cn } from "@/dashboard/lib/utils";
 import MaxWidthWrapper from "@/dashboard/ui/layout/max-width-wrapper";
 import { HOME_DOMAIN } from "@/dashboard/lib/constants";
 import { IconShield } from "./icons";
-import ThemeToggle from "./components/theme-toggle";
+import { useContext } from "react";
 import ButtonLink from "./ui/button-link";
 import { useSession } from "next-auth/react";
+import { Button } from "./ui";
+import { ModalContext } from "./providers/modal-provider";
+import { Avatar } from "./components/avatar/avatar";
 
 export const navItems = [
   {
@@ -36,6 +39,14 @@ export const navItems = [
 export default function Navbar({ location = "home" }) {
   const scrolled = useScroll(80);
   const { data: session } = useSession();
+
+  const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
+
+  const handleOpenModal = () => {
+    setShowLoginModal(true);
+  };
+
+  console.log('session', session)
 
   return (
     <>
@@ -70,10 +81,17 @@ export default function Navbar({ location = "home" }) {
               </div>
             </div>{" "}
             <div className="hidden lg:flex">
-              {session ? (
-                <ButtonLink href="/" variant="primary" slim>
-                  Dashboard
-                </ButtonLink>
+              {session?.user?.name ? (
+                <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900 h-8 w-8 shrink-0 rounded-full border">
+                  <Avatar
+                    className="shrink-0 select-none rounded-full"
+                    label={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
+                    address={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
+                    size="32px"
+                    src={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
+                    shape="circle"
+                  />
+                </button>
               ) : status !== "authenticated" ? (
                 <>
                   {(() => {
@@ -122,13 +140,13 @@ export default function Navbar({ location = "home" }) {
                             <ButtonLink skinny variant="link" href={`/contact`}>
                               Contact
                             </ButtonLink>
-                            <ButtonLink
+                            <Button
                               skinny
                               variant="outline"
-                              href={`/login`}
+                              onClick={handleOpenModal}
                             >
-                             Connect
-                            </ButtonLink>
+                              Connect
+                            </Button>
                           </div>
                           <ButtonLink
                             skinny
@@ -136,7 +154,7 @@ export default function Navbar({ location = "home" }) {
                             variant="primary"
                             href={`/contact`}
                           >
-                         Contact Us
+                            Contact Us
                           </ButtonLink>
                         </>
                       );
