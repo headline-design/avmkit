@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { Button } from "./ui";
 import { ModalContext } from "./providers/modal-provider";
 import { Avatar } from "./components/avatar/avatar";
+import UserDropdownMenu from "./components/user-dropdown-menu/user-dropdown-menu";
 
 export const navItems = [
   {
@@ -46,7 +47,7 @@ export default function Navbar({ location = "home" }) {
     setShowLoginModal(true);
   };
 
-  console.log('session', session)
+  console.log("session", session);
 
   return (
     <>
@@ -82,16 +83,12 @@ export default function Navbar({ location = "home" }) {
             </div>{" "}
             <div className="hidden lg:flex">
               {session?.user?.name ? (
-                <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900 h-8 w-8 shrink-0 rounded-full border">
-                  <Avatar
-                    className="shrink-0 select-none rounded-full"
-                    label={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
-                    address={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
-                    size="32px"
-                    src={session?.user?.name || "0xcc787asdlkasjdlkwqe-098"}
-                    shape="circle"
-                  />
-                </button>
+                <div className="ml-auto flex items-center justify-center gap-2 sm:gap-4">
+                  <ButtonLink rounded skinny className="text-xs"  variant="outline" href={`/contact`}>
+                    Contact Us
+                  </ButtonLink>{" "}
+                  <UserDropdownMenu session={session} />
+                </div>
               ) : status !== "authenticated" ? (
                 <>
                   {(() => {
