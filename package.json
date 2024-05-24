@@ -6,6 +6,7 @@
     "examples/*"
   ],
   "license": "MIT",
+  "private": true,
   "scripts": {
     "changeset": "changeset",
     "publish:packages": "changeset publish",
