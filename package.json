@@ -5,6 +5,7 @@
     "packages/*",
     "examples/*"
   ],
+  "license": "MIT",
   "scripts": {
     "changeset": "changeset",
     "publish:packages": "changeset publish",
