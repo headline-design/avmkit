@@ -1,6 +1,7 @@
 {
   "name": "siwa-next",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "generate": "prisma generate",
     "update": "prisma generate && prisma db push --accept-data-loss",
