@@ -9,7 +9,7 @@ import { NoResultsRow } from "../ui/components/no-results-row";
 import { Footer } from "../ui/components/footer";
 import { cn } from "@/dashboard/lib/utils";
 import { switchNets } from "../utils";
-import { Pipeline } from "@siwa/pipeline";
+import { Pipeline } from "@avmkit/pipeline";
 
 const NetworksScreen = () => {
   const { getNetworkDetails, networks, getActiveNetwork } = useXWallet();

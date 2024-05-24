@@ -4,7 +4,7 @@ import React from "react";
 export const CodeSection = () => {
   const siwaCodeSnippet = `
 import { NextRequest, NextResponse } from 'next/server';
-import { SiwaMessage, SiwaErrorType, generateNonce } from '@siwa/siwa';
+import { SiwaMessage, SiwaErrorType, generateNonce } from '@avmkit/siwa';
 import SiwaSession from '@/dashboard/lib/siwa-session';
 
 export const POST = async (req: NextRequest) => {

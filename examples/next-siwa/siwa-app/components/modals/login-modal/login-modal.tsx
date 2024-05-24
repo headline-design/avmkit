@@ -8,7 +8,7 @@ import {
   IconLogout,
 } from "@/dashboard/icons";
 import { useXWallet } from "@/wallet/xwallet-context";
-import { Pipeline } from "@siwa/pipeline";
+import { Pipeline } from "@avmkit/pipeline";
 import { toast } from "@/dashboard/ui/toast";
 import { useSIWA } from "@/siwa";
 import {
@@ -61,9 +61,8 @@ const getScreenLeftButton = (
     <Button onClick={onClick}>
       <span className={styles.buttonPrefix}>
         <IconArrowLeft />
-      </span><span className={styles.buttonContent}>
-      Previous
       </span>
+      <span className={styles.buttonContent}>Previous</span>
     </Button>
   );
 };

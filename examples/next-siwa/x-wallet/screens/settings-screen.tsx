@@ -1,4 +1,4 @@
-import { Escrow } from "@siwa/pipeline";
+import { Escrow } from "@avmkit/pipeline";
 import React, { useState, useEffect } from "react";
 import nacl from "tweetnacl";
 import { ModalHeader } from "../ui/base-modal/modal-header";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useXWallet } from "../xwallet-context";
-import { Pipeline } from "@siwa/pipeline";
+import { Pipeline } from "@avmkit/pipeline";
 import { PipeConnectors } from "@/dashboard/utils/constants/common";
 import { useWalletConnection } from "@/dashboard/contexts/wallet-connection-context";
 import { wallet } from "../constants";

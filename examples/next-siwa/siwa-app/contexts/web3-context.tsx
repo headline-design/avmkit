@@ -1,6 +1,6 @@
 "use client";
 
-import { SiwaMessage } from "@siwa/siwa";
+import { SiwaMessage } from "@avmkit/siwa";
 import { FC, PropsWithChildren, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";

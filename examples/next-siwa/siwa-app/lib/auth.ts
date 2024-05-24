@@ -14,7 +14,7 @@ import { hashToken } from './crypto';
 import { ratelimit } from './upstash';
 import credentialsProvider from 'next-auth/providers/credentials';
 import { getCsrfToken } from 'next-auth/react';
-import { SiwaMessage } from '@siwa/siwa';
+import { SiwaMessage } from '@avmkit/siwa';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 

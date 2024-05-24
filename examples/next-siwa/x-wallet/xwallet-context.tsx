@@ -5,15 +5,19 @@ import React, {
   PropsWithChildren,
   useEffect,
   useCallback,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import XWalletModal from './xwallet-modal';
-import { PipeConnectors, Chains, Networks } from '@/dashboard/utils/constants/common';
-import { useWalletConnection } from '@/dashboard/contexts/wallet-connection-context';
-import { Escrow, Pipeline } from '@siwa/pipeline';
-import { removeHttp } from './utils';
-import { NetworkConfig, NetworkDetails } from '@/avm/types';
-import { networkConfig } from '@/avm/constants/network-config';
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import XWalletModal from "./xwallet-modal";
+import {
+  PipeConnectors,
+  Chains,
+  Networks,
+} from "@/dashboard/utils/constants/common";
+import { useWalletConnection } from "@/dashboard/contexts/wallet-connection-context";
+import { Escrow, Pipeline } from "@avmkit/pipeline";
+import { removeHttp } from "./utils";
+import { NetworkConfig, NetworkDetails } from "@/avm/types";
+import { networkConfig } from "@/avm/constants/network-config";
 
 export interface ModalState {
   title: string;
@@ -25,11 +29,10 @@ export interface ModalState {
 }
 
 export interface AppConfig {
-name: string;
-url: string;
-icon: string;
-description?: string;
-
+  name: string;
+  url: string;
+  icon: string;
+  description?: string;
 }
 
 interface XWalletContextData {
@@ -45,28 +48,31 @@ interface XWalletContextData {
   appConfig: AppConfig;
   getNetworkDetails: (
     networkName: string,
-    type: 'Mainnet' | 'Testnet',
+    type: "Mainnet" | "Testnet",
   ) => NetworkDetails | undefined;
   getActiveNetwork: () => NetworkDetails | undefined;
 }
 
 export const XWalletContext = createContext<XWalletContextData>(null!);
 
-export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [modalState, setModalState] = useState<ModalState>({
-    title: '',
+    title: "",
     header: false,
-    state: 'unlock',
-    message: '',
-    request: '',
+    state: "unlock",
+    message: "",
+    request: "",
   });
   const [isXWalletModalOpen, setXWalletModalOpen] = useState(false);
   const [isXWalletUnlocked, setXWalletUnlocked] = useState(false);
-  const { isConnected, connectWallet, disconnectWallet } = useWalletConnection();
+  const { isConnected, connectWallet, disconnectWallet } =
+    useWalletConnection();
   const dispatch = useDispatch();
 
   const appConfig = {
-    name: 'Voiager',
+    name: "Voiager",
     url: removeHttp(window.location.origin),
     icon: `${window.location.origin}/favicon.ico`,
   };
@@ -84,15 +90,23 @@ export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
 
   const closeXWalletModal = () => {
     setXWalletModalOpen(false);
-    setModalState({ title: '', header: false, state: 'unlock', request: '', message: '' });
+    setModalState({
+      title: "",
+      header: false,
+      state: "unlock",
+      request: "",
+      message: "",
+    });
   };
 
   const getNetworkDetails = (networkName, type) => {
-    const networkDetail = networkConfig[networkName] ? networkConfig[networkName][type] : undefined;
+    const networkDetail = networkConfig[networkName]
+      ? networkConfig[networkName][type]
+      : undefined;
     if (networkDetail) {
       return {
         ...networkDetail,
-        status: Pipeline.algod === networkDetail.algod ? 'active' : 'inactive',
+        status: Pipeline.algod === networkDetail.algod ? "active" : "inactive",
       };
     }
     return undefined;
@@ -102,7 +116,7 @@ export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
     for (let networkName in networkConfig) {
       for (let type in networkConfig[networkName]) {
         const detail = getNetworkDetails(networkName, type);
-        if (detail && detail.status === 'active') {
+        if (detail && detail.status === "active") {
           return detail;
         }
       }
@@ -121,7 +135,6 @@ export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
     checkAndOpenModalForTransaction();
   }, [Escrow, isXWalletUnlocked]);
 
-
   return (
     <XWalletContext.Provider
       value={{
@@ -136,13 +149,11 @@ export const XWalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
         networks: networkConfig,
         getNetworkDetails,
         getActiveNetwork,
-        appConfig
+        appConfig,
       }}
     >
       {children}
-      {isXWalletModalOpen && (
-        <XWalletModal PipeConnectors={PipeConnectors} />
-      )}
+      {isXWalletModalOpen && <XWalletModal PipeConnectors={PipeConnectors} />}
     </XWalletContext.Provider>
   );
 };

@@ -40,7 +40,7 @@ npm install @pipeline-ui-2/pipeline
 Import the class into your project:
 
 ```javascript
-import { Pipeline } from "@siwa/pipeline";
+import { Pipeline } from "@avmkit/pipeline";
 ```
 
 Initialize Pipeline:

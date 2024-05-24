@@ -1,5 +1,5 @@
 {
-  "name": "@siwa/siwa",
+  "name": "@avmkit/siwa",
   "version": "1.0.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -14,7 +14,8 @@
     "build": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
     "dev": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
     "lint": "TIMING=1 eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "publish": "npm publish --access public"
   },
   "devDependencies": {
     "@types/mime": "^4.0.0",

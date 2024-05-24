@@ -1,6 +1,5 @@
 {
-  "name": "siwa-root",
-  "private": true,
+  "name": "avmkit",
   "workspaces": [
     "apps/*",
     "packages/*",
@@ -13,6 +12,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "gen:siwa": "cd packages/siwa && yarn build",
+    "publish:siwa": "cd packages/siwa && yarn publish --access public",
     "gen:use-siwa": "cd packages/use-siwa && yarn build",
     "next-siwa": "cd examples/next-siwa && yarn dev",
     "format": "turbo format --continue --",

@@ -23,7 +23,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@siwa/*": ["../../packages/*/src"]
+      "@avmkit/*": ["../../packages/*/src"]
     }
   }
 }

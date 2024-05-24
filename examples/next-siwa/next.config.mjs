@@ -4,7 +4,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  transpilePackages: ["@siwa/sdk", "siwa"],
+  transpilePackages: ["@avmkit/sdk", "siwa"],
 
   typescript: {
     ignoreBuildErrors: true,

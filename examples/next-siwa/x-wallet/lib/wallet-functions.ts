@@ -1,5 +1,5 @@
 // componet to save as file blob
-import { Escrow, Pipeline } from '@siwa/pipeline';
+import { Escrow, Pipeline } from '@avmkit/pipeline';
 import { cBuffer, deBuffer, pad, nonce } from '../utils';
 import nacl from 'tweetnacl';
 

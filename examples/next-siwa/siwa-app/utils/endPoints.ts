@@ -14,7 +14,7 @@ import {
   ASSET_PRICES_URL,
   STAMP_URL,
   loadConfig,
-} from '@siwa/sdk';
+} from '@avmkit/sdk';
 
 // A helper function to get network type
 export const getNetworkType = () =>

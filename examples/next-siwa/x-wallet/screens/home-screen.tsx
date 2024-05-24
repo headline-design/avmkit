@@ -14,7 +14,7 @@ import {
 } from "../icons";
 
 import Avatar from "../ui/avatar";
-import { Pipeline } from "@siwa/pipeline";
+import { Pipeline } from "@avmkit/pipeline";
 import { shorten } from "../utils";
 import GlobalMenu from "../ui/components/global-menu/global-menu";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";

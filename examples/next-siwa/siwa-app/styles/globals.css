@@ -78,6 +78,13 @@
     --header-background: hsla(0, 0%, 100%, .8);
     --header-import-flow-background: hsla(0, 0%, 98%, .8);
     --header-border-bottom: 0 1px 0 0 rgba(0, 0, 0, .1);
+
+    --ds-red-700: hsla(var(--ds-red-700-value),1);
+    --ds-red-700-value: 358, 75%, 59%;
+    --ds-blue-600: hsla(var(--ds-blue-600-value),1);
+    --ds-blue-600-value: 208, 100%, 66%;
+    --ds-teal-600: hsla(var(--ds-teal-600-value),1);
+    --ds-teal-600-value: 170, 70%, 57%;
   }
 
   .dark {
@@ -144,6 +151,13 @@
     --foreground: 0 0% 98%;
     --header-background: rgba(0, 0, 0, .5);
     --header-border-bottom: 0 1px 0 0 hsla(0, 0%, 100%, .1);
+
+    --ds-red-700: hsla(var(--ds-red-700-value),1);
+    --ds-red-700-value: 358, 75%, 59%;
+    --ds-blue-600: hsla(var(--ds-blue-600-value),1);
+    --ds-blue-600-value: 206, 100%, 50%;
+    --ds-teal-600: hsla(var(--ds-teal-600-value),1);
+    --ds-teal-600-value: 172, 85%, 32%;
 
   }
 }

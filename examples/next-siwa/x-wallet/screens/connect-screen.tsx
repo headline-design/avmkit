@@ -1,6 +1,6 @@
 import React from "react";
 import { useXWallet } from "../xwallet-context";
-import { Pipeline } from '@siwa/pipeline';
+import { Pipeline } from "@avmkit/pipeline";
 import WalletItem from "../ui/wallet-item";
 import TipMessage from "../ui/tip-message";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";

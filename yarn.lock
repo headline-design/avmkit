@@ -31,6 +31,61 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@avmkit/pipeline@*, @avmkit/pipeline@workspace:packages/pipeline":
+  version: 0.0.0-use.local
+  resolution: "@avmkit/pipeline@workspace:packages/pipeline"
+  dependencies:
+    "@agoralabs-sh/algorand-provider": ^1.1.0
+    "@json-rpc-tools/utils": ^1.7.6
+    "@msgpack/msgpack": ^2.7.1
+    "@perawallet/connect": ^1.2.3
+    "@types/mime": ^2.0.0
+    "@walletconnect/modal-sign-html": ^2.5.6
+    algo-msgpack-with-bigint: ^2.1.1
+    algosdk: ^2.7.0
+    buffer: 5.0.0
+    encrypt-with-password: ^1.0.0
+    eslint: 8.15.0
+    file-saver: ^2.0.5
+    hi-base32: ^0.5.1
+    regenerator-runtime: ^0.13.9
+    serve: ^13.0.2
+    tslib: 2.4.0
+    tsup: 8.0.2
+    typescript: 5.4.3
+  languageName: unknown
+  linkType: soft
+
+"@avmkit/sdk@*, @avmkit/sdk@workspace:packages/sdk":
+  version: 0.0.0-use.local
+  resolution: "@avmkit/sdk@workspace:packages/sdk"
+  dependencies:
+    "@types/mime": ^4.0.0
+    dotenv: ^16.0.3
+    eslint: 8.15.0
+    tsup: 8.0.2
+    typescript: 5.4.3
+  languageName: unknown
+  linkType: soft
+
+"@avmkit/siwa@*, @avmkit/siwa@workspace:packages/siwa":
+  version: 0.0.0-use.local
+  resolution: "@avmkit/siwa@workspace:packages/siwa"
+  dependencies:
+    "@noble/hashes": ^1.1.2
+    "@stablelib/random": ^1.0.1
+    "@types/mime": ^4.0.0
+    algosdk: ^2.7.0
+    apg-js: ^4.3.0
+    dotenv: ^16.0.3
+    eslint: 8.15.0
+    tsup: 8.0.2
+    typescript: 5.4.3
+    uri-js: ^4.4.1
+    valid-url: ^1.0.9
+  languageName: unknown
+  linkType: soft
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.23.5, @babel/code-frame@npm:^7.24.2":
   version: 7.24.2
   resolution: "@babel/code-frame@npm:7.24.2"
@@ -2335,61 +2390,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@siwa/pipeline@*, @siwa/pipeline@workspace:packages/pipeline":
-  version: 0.0.0-use.local
-  resolution: "@siwa/pipeline@workspace:packages/pipeline"
-  dependencies:
-    "@agoralabs-sh/algorand-provider": ^1.1.0
-    "@json-rpc-tools/utils": ^1.7.6
-    "@msgpack/msgpack": ^2.7.1
-    "@perawallet/connect": ^1.2.3
-    "@types/mime": ^2.0.0
-    "@walletconnect/modal-sign-html": ^2.5.6
-    algo-msgpack-with-bigint: ^2.1.1
-    algosdk: ^2.7.0
-    buffer: 5.0.0
-    encrypt-with-password: ^1.0.0
-    eslint: 8.15.0
-    file-saver: ^2.0.5
-    hi-base32: ^0.5.1
-    regenerator-runtime: ^0.13.9
-    serve: ^13.0.2
-    tslib: 2.4.0
-    tsup: 8.0.2
-    typescript: 5.4.3
-  languageName: unknown
-  linkType: soft
-
-"@siwa/sdk@*, @siwa/sdk@workspace:packages/sdk":
-  version: 0.0.0-use.local
-  resolution: "@siwa/sdk@workspace:packages/sdk"
-  dependencies:
-    "@types/mime": ^4.0.0
-    dotenv: ^16.0.3
-    eslint: 8.15.0
-    tsup: 8.0.2
-    typescript: 5.4.3
-  languageName: unknown
-  linkType: soft
-
-"@siwa/siwa@*, @siwa/siwa@workspace:packages/siwa":
-  version: 0.0.0-use.local
-  resolution: "@siwa/siwa@workspace:packages/siwa"
-  dependencies:
-    "@noble/hashes": ^1.1.2
-    "@stablelib/random": ^1.0.1
-    "@types/mime": ^4.0.0
-    algosdk: ^2.7.0
-    apg-js: ^4.3.0
-    dotenv: ^16.0.3
-    eslint: 8.15.0
-    tsup: 8.0.2
-    typescript: 5.4.3
-    uri-js: ^4.4.1
-    valid-url: ^1.0.9
-  languageName: unknown
-  linkType: soft
-
 "@stablelib/aead@npm:^1.0.1":
   version: 1.0.1
   resolution: "@stablelib/aead@npm:1.0.1"
@@ -3862,6 +3862,16 @@ __metadata:
   checksum: 1aa3ffbfe6578276996de660848b6e95669d9a95ad149e3dd0c0cda77db6ee1dbd9d1dd723b65b6d277b882dd0c4b91a654ae9d3cf9e1254b7e93e4908d78fd3
   languageName: node
   linkType: hard
+
+"avmkit@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "avmkit@workspace:."
+  dependencies:
+    "@changesets/changelog-github": ^0.5.0
+    "@changesets/cli": ^2.27.1
+    turbo: ^1.9.3
+  languageName: unknown
+  linkType: soft
 
 "axe-core@npm:=4.7.0":
   version: 4.7.0
@@ -10302,6 +10312,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "siwa-next@workspace:examples/next-siwa"
   dependencies:
+    "@avmkit/pipeline": "*"
+    "@avmkit/sdk": "*"
+    "@avmkit/siwa": "*"
     "@headlessui/react": ^2.0.3
     "@next-auth/prisma-adapter": 1.0.7
     "@prisma/client": ^5.5.2
@@ -10313,9 +10326,6 @@ __metadata:
     "@radix-ui/react-separator": ^1.0.3
     "@radix-ui/react-tooltip": ^1.0.7
     "@reduxjs/toolkit": ^1.9.5
-    "@siwa/pipeline": "*"
-    "@siwa/sdk": "*"
-    "@siwa/siwa": "*"
     "@tailwindcss/forms": ^0.5.7
     "@tailwindcss/typography": ^0.5.9
     "@tanstack/react-query": ^5.24.1
@@ -10367,16 +10377,6 @@ __metadata:
     typescript: ^5
     uuid: ^9.0.0
     vaul: ^0.7.0
-  languageName: unknown
-  linkType: soft
-
-"siwa-root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "siwa-root@workspace:."
-  dependencies:
-    "@changesets/changelog-github": ^0.5.0
-    "@changesets/cli": ^2.27.1
-    turbo: ^1.9.3
   languageName: unknown
   linkType: soft
 

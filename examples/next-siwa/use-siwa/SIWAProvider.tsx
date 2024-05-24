@@ -8,7 +8,7 @@ import {
   StatusState,
   SIWASession,
 } from "./SIWAContext";
-import { Escrow, Pipeline } from "@siwa/pipeline";
+import { Escrow, Pipeline } from "@avmkit/pipeline";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";

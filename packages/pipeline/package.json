@@ -1,7 +1,7 @@
 {
-  "name": "@siwa/pipeline",
-  "version": "1.9.0",
-  "description": "Class to send transactions to Algorand network with MyAlgo Connect",
+  "name": "@avmkit/pipeline",
+  "version": "1.0.0",
+  "description": "Class to send transactions to Algorand network with Algo Connect",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,8 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
     "dev": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
-    "serve": "serve -s dist"
+    "serve": "serve -s dist",
+    "publish": "npm publish --access public"
   },
   "keywords": [
     "Algorand",
