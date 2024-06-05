@@ -1,14 +1,14 @@
-import { CardHeader, CardContent, CardFooter, Card } from "@/dashboard/ui/card";
-import { Button } from "@/dashboard/ui/button";
+import { CardHeader, CardContent, CardFooter, Card } from "@/siwa-app/ui/card";
+import { Button } from "@/siwa-app/ui/button";
 
-export default function PricingView() {
+const PricingView = () => {
   return (
     <div className="!visible transition-opacity duration-150 !opacity-100 min-h-screen">
       <div className="flex gap-6 sm:gap-4 justify-center flex-col md:flex-row lg:gap-8 h-full pt-24">
         <Card className="max-w-sm">
           <CardHeader className="p-4">
             <h2 className="text-lg font-bold">Starter</h2>
-            <p className="text-sm text-secondary">For hobby projects</p>
+            <p className="text-sm text-muted-foreground">For hobby projects</p>
           </CardHeader>
           <CardContent className="p-4 flex items-center justify-center flex-col">
             <div className="text-4xl font-bold">Free</div>
@@ -26,7 +26,9 @@ export default function PricingView() {
         <Card className="max-w-sm">
           <CardHeader className="p-4">
             <h2 className="text-lg font-bold">Pro</h2>
-            <p className="text-sm text-secondary">For scaling applications</p>
+            <p className="text-sm text-muted-foreground">
+              For scaling applications
+            </p>
           </CardHeader>
           <CardContent className="p-4 flex items-center justify-center flex-col">
             <div className="text-4xl font-bold">Free</div>
@@ -44,4 +46,6 @@ export default function PricingView() {
       </div>
     </div>
   );
-}
+};
+
+export default PricingView;

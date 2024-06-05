@@ -4,8 +4,8 @@ export const HOME_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
     ? 'https://siwa.org'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
-      ? 'http://localhost:8888'
-      : 'http://192.168.1.160:8888';
+      ? 'http://localhost:3000'
+      : 'http://192.168.1.160:3000';
 
 export const SIWA_HOSTNAME =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
@@ -20,8 +20,8 @@ export const API_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
     ? 'https://api.siwa.org'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
-      ? 'https://api.localhost:8888'
-      : 'http://api.localhost:8888';
+      ? 'https://api.localhost:3000'
+      : 'http://api.localhost:3000';
 
 export const SIWA_PROJECT_ID = 'cllin9yjd00034jpom83r84dc';
 

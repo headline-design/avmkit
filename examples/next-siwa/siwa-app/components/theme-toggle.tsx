@@ -1,14 +1,14 @@
 import { useTheme } from 'next-themes';
-import { Button } from '@/dashboard/ui/button';
-import { IconMoon } from '@/dashboard/icons/moon';
-import { IconSun } from '@/dashboard/icons/sun';
 import React from 'react';
+import { IconMoon, IconSun } from '@/siwa-app/icons';
+import { Button } from '../ui';
 
 const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <Button
+    size="sm"
     className="ml-4"
     variant={"ghost"}
 

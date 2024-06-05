@@ -15,7 +15,7 @@ import {
   QuestionMarkIcon,
   TokensIcon,
 } from "@radix-ui/react-icons";
-import { IconShield } from "@/siwa-app/views/main/feature-icons";
+import IconSIWALogo from "@/siwa-app/assets/siwa-logo";
 
 const UserDropdownMenu = ({ session }: { session: any }) => {
   const menuItems1 = [
@@ -55,7 +55,7 @@ const UserDropdownMenu = ({ session }: { session: any }) => {
     {
       name: "SIWA",
       href: "/",
-      icon: <IconShield />,
+      icon: <IconSIWALogo />,
       divider: true,
     },
   ];

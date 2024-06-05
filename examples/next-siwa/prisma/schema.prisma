@@ -16,7 +16,6 @@ model User {
   id            String       @id @default(cuid())
   name          String?
   username      String?      @unique
-  avatar        String?
   gh_username   String?
   gitProvider   String?
   email         String?      @unique
@@ -28,8 +27,6 @@ model User {
   wallets       Wallet[]
   sessions      Session[]
   tokens        Token[]
-  accessLevel   Int          @default(0)
-
 }
 
 // OAUTH login info
@@ -75,9 +72,9 @@ model VerificationToken {
 
 model Wallet {
   address   String   @id
-  hexAddress String
   network   String?
   chainId   Int?
+  hexAddress String?
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

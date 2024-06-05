@@ -16,13 +16,6 @@ export const USERS_SIZE_KEY = 'usersSize';
 export const NETWORKS_KEY = 'networks';
 export const USER_DATA_KEY = 'userData';
 
-// width
-export const Sizes = {
-  general: 400,
-  avatar: 82,
-  avatarImage: 164,
-};
-
 /** Networks **/
 
 export const Networks = {
@@ -49,12 +42,6 @@ export enum Grid {
   DEFAULT,
   WIDE,
 }
-
-export const TokenAssetIDs = {
-  ALGO: 0,
-  HDL: 137594422,
-  PLANET: 27165954,
-};
 
 /** Pipe Connectors */
 

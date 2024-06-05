@@ -5,7 +5,7 @@
   "scripts": {
     "generate": "prisma generate",
     "update": "prisma generate && prisma db push --accept-data-loss",
-    "dev": "concurrently --kill-others \"next dev -H 0.0.0.0 --port 8888\" \"prisma studio --browser none\" ",
+    "dev": "concurrently --kill-others \"next dev -H 0.0.0.0 --port 3000\" \"prisma studio --browser none\" ",
     "build": "prisma generate & next build",
     "start": "next start",
     "lint": "next lint"
@@ -75,7 +75,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "3.4.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
   }

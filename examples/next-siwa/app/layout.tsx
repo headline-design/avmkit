@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { satoshi, inter } from "@/dashboard/styles/fonts";
+import { satoshi, inter, unbounded } from "@/dashboard/styles/fonts";
 import "@/dashboard/styles/globals.css";
 import App from "./app";
-import ClientBoundary from "@/dashboard/lib/client-boundary";
+import ClientBoundary from "@/dashboard/client-boundary";
 import type { Viewport } from "next";
-import {cn} from "@/dashboard/lib/utils"
 
 export const metadata: Metadata = {
   title: "SIWA",
@@ -40,10 +39,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html   lang="en"
-    suppressHydrationWarning
-    className={cn(satoshi.variable, inter.variable)}>
-       <body className="bg-background-accent">
+    <html lang="en">
+      <body className={`${satoshi.className} ${unbounded.variable} ${inter.className}`}>
         <ClientBoundary>
           <App />
         </ClientBoundary>
@@ -51,7 +48,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
-
-

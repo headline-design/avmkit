@@ -1,204 +1,57 @@
-import React, { ReactNode, FC } from "react";
-import { LoadingDots, LoadingSpinner } from "@/dashboard/ui/icons";
-import { cn } from "@/dashboard/lib/utils";
-import Tooltip from "./tooltip";
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "../lib/utils";
 
-interface ButtonProps {
-  text?: string | any;
-  variant?:
-    | "primary"
-    | "secondary"
-    | "outline"
-    | "ghost"
-    | "success"
-    | "danger"
-    | "transparent";
-  onClick?: any;
-  disabled?: boolean;
-  loading?: boolean;
-  icon?: ReactNode;
-  disabledTooltip?: string | ReactNode;
-  children?: any;
-  className?: string;
-  skinny?: boolean;
-  square?: boolean;
-  slim?: boolean;
-  fat?: boolean;
-  full?: boolean;
-  actionLetter?: string;
-  suffix?: any;
-  rounded?: boolean;
-  loadingDots?: boolean;
-  width?: string;
-  minWidth?: string;
-  height?: string;
-  minHeight?: string;
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-stone-300",
+  {
+    variants: {
+      variant: {
+        default:
+          "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 ",
+        destructive:
+          "bg-red-500 text-stone-50 shadow-sm hover:bg-red-500/90 dark:bg-red-900 dark:text-stone-50 dark:hover:bg-red-900/90",
+        outline:
+          "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground ",
+        secondary:
+          "bg-stone-100 text-stone-900 shadow-sm hover:bg-stone-100/80 dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-800/80",
+        ghost:
+          "hover:bg-stone-100 hover:text-stone-900 dark:hover:bg-stone-800 dark:hover:text-stone-50",
+        link: "text-stone-900 underline-offset-4 hover:underline dark:text-stone-50",
+      },
+      size: {
+        default: "h-12 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-6",
+        icon: "h-8 w-8",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
-const getButtonHeight = ({ square, skinny, slim, fat }: ButtonProps) => {
-  if (square) return "h-6 w-6 p-1";
-  if (skinny) return "h-8 px-3";
-  if (slim) return "h-9";
-  if (fat) return "h-12 rounded-lg";
-  return "h-10";
-};
-
-function getVariantStyle(variant: ButtonProps["variant"]) {
-  switch (variant) {
-    case "primary":
-      return "bg-primary text-primary-foreground hover:bg-primary/80 border-shadow";
-    case "secondary":
-      return "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-shadow";
-    case "outline":
-      return "themed-border bg-background hover:text-accent-foreground border-shadow";
-    case "ghost":
-      return "themed-bg bg-transparent text-secondary border-0 hover:text-accent-foreground shadow-none";
-    case "success":
-      return "border border-input border-success bg-success-foreground text-white hover:bg-success hover:text-white ";
-    case "danger":
-      return "bg-destructive text-destructive-foreground hover:bg-destructive-hover ";
-    case "transparent":
-      return "px-1 py-1 bg-transparent text-secondary hover:text-accent-foreground ";
-    default:
-      return "";
-  }
-}
-
-export const Button: FC<ButtonProps> = ({
-  text,
-  variant = "primary",
-  onClick,
-  disabled,
-  loading,
-  icon,
-  disabledTooltip,
-  children,
-  className,
-  square,
-  skinny,
-  slim,
-  fat,
-  full,
-  actionLetter,
-  suffix,
-  rounded,
-  loadingDots,
-  width,
-  minWidth,
-  height,
-  minHeight,
-  ...props
-}) => {
-  if (disabledTooltip) {
-    const disabledButtonStyle = cn(
-      "flex h-9 cursor-not-allowed items-center justify-center rounded-md border bg-accent-muted text-sm font-medium text-secondary-accent transition-all ",
-      square
-        ? "h-6 w-6"
-        : skinny
-        ? "h-8 px-2"
-        : slim
-        ? "h-9"
-        : fat
-        ? "h-12 border-lg"
-        : "h-10",
-      full ? "w-full" : "",
-      rounded ? "rounded-md" : square ? "rounded-sm" : "rounded-lg",
-    );
-
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
     return (
-      <Tooltip content={disabledTooltip} fullWidth>
-        <div className={disabledButtonStyle}>
-          <p>{text}</p>
-        </div>
-      </Tooltip>
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
     );
-  }
+  },
+);
+Button.displayName = "Button";
 
-  const buttonStyle = cn(
-    "flex inline-flex items-center justify-center px-4 py-2 space-x-2 whitespace-nowrap rounded-md  text-sm font-medium transition-all",
-    disabled || loading
-      ? "cursor-not-allowed shadow-border  bg-accent-muted text-secondary-accent"
-      : getVariantStyle(variant),
-    getButtonHeight({ skinny, slim, fat, square }),
-    full ? "w-full" : "",
-    rounded ? "rounded-full" : square ? "rounded-sm" : "rounded",
-    className,
-  );
-
-  return (
-    <button
-      style={{
-        width: width,
-        minWidth: minWidth,
-        height: height,
-        minHeight: minHeight,
-      }}
-      {...props}
-      type={onClick ? "button" : "submit"}
-      className={buttonStyle}
-      onClick={onClick}
-      disabled={disabled || loading}
-    >
-      {loadingDots && loading === true ? (
-        <LoadingDots />
-      ) : !loadingDots && loading === true ? (
-        <>
-          {" "}
-          <LoadingSpinner className={cn(fat ? "h-5 w-5" : "h-4 w-4")} />
-          {children}
-        </>
-      ) : icon ? (
-        icon
-      ) : (
-        children
-      )}
-      {text && loading === false && loadingDots === true && (
-        <>
-          <p>{text}</p>
-          {suffix && (
-            <span className="ml-2 flex min-w-[20px] flex-shrink-0 items-center justify-center">
-              {suffix}
-            </span>
-          )}
-          {actionLetter && (
-            <kbd className="hidden rounded bg-accents-7 px-2 py-0.5 text-xs font-light text-white transition-all duration-75 group-hover:bg-accent group-hover:text-primary-foreground dark:text-secondary md:inline-block">
-              {actionLetter}
-            </kbd>
-          )}
-        </>
-      )}
-      {text && loading === true && loadingDots === false && (
-        <>
-          <p>{text}</p>
-          {suffix && (
-            <span className="ml-2 flex min-w-[20px] flex-shrink-0 items-center justify-center">
-              {suffix}
-            </span>
-          )}
-          {actionLetter && (
-            <kbd className="hidden rounded bg-accents-7 px-2 py-0.5 text-xs font-light text-secondary-accent transition-all duration-75 group-hover:bg-accent group-hover:text-primary-foreground md:inline-block">
-              {actionLetter}
-            </kbd>
-          )}
-        </>
-      )}
-      {text && loadingDots === undefined && (
-        <>
-          <p>{text}</p>
-          {suffix && (
-            <span className="ml-2 flex min-w-[20px] flex-shrink-0 items-center justify-center">
-              {suffix}
-            </span>
-          )}
-          {actionLetter && (
-            <kbd className="hidden rounded bg-accents-7 px-2 py-0.5 text-xs font-light text-secondary-accent transition-all duration-75 group-hover:bg-accent group-hover:text-primary-foreground md:inline-block">
-              {actionLetter}
-            </kbd>
-          )}
-        </>
-      )}
-    </button>
-  );
-};
-
-export default Button;
+export { Button, buttonVariants };

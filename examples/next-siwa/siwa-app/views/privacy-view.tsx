@@ -1,18 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
 
-export default function PrivacyView() {
+const PrivacyView = () => {
   return (
     <div className="py-12 lg:py-24 xl:py-32">
       <div className="container px-4 md:px-6">
         <div className="mx-auto prose max-w-5xl lg:prose-lg xl:prose-xl dark:prose-invert">
           <div className="space-y-4">
-            <h1 className="text-3xl font-extrabold tracking-tighter sm:text-5xl sm:tracking-tighter/relaxed lg:text-6xl dark:text-zinc-100">
+            <h1 className="text-3xl font-extrabold  sm:text-5xl sm:/relaxed lg:text-6xl dark:text-gray-100">
               Privacy Policy
             </h1>
             <p>
-              The SIWA app respects your privacy and is committed to protecting
-              your personal data. This privacy policy will inform you about how
-              we collect, use, and protect your data when you use our app.
+              The AlgoStack app respects your privacy and is committed to
+              protecting your personal data. This privacy policy will inform you
+              about how we collect, use, and protect your data when you use our
+              app.
             </p>
           </div>
           <div className="space-y-8">
@@ -21,8 +22,8 @@ export default function PrivacyView() {
                 Data Collection
               </h2>
               <p>
-                The SIWA app may collect personal information provided by users,
-                such as names, email addresses, and profile information.
+                The AlgoStack app may collect personal information provided by
+                users, such as names, email addresses, and profile information.
                 Additionally, the app may collect usage data, including
                 interactions within the app, device information, and cookies.
                 This data is obtained through user input and automatic
@@ -44,10 +45,10 @@ export default function PrivacyView() {
                 Data Protection
               </h2>
               <p>
-                The SIWA app employs security measures to protect user data,
-                including encryption of data transmission and secure storage of
-                user information. The app follows best practices to safeguard
-                user privacy.
+                The AlgoStack app employs security measures to protect user
+                data, including encryption of data transmission and secure
+                storage of user information. The app follows best practices to
+                safeguard user privacy.
               </p>
             </section>
             <section>
@@ -63,8 +64,8 @@ export default function PrivacyView() {
             <section>
               <h2 className="text-2xl font-bold tracking-tight">Cookies</h2>
               <p>
-                The SIWA app uses cookies to enhance the user experience and
-                provide personalized features. Users can manage cookie
+                The AlgoStack app uses cookies to enhance the user experience
+                and provide personalized features. Users can manage cookie
                 preferences through their browser settings.
               </p>
             </section>
@@ -84,4 +85,6 @@ export default function PrivacyView() {
       </div>
     </div>
   );
-}
+};
+
+export default PrivacyView;

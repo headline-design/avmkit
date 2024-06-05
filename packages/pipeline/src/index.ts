@@ -30,9 +30,13 @@ export { sendTxns, Escrow, configClient /*PipeWallet*/ };
 
 async function waitForUnlock() {
   return new Promise((resolve, reject) => {
-    window.approve = () => {
-      resolve(true);
-    };
+    if (typeof window !== 'undefined') {
+      window.approve = () => {
+        resolve(true);
+      };
+    } else {
+      reject(new Error("Window is not defined"));
+    }
   });
 }
 
@@ -248,38 +252,13 @@ export class Pipeline {
             return txnsb;
           }
         } catch (e) {
-          window.pipelineErrors.push(e);
+          if (typeof window !== 'undefined') {
+            window.pipelineErrors.push(e);
+          }
         }
       } else {
-        if (this.pipeConnector === 'PipeWallet') {
-          /*
-          PipeWallet.openWallet();
-          PipeWallet.previewTxn(mytxnb);
-          let approved = await PipeWallet.waitForApproval();
-          if (approved) {
-            if (!group) {
-              let signedTxn = PipeWallet.sign(mytxnb);
-              PipeWallet.clearPreviewTxn();
-              PipeWallet.close();
-              return signedTxn.blob;
-            } else {
-              let signedGroup = [];
-
-              mytxnb.forEach((transaction) => {
-                let signed = PipeWallet.sign(transaction);
-                signedGroup.push(signed.blob);
-              });
-
-              console.log("Signed Group:");
-              console.log(signedGroup);
-              return signedGroup;
-            }
-          } else {
-            return {};
-          }*/
-        } else {
-          if (this.pipeConnector === 'escrow') {
-            console.log('Escrow Address: ' + Escrow.address);
+        if (this.pipeConnector === 'escrow') {
+          console.log('Escrow Address: ' + Escrow.address);
 
             if (this.XWallet) {
               console.log('XWallet');
@@ -394,6 +373,7 @@ export class Pipeline {
 
               let nestedArray = [];
 
+
               if (group && signed.length !== 0) {
                 for (let i = 0; i < signed.length; i++) {
                   if (signed[i] !== Pipeline.address) {
@@ -451,7 +431,6 @@ export class Pipeline {
                   return !group ? binarySignedTxs[0] : binarySignedTxs;
                 } catch (error) {
                   console.log(error);
-                }
               }
             }
           }
@@ -916,9 +895,13 @@ export class Pipeline {
   }
 
   static async kibisisSignBytes(bytes) {
-    let result = await window.algorand.signBytes({ data: bytes });
-    console.log('Signature result:', result.signature);
-    return result.signature;
+    if (typeof window !== 'undefined') {
+      let result = await window.algorand.signBytes({ data: bytes });
+      console.log('Signature result:', result.signature);
+      return result.signature;
+    } else {
+      throw new Error("Window is not defined");
+    }
   }
 
   static getMessageBytes(message) {
@@ -926,10 +909,12 @@ export class Pipeline {
   }
 }
 
-window.pipeline = Pipeline;
-//window.PipeWallet = PipeWallet
-window.pipeEscrow = Escrow;
-window.pipelineErrors = [];
+if (typeof window !== 'undefined') {
+  window.pipeline = Pipeline;
+  //window.PipeWallet = PipeWallet;
+  window.pipeEscrow = Escrow;
+  window.pipelineErrors = [];
+}
 /* usage
 
 update balance at intervals:
@@ -964,7 +949,7 @@ async function startKibbles() {
   console.log('Injecting script...');
 
   async function enableWallet() {
-    if (!window.algorand) {
+    if (typeof window === 'undefined' || !window.algorand) {
       console.error('AVM Wallets not available');
       return null; // No Algorand wallets available, handle as an error.
     }
@@ -989,7 +974,9 @@ async function startKibbles() {
     return address;
   } else {
     console.log('No address obtained or user cancelled.');
-    window.handleWalletError('User cancelled or no accounts available'); // Handling errors or cancellations globally.
+    if (typeof window !== 'undefined') {
+      window.handleWalletError('User cancelled or no accounts available'); // Handling errors or cancellations globally.
+    }
     throw new Error('User cancelled or no accounts available');
   }
 }

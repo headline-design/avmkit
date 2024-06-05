@@ -1,123 +1,85 @@
 import React, { FC, ReactNode } from "react";
 import { LoadingDots, LoadingSpinner } from "@/dashboard/ui/icons";
-import Tooltip from "@/dashboard/ui/tooltip";
 import { cn } from "@/dashboard/lib/utils";
 import { Link } from "react-router-dom";
+import { cva } from "class-variance-authority";
 
 interface ButtonProps {
   text?: string;
   variant?:
-    | "primary"
-    | "secondary"
+    | "default"
+    | "destructive"
     | "outline"
+    | "secondary"
     | "ghost"
-    | "success"
-    | "danger"
-    | "link"
-    | "transparent";
-  onClick?: any;
-  disabled?: boolean;
+    | "link";
+  onClick?: () => void;
   loading?: boolean;
   icon?: ReactNode;
-  disabledTooltip?: string | ReactNode;
-  children?: any;
-  className?: any;
-  href?: any;
-  skinny?: any;
-  slim?: any;
-  fat?: any;
-  target?: any;
-  rel?: any;
-  full?: any;
-  rounded?: any;
-  actionLetter?: any;
-  loadingDots?: any;
-  shadow?: any;
-  square?: any;
+  children?: ReactNode;
+  className?: string;
+  size?: "default" | "sm" | "lg" | "icon";
+  href?: string;
+  target?: string;
+  rel?: string;
+  actionLetter?: string;
+  loadingDots?: boolean;
 }
 
-const getButtonHeight = ({ square, skinny, slim, fat }: ButtonProps) => {
-  if (square) return "h-6 w-6 p-1";
-  if (skinny) return "h-8 px-3";
-  if (slim) return "h-9";
-  if (fat) return "h-12 rounded-lg";
-  return "h-10";
-};
-
-function getVariantStyle(variant: ButtonProps["variant"]) {
-  switch (variant) {
-    case "primary":
-      return "bg-primary text-primary-foreground hover:bg-primary/80 border-shadow";
-    case "secondary":
-      return "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-shadow";
-    case "outline":
-      return "themed-border bg-background hover:text-accent-foreground border-shadow";
-    case "ghost":
-      return "themed-bg bg-background border-0 hover:text-accent-foreground shadow-none";
-    case "success":
-      return "border border-input border-success bg-success-foreground text-white hover:bg-success hover:text-white ";
-    case "danger":
-      return "bg-destructive text-destructive-foreground hover:bg-destructive/90 ";
-    case "link":
-      return "px-1 py-1 bg-transparent text-secondary hover:text-accent-foreground ";
-    case "transparent":
-      return "px-1 py-1 bg-transparent text-secondary hover:text-accent-foreground ";
-    default:
-      return "";
-  }
-}
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-stone-300",
+  {
+    variants: {
+      variant: {
+        default:
+          "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 ",
+        destructive:
+          "bg-red-500 text-stone-50 shadow-sm hover:bg-red-500/90 dark:bg-red-900 dark:text-stone-50 dark:hover:bg-red-900/90",
+        outline:
+          "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground ",
+        secondary:
+          "bg-stone-100 text-stone-900 shadow-sm hover:bg-stone-100/80 dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-800/80",
+        ghost:
+          "hover:bg-stone-100 hover:text-stone-900 dark:hover:bg-stone-800 dark:hover:text-stone-50",
+        link: "text-stone-900 underline-offset-4 hover:underline dark:text-stone-50",
+      },
+      size: {
+        default: "h-12 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-6",
+        icon: "h-8 w-8",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+);
 
 export const ButtonLink: FC<ButtonProps> = ({
   text,
-  variant = "primary",
+  variant = "default",
   onClick,
-  disabled,
   loading,
   icon,
-  disabledTooltip,
   children,
   className,
-  skinny,
-  slim,
-  shadow,
+  size,
   href,
-  fat,
   target,
   rel,
-  full,
-  rounded,
-  square,
+
   actionLetter,
   loadingDots,
 }: ButtonProps) => {
-  if (disabledTooltip) {
-    return (
-      <Tooltip content={disabledTooltip} fullWidth>
-        <div className="flex h-9 w-full cursor-not-allowed items-center justify-center rounded-md border bg-accent-muted text-sm text-secondary-accent transition-all ">
-          <p>{text}</p>
-        </div>
-      </Tooltip>
-    );
-  }
-
-  const buttonStyle = cn(
-    "flex inline-flex items-center justify-center px-4 py-2 space-x-2 whitespace-nowrap rounded-md  text-sm font-medium transition-all",
-    disabled || loading
-      ? "cursor-not-allowed shadow-border  bg-accent-muted text-secondary-accent"
-      : getVariantStyle(variant),
-    getButtonHeight({ skinny, slim, fat, square }),
-    full ? "w-full" : "",
-    rounded ? "rounded-full" : square ? "rounded-sm" : "rounded",
-    className,
-  );
-
   return (
     <Link
       target={target}
       type={onClick ? "button" : "submit"}
-      className={buttonStyle}
+      className={cn(buttonVariants({ variant, size, className }))}
       onClick={onClick}
-      to={href}
+      to={href || "#"}
       rel={rel}
     >
       {loadingDots && loading ? (

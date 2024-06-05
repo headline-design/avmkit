@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import {
   IconArrowLeft,
   IconPrism,
-  IconShield,
   IconLogout,
 } from "@/dashboard/icons";
 import { useXWallet } from "@/wallet/xwallet-context";
@@ -25,6 +24,7 @@ import { useSelector } from "react-redux";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
 import Modal from "@/dashboard/ui/dialog";
 import styles from "./styles.module.css";
+import IconSIWALogo from "@/siwa-app/assets/siwa-logo";
 
 export interface Provider {
   id: string;
@@ -259,7 +259,7 @@ const SIWAConnectScreen = ({ provider, disconnectWallet }) => {
           onClick={signInWithSIWA}
           className="rounded-full h-[100px] w-[100px] border-2 border-skin-border items-center justify-center flex hover:bg-skin-hover-bg hover:border-teal-600"
         >
-          <IconShield className="w-8 h-8" />
+          <IconSIWALogo className="w-8 h-8" />
         </button>
         <span>{shorten(pipeState.myAddress)}</span>
         <span>{pipeState.chain}</span>

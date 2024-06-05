@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
-import { copyToClipboard } from "@/dashboard/components/copy-to-clipboard";
-import { IconTick } from "@/dashboard/icons/tick";
-import { IconCopy } from "@/dashboard/icons/copy";
-import { Button } from "@/dashboard/ui/button";
+import { copyToClipboard } from "../components/copy-to-clipboard";
+import { IconTick } from "../icons/tick";
+import { IconCopy } from "../icons/copy";
+import { Button } from "../ui/button";
 
 const GettingStartedView = () => {
   const [copiedCommand, setCopiedCommand] = useState("");
@@ -24,7 +24,7 @@ const GettingStartedView = () => {
   return (
     <div className="max-w-4xl mx-auto p-5 space-y-6 container">
       <h1 className="text-3xl font-bold text-center mb-6">
-        Getting Started with SIWA
+        Getting Started with AlgoStack
       </h1>
 
       <div className="p-6">
@@ -40,23 +40,23 @@ const GettingStartedView = () => {
           Step 1: Clone the Repository
         </h2>
         <p className="mb-3">
-          Use the following command to clone the SIWA repository:
+          Use the following command to clone the AlgoStack repository:
         </p>
         <div className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
           <Button
             size="sm"
-            className="absolute right-1 top-1 rounded-md px-2"
+            className="absolute right-1 top-1"
             variant={"ghost"}
             onClick={() =>
               handleCopy(
-                "git clone https://github.com/headline-design/siwa.git",
+                "git clone https://github.com/headline-design/avmkit/siwa.git",
                 "clone",
               )
             }
           >
             {copiedCommand === "clone" ? <IconTick /> : <IconCopy />}
           </Button>
-          <code>git clone https://github.com/headline-design/siwa.git</code>
+          <code>git clone https://github.com/headline-design/avmkit/siwa.git</code>
         </div>
 
         {/* Install dependencies section */}
@@ -66,14 +66,14 @@ const GettingStartedView = () => {
         <div className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
           <Button
             size="sm"
-            className="absolute right-1 top-1 rounded-sm px-2"
+            className="absolute right-1 top-1"
             variant={"ghost"}
-            onClick={() => handleCopy("cd react-fuse\nnpm install", "install")}
+            onClick={() => handleCopy("cd siwa\nnpm install", "install")}
           >
             {copiedCommand === "install" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            cd react-fuse
+            cd siwa
             <br />
             npm install
           </code>
@@ -120,7 +120,7 @@ const GettingStartedView = () => {
           <pre className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
             <code>
               import GettingStartedView from
-              "@/dashboard/views/getting-started-view";
+              "@/siwa-app/views/getting-started-view";
             </code>
           </pre>
           <li>
@@ -187,8 +187,8 @@ const GettingStartedView = () => {
       </div>
 
       <p className="text-center font-semibold mt-6">
-        Explore and build your application with SIWA, leveraging Next.js and
-        Tailwind CSS.
+        Explore and build your application with AlgoStack, leveraging Next.js
+        and Tailwind CSS.
       </p>
     </div>
   );

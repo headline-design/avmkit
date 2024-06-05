@@ -2,8 +2,8 @@ import algosdk from "algosdk";
 import Encrypt from "encrypt-with-password";
 import { Pipeline } from "./index";
 import { saveAs } from "file-saver";
-import pipeWalletStyle from './pwalletCss.js'
-import html from './pwalletHTML.js'
+import pipeWalletStyle from './pwalletCss.js';
+import html from './pwalletHTML.js';
 
 function pipeModalScript() {
   var modal = document.getElementById("pipeWalletModal");
@@ -18,8 +18,9 @@ function pipeModalScript() {
   var exportBtn2 = document.getElementById("pwExportBtn2");
   var pwExportDiv = document.getElementById("pwExport");
   var responsiveInput = document.getElementById("pwInput");
+
   responsiveInput.oninput = function () {
-    responsiveInput.style.width = (responsiveInput.value.length * 50).toString() + "px"
+    responsiveInput.style.width = (responsiveInput.value.length * 50).toString() + "px";
   }
 
   pwExportDiv.style.display = "none";
@@ -70,6 +71,7 @@ function pipeModalScript() {
   span.onclick = function () {
     modal.style.display = "none";
   };
+
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -99,12 +101,12 @@ function pipeModalScript() {
 export default class PipeWallet {
 
   static init() {
-    this.history = false
-    this.exportShow = false
-    this.approved = false
-    let walletDiv = document.createElement("div")
-    walletDiv.id = "pipeWallet"
-    document.body.appendChild(walletDiv)
+    this.history = false;
+    this.exportShow = false;
+    this.approved = false;
+    let walletDiv = document.createElement("div");
+    walletDiv.id = "pipeWallet";
+    document.body.appendChild(walletDiv);
     document.getElementById("pipeWallet").innerHTML =
       "<style>" + pipeWalletStyle + "</style>" + html;
 
@@ -185,7 +187,9 @@ export default class PipeWallet {
         } else if (Date.now() > start_time + 60000) {
           resolve(false);
         } else {
-          window.setTimeout(checkFlag, 100);
+          if (typeof window !== 'undefined') {
+            window.setTimeout(checkFlag, 100);
+          }
         }
       }
       checkFlag();
@@ -248,7 +252,11 @@ export default class PipeWallet {
   }
 
   static showHide(show = [], hide = []){
-    show.forEach(id => document.getElementById(id).style.display = "block")
-    hide.forEach(id => document.getElementById(id).style.display = "none")
+    show.forEach(id => document.getElementById(id).style.display = "block");
+    hide.forEach(id => document.getElementById(id).style.display = "none");
   }
+}
+
+if (typeof window !== 'undefined') {
+  window.pipeModalScript = pipeModalScript;
 }
