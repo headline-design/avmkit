@@ -6,7 +6,6 @@ import { ModalContext } from "@/dashboard/contexts/modal-context";
 import { signOut, useSession } from "next-auth/react";
 import { IconXGovBadge } from "../assets/xgov-badge";
 import { IconHeadlineTypelogo } from "../assets/headline-typelogo";
-import ButtonLink from "../ui/button-link";
 
 const DemoSection = () => {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
