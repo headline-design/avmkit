@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@/dashboard": ["./algostack-app/"],
+      "@/dashboard/*": ["./algostack-app/*"],
+      "@/wallet": ["./x-wallet"],
+      "@/wallet/*": ["./x-wallet/*"],
+      "@/siwa": ["./use-siwa"],
+      "@/siwa/*": ["./use-siwa/*"],
+      "@/avm": ["./avm"],
+      "@/avm/*": ["./avm/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "algostack-app/utils/functions.js"
+  ],
+  "exclude": ["node_modules"]
+}

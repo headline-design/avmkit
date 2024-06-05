@@ -16,7 +16,7 @@
     "gen:siwa": "cd packages/siwa && yarn build",
     "publish:siwa": "cd packages/siwa && yarn publish --access public",
     "gen:use-siwa": "cd packages/use-siwa && yarn build",
-    "next-siwa": "cd examples/next-siwa && yarn dev",
+    "next-siwa": "cd examples/algostack && yarn dev",
     "format": "turbo format --continue --",
     "format:fix": "turbo format --continue -- --write",
     "lint": "turbo lint --continue --",
