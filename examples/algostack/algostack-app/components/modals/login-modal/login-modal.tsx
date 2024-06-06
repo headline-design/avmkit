@@ -1,9 +1,8 @@
 import { signIn, useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { IconArrowLeft, IconKibisis, IconLogout } from "@/dashboard/icons";
 //import { useXWallet } from "@/wallet/xwallet-context";
-import { Pipeline } from "@avmkit/pipeline";
+import { Pipeline, Escrow } from "@avmkit/pipeline";
 import { toast } from "@/dashboard/ui/toast";
 import { ICON_CLASS, WEB3_PROVIDERS, ALL_PROVIDERS } from "./constants";
 import { cn, shorten } from "@/dashboard/lib/utils";
@@ -16,6 +15,7 @@ import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-
 import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
 import { IconInfoCircle } from "@/algostack-app/icons/info-circle";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
+import { useXWallet } from "@avmkit/xwallet";
 
 export interface Provider {
   id: string;
@@ -53,7 +53,7 @@ const WalletsScreen = ({ handleWalletConnect, loading }) => (
         className="w-full rounded-full border"
         variant="outline"
         size="default"
-        disabled={wallet.id === "pera" || wallet.id === "xwallet"}
+        disabled={wallet.id === "pera"}
         key={wallet.id}
         onClick={() => handleWalletConnect(wallet)}
       >
@@ -171,8 +171,7 @@ const ProviderScreen = ({
   );
 };
 
-const SIWAConnectScreen = ({ handleDisconnect }) => {
-  const { signIn: signInWithSIWA } = useSIWA();
+const SIWAConnectScreen = ({ handleDisconnect, handleSIWAConnect }) => {
   const pipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState,
   );
@@ -197,7 +196,7 @@ const SIWAConnectScreen = ({ handleDisconnect }) => {
         <div className="flex w-full flex-col items-center justify-center gap-3 space-y-3">
           <Button
             variant="default"
-            onClick={signInWithSIWA}
+            onClick={handleSIWAConnect}
             className="w-full rounded-full"
             size="default"
           >
@@ -223,10 +222,11 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   const [loading, setLoading] = useState(false);
   const [activeProvider, setActiveProvider] = useState(null);
   const [currentScreen, setCurrentScreen] = useState("default");
-  const searchParams = useSearchParams();
+  const [dialogStack, setDialogStack] = useState(false);
 
-  //const { openXWalletModal, setModalState } = useXWallet();
-
+  const { openXWalletModal, setXWalletState, isXWalletModalOpen } =
+    useXWallet();
+  const { signIn: signInWithSIWA } = useSIWA();
   const {
     status: walletStatus,
     connectWallet,
@@ -320,21 +320,19 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     try {
       switch (wallet.id) {
         case "xwallet":
-          {
-            /*
-          setModalState({
-            title: "Unlock account",
-            header: true,
-            state: "unlock",
-            request: "connect",
-          });
-          openXWalletModal();
-          if (Pipeline.address && !session?.user?.id) {
+          if (!Pipeline.address && !session?.user?.id) {
+            setXWalletState({
+              title: "Unlock account",
+              header: true,
+              state: "unlock",
+              request: "connect",
+            });
+            openXWalletModal();
+          } else if (Pipeline.address && !session?.user?.id) {
             Pipeline.pipeConnector = PipeConnectors.XWallet;
             setCurrentScreen("siwaConnect");
           }
-*/
-          }
+
           break;
         case "kibisis":
           Pipeline.pipeConnector = PipeConnectors[wallet.connector];
@@ -367,6 +365,25 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     disconnectWallet();
   };
 
+  const handleSIWAConnect = () => {
+    if (pipeState.provider === PipeConnectors.XWallet) {
+      if (!Escrow.secret) {
+        setXWalletState({
+          title: "Unlock account",
+          header: true,
+          state: "unlock",
+          request: "connect",
+        });
+        setCurrentScreen("loading");
+        openXWalletModal();
+      } else {
+        signInWithSIWA();
+      }
+    } if (pipeState.provider !== PipeConnectors.XWallet) {
+      signInWithSIWA();
+    }
+  };
+
   const renderScreen = () => {
     switch (currentScreen) {
       case "default":
@@ -384,7 +401,12 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
           />
         );
       case "siwaConnect":
-        return <SIWAConnectScreen handleDisconnect={handleDisconnect} />;
+        return (
+          <SIWAConnectScreen
+            handleDisconnect={handleDisconnect}
+            handleSIWAConnect={handleSIWAConnect}
+          />
+        );
       case "provider":
         return (
           <ProviderScreen
@@ -429,11 +451,20 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (isXWalletModalOpen) {
+      setDialogStack(true);
+    } else if (!isXWalletModalOpen) {
+      setDialogStack(false);
+    }
+  }, [isXWalletModalOpen]);
+
   return (
     <Dialog
       showModal={showLoginModal}
       setShowModal={setShowLoginModal}
       onClose={onClose}
+      dialogStack={dialogStack}
     >
       <div className="relative flex flex-row items-start justify-center border-b bg-accents-1 px-6 py-5">
         <h3 className="text-center text-lg font-medium">

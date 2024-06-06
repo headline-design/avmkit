@@ -1,0 +1,48 @@
+{
+    "name": "@avmkit/xwallet",
+    "version": "1.0.1",
+    "description": "Wallet to send transactions to Algorand network",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "sideEffects": true,
+    "license": "MIT",
+    "files": [
+        "dist/**"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts --external react --publicDir --platform=browser",
+        "dev": "tsup src/index.ts --format esm,cjs --dts --external react --platform=browser",
+        "serve": "serve -s dist",
+        "publish": "npm publish --access public"
+    },
+    "keywords": [
+        "Algorand",
+        "Blockchain",
+        "JavaScript",
+        "Class"
+    ],
+    "author": "Headline",
+    "dependencies": {
+        "@avmkit/pipeline": "^1.0.1",
+        "@radix-ui/react-dialog": "^1.0.5",
+        "@radix-ui/react-popover": "^1.0.7",
+        "clsx": "2.1.1",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-textarea-autosize": "^8.2.0",
+        "tailwind-merge": "^2.3.0",
+        "tweetnacl": "^1.0.3"
+    },
+    "devDependencies": {
+        "@types/mime": "^2.0.0",
+        "@types/react": "^18.2.55",
+        "@types/react-dom": "18.2.19",
+        "eslint": "8.15.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "tsup": "8.0.2",
+        "typescript": "5.4.3"
+    }
+}

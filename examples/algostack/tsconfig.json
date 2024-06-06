@@ -22,8 +22,6 @@
       "@/*": ["./*"],
       "@/dashboard": ["./algostack-app/"],
       "@/dashboard/*": ["./algostack-app/*"],
-      "@/wallet": ["./x-wallet"],
-      "@/wallet/*": ["./x-wallet/*"],
       "@/siwa": ["./use-siwa"],
       "@/siwa/*": ["./use-siwa/*"],
       "@/avm": ["./avm"],

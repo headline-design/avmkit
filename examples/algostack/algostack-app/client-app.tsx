@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Web3Provider from "@/algostack-app/contexts/web3-context";
 import ScrollToTop from "@/algostack-app/components/scroll-to-top";
 import ErrorBoundary from "@/algostack-app/lib/error-boundary";
@@ -25,14 +25,25 @@ import {
   TermsView,
 } from "./views";
 import ClientLayout from "./client-layout";
-import { XWalletProvider } from "@/x-wallet/xwallet-context";
 import { UserProvider } from "@/dashboard/contexts/user-context";
-import { WalletConnectionProvider } from "@/dashboard/contexts/wallet-connection-context";
+import {
+  GlobalPipeState,
+  WalletConnectionProvider,
+  useWalletConnection,
+} from "@/dashboard/contexts/wallet-connection-context";
 import { LoginModalProvider } from "@/dashboard/contexts/login-modal-context";
 import { Pipeline } from "@avmkit/pipeline";
-import { CHAIN_NETWORK_KEY } from "@/dashboard/utils/constants/common";
+import {
+  CHAIN_NETWORK_KEY,
+  Networks,
+  PipeConnectors,
+} from "@/dashboard/utils/constants/common";
 import localStore from "store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { XWalletProvider } from "@avmkit/xwallet";
+import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import { networkConfig } from "@/avm/constants/network-config";
+import { useSelector } from "react-redux";
 
 function ClientApp() {
   const routes = useMemo(
@@ -83,17 +94,32 @@ function ClientApp() {
     },
   });
 
+  const globalPipeState = useSelector(
+    algorandGlobalSelectors.selectCurrentPipeConnectState,
+  );
+  const [pipeState, setPipeState] = useState<GlobalPipeState>({
+    provider: globalPipeState.provider,
+    myAddress: "",
+    mainNet: Networks.MainNet ? true : false,
+    chain: globalPipeState.chain,
+  });
+
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <WalletConnectionProvider>
-            <XWalletProvider>
-              <Web3Provider>
-                <LoginModalProvider>
-                  <RouterProvider router={memoizedRouter} />
-                </LoginModalProvider>
-              </Web3Provider>
+            <XWalletProvider
+              useWalletConnection={useWalletConnection}
+              networkConfig={networkConfig}
+              pipeState={pipeState}
+              PipeConnectors={PipeConnectors}
+            >
+                <Web3Provider>
+                  <LoginModalProvider>
+                    <RouterProvider router={memoizedRouter} />
+                  </LoginModalProvider>
+                </Web3Provider>
             </XWalletProvider>
           </WalletConnectionProvider>
         </UserProvider>

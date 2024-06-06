@@ -7,6 +7,7 @@ import { Drawer } from "vaul";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import useMediaQuery from "@/dashboard/lib/hooks/use-media-query";
 import styles from "./styles.module.css";
+import React from "react";
 
 export default function Dialog({
   unstyledModal = false,
@@ -19,6 +20,7 @@ export default function Dialog({
   backdropClass,
   handle = false,
   dialogWidth = "450px",
+  dialogStack = false,
 }: {
   unstyledModal?: boolean;
   children: React.ReactNode;
@@ -30,6 +32,7 @@ export default function Dialog({
   backdropClass?: string;
   handle?: boolean;
   dialogWidth?: string;
+  dialogStack?: boolean;
 }) {
   const router = useRouter();
 
@@ -103,6 +106,12 @@ export default function Dialog({
         >
           <div tabIndex={-1}>
             <DialogPrimitive.Content
+              onInteractOutside={(event) => {
+                dialogStack ? event.preventDefault() : closeModal();
+              }}
+              onPointerDownOutside={(event) => {
+                dialogStack ? event.preventDefault() : closeModal();
+              }}
               style={{ width: dialogWidth }}
               onOpenAutoFocus={(e) => e.preventDefault()}
               onCloseAutoFocus={(e) => e.preventDefault()}

@@ -148,6 +148,10 @@ export const SIWAProvider = ({
           console.log(`Signature is valid: ${isValid}`);
         } else if (pipeState.provider === "escrow") {
           // Encode the hashed message consistently
+
+          if (!Escrow.secret) {
+openXWalletModal();          }
+
           const encodedHashedMessage = new Uint8Array(
             Buffer.from(hashedMessage),
           );

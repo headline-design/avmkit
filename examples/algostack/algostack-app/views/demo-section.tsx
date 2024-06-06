@@ -6,13 +6,45 @@ import { ModalContext } from "@/dashboard/contexts/modal-context";
 import { signOut, useSession } from "next-auth/react";
 import { IconXGovBadge } from "../assets/xgov-badge";
 import { IconHeadlineTypelogo } from "../assets/headline-typelogo";
+import { Escrow } from "@avmkit/pipeline";
+import { useSelector } from "react-redux";
+import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import { useXWallet } from "@avmkit/xwallet";
 
 const DemoSection = () => {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
   const { data: session } = useSession();
+  const { openXWalletModal, setXWalletState } = useXWallet();
 
   const handleOpenModal = () => {
     setShowLoginModal(true);
+  };
+
+  const pipeState = useSelector(
+    algorandGlobalSelectors.selectCurrentPipeConnectState,
+  );
+
+  console.log("pipeState", pipeState);
+
+  const handleOpenXWalletModal = () => {
+    if (!Escrow.secret) {
+      console.log("escrow", Escrow.secret);
+      setXWalletState({
+        title: "Unlock account",
+        header: true,
+        state: "unlock",
+        request: "open",
+      });
+      openXWalletModal();
+    } else {
+      console.log("escrow", Escrow.secret);
+      setXWalletState({
+        title: "Actions",
+        header: false,
+        state: "actions",
+      });
+      openXWalletModal();
+    }
   };
 
   return (
@@ -92,6 +124,15 @@ const DemoSection = () => {
                     </Button>
                   </div>
 
+                  {session && pipeState.provider === "escrow" ? (
+                    <Button
+                      variant="outline"
+                      onClick={handleOpenXWalletModal}
+                      className="flex items-center justify-center"
+                    >
+                      Open XWallet
+                    </Button>
+                  ) : null}
                   {session ? (
                     <Button
                       variant="outline"
