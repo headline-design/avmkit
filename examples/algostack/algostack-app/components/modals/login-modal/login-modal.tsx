@@ -1,28 +1,43 @@
 import { signIn, useSession } from "next-auth/react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
+import { useSelector } from "react-redux";
 import { IconArrowLeft, IconKibisis, IconLogout } from "@/dashboard/icons";
-//import { useXWallet } from "@/wallet/xwallet-context";
+import { Button, Dialog } from "@/dashboard/ui";
 import { Pipeline, Escrow } from "@avmkit/pipeline";
-import { toast } from "@/dashboard/ui/toast";
+import { useXWallet } from "@avmkit/xwallet";
+import { useSIWA } from "@/use-siwa";
+import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-context";
+import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
 import { ICON_CLASS, WEB3_PROVIDERS, ALL_PROVIDERS } from "./constants";
 import { cn, shorten } from "@/dashboard/lib/utils";
-import { useSelector } from "react-redux";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
-import { Button, Dialog } from "@/dashboard/ui";
-import { useSIWA } from "@/use-siwa";
-import { PipeConnectors } from "@/algostack-app/utils/constants/common";
-import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-context";
-import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
+import { toast } from "@/algostack-app/ui/toast";
 import { IconInfoCircle } from "@/algostack-app/icons/info-circle";
+import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
+import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
-import { useXWallet } from "@avmkit/xwallet";
 
-export interface Provider {
-  id: string;
-  name: string;
-  icon: JSX.Element;
-  type: string;
-  connector: string;
+const initialState = {
+  loading: false,
+  activeProvider: null,
+  currentScreen: "default",
+  dialogStack: false,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
+    case "SET_ACTIVE_PROVIDER":
+      return { ...state, activeProvider: action.payload };
+    case "SET_CURRENT_SCREEN":
+      return { ...state, currentScreen: action.payload };
+    case "SET_DIALOG_STACK":
+      return { ...state, dialogStack: action.payload };
+    case "RESET":
+      return initialState;
+    default:
+      return state;
+  }
 }
 
 const getScreenLeftButton = (
@@ -56,7 +71,6 @@ const WalletsScreen = ({ handleWalletConnect, loading }) => (
         key={wallet.id}
         onClick={() => handleWalletConnect(wallet)}
       >
-        {" "}
         {wallet.icon} {wallet.name}
       </Button>
     ))}
@@ -75,8 +89,8 @@ const LoadingScreen = ({ provider, setCurrentScreen }) => {
   }, [pipeState.provider, provider.connector, setCurrentScreen]);
 
   return (
-    <div className="pointer-events-auto inset-0 flex items-center justify-center ">
-      <div className=" p-6 rounded-lg border text-center max-w-md w-full">
+    <div className="pointer-events-auto inset-0 flex items-center justify-center">
+      <div className="p-6 rounded-lg border text-center max-w-md w-full">
         <div className="flex flex-col items-center space-y-4">
           <div className="text-4xl">{provider.icon}</div>
           <h1 className="text-xl font-bold">Requesting Connection</h1>
@@ -91,11 +105,7 @@ const LoadingScreen = ({ provider, setCurrentScreen }) => {
   );
 };
 
-const ErrorScreen = ({
-  handleDisconnect,
-}: {
-  handleDisconnect: () => void;
-}) => (
+const ErrorScreen = ({ handleDisconnect }) => (
   <div className="pointer-events-auto">
     <div className="relative z-10 opacity-100">BIG ERROR PROBLEM</div>
   </div>
@@ -119,54 +129,50 @@ const ProviderScreen = ({
   };
 
   return (
-    <>
-      <div className="text-center">
-        {isCurrentProvider ? (
-          <>
-            <h2 className="text-lg font-bold">Connected to {provider.name}</h2>
-            <div className="text-sm">
-              You are currently connected to the right wallet.
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="min-h-12 border  rounded-md w-full text-sm text-muted-foreground px-3 py-[11px] mb-5">
-              <div className="flex items-center gap-4">
-                <div style={{ display: "flex", height: "16px" }}>
-                  <IconErrorCircle className="h-4 w-4" />
-                </div>
-                <div className="inline-block flex-wrap whitespace-break-spaces">
-                  You are trying to connect to{" "}
-                  <b className="inline-block">{provider.name}</b> but another
-                  wallet is currently active. Please disconnect from the current
-                  wallet to proceed.
-                </div>
+    <div className="text-center">
+      {isCurrentProvider ? (
+        <>
+          <h2 className="text-lg font-bold">Connected to {provider.name}</h2>
+          <div className="text-sm">
+            You are currently connected to the right wallet.
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="min-h-12 border rounded-md w-full text-sm text-muted-foreground px-3 py-[11px] mb-5">
+            <div className="flex items-center gap-4">
+              <IconErrorCircle className="h-4 w-4" />
+              <div className="inline-block flex-wrap whitespace-break-spaces">
+                You are trying to connect to{" "}
+                <b className="inline-block">{provider.name}</b> but another
+                wallet is currently active. Please disconnect from the current
+                wallet to proceed.
               </div>
             </div>
-            <div className="space-y-3">
-              <div className="flex w-full flex-col items-center justify-center gap-3 space-y-3">
-                <Button
-                  onClick={handleAttemptReconnect}
-                  className="w-full rounded-full"
-                  variant="default"
-                  size="default"
-                >
-                  Try Connecting Again
-                </Button>
-              </div>
+          </div>
+          <div className="space-y-3">
+            <div className="flex w-full flex-col items-center justify-center gap-3 space-y-3">
               <Button
+                onClick={handleAttemptReconnect}
                 className="w-full rounded-full"
-                variant="outline"
+                variant="default"
                 size="default"
-                onClick={handleDisconnect}
               >
-                <IconLogout className="h-4 w-4 mr-2" /> Disconnect{" "}
+                Try Connecting Again
               </Button>
             </div>
-          </>
-        )}
-      </div>
-    </>
+            <Button
+              className="w-full rounded-full"
+              variant="outline"
+              size="default"
+              onClick={handleDisconnect}
+            >
+              <IconLogout className="h-4 w-4 mr-2" /> Disconnect{" "}
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
@@ -177,11 +183,9 @@ const SIWAConnectScreen = ({ handleDisconnect, handleSIWAConnect }) => {
 
   return (
     <>
-      <div className="min-h-12 border  rounded-md w-full text-sm text-muted-foreground px-3 py-[11px] mb-5">
+      <div className="min-h-12 border rounded-md w-full text-sm text-muted-foreground px-3 py-[11px] mb-5">
         <div className="flex items-center gap-4">
-          <div style={{ display: "flex", height: "16px" }}>
-            <IconInfoCircle className="h-4 w-4" />
-          </div>
+          <IconInfoCircle className="h-4 w-4" />
           <div className="inline-block flex-wrap whitespace-break-spaces">
             Your {pipeState.provider} wallet{" "}
             <pre className="text-foreground inline-block">
@@ -218,10 +222,7 @@ const SIWAConnectScreen = ({ handleDisconnect, handleSIWAConnect }) => {
 
 export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   const { data: session, status } = useSession();
-  const [loading, setLoading] = useState(false);
-  const [activeProvider, setActiveProvider] = useState(null);
-  const [currentScreen, setCurrentScreen] = useState("default");
-  const [dialogStack, setDialogStack] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const { openXWalletModal, setXWalletState, isXWalletModalOpen } =
     useXWallet();
@@ -238,7 +239,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
 
   const provider = useMemo(() => {
     return (
-      ALL_PROVIDERS.find((p) => p.connector === activeProvider) || {
+      ALL_PROVIDERS.find((p) => p.connector === state.activeProvider) || {
         id: "kibesis",
         name: "Kibesis",
         icon: <IconKibisis className={ICON_CLASS} />,
@@ -246,20 +247,21 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
         connector: "loading",
       }
     );
-  }, [activeProvider]);
+  }, [state.activeProvider]);
 
   useEffect(() => {
     if (status === "authenticated") {
       setShowLoginModal(false);
     } else if (status === "unauthenticated") {
-      setActiveProvider(null);
-      setLoading(false);
+      dispatch({ type: "RESET" });
     }
   }, [status, setShowLoginModal]);
 
   useEffect(() => {
     if (
-      WEB3_PROVIDERS.some((provider) => provider.connector === activeProvider)
+      WEB3_PROVIDERS.some(
+        (provider) => provider.connector === state.activeProvider,
+      )
     ) {
       if (
         Pipeline.address &&
@@ -267,7 +269,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
         provider &&
         PipeConnectors[provider.connector] === pipeState.provider
       ) {
-        setCurrentScreen("siwaConnect");
+        dispatch({ type: "SET_CURRENT_SCREEN", payload: "siwaConnect" });
       } else if (
         Pipeline.address &&
         !session?.user &&
@@ -275,22 +277,23 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
         pipeState.provider !== "" &&
         PipeConnectors[provider.connector] !== pipeState.provider
       ) {
-        setCurrentScreen("provider");
+        dispatch({ type: "SET_CURRENT_SCREEN", payload: "provider" });
       }
       if (walletStatus === "connecting") {
-        setCurrentScreen("loading");
+        dispatch({ type: "SET_CURRENT_SCREEN", payload: "loading" });
       }
     } else if (walletStatus === "error") {
-      setCurrentScreen("error");
+      dispatch({ type: "SET_CURRENT_SCREEN", payload: "error" });
     }
   }, [
     walletStatus,
-    activeProvider,
+    state.activeProvider,
     provider.connector,
     pipeState,
     provider,
     session?.user,
   ]);
+
   const handleSwitchWallet = useCallback(
     async (wallet) => {
       await connectWallet(wallet.id);
@@ -300,7 +303,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
 
   const handleWalletConnect = async (wallet) => {
     const newActiveProvider = wallet.connector;
-    setActiveProvider(newActiveProvider);
+    dispatch({ type: "SET_ACTIVE_PROVIDER", payload: newActiveProvider });
 
     if (
       pipeState.provider !== "" &&
@@ -309,12 +312,12 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
       toast.error(
         "Another wallet is currently active. Please disconnect first.",
       );
-      setCurrentScreen("provider");
+      dispatch({ type: "SET_CURRENT_SCREEN", payload: "provider" });
       return;
     }
 
-    setLoading(true);
-    setCurrentScreen("loading");
+    dispatch({ type: "SET_LOADING", payload: true });
+    dispatch({ type: "SET_CURRENT_SCREEN", payload: "loading" });
 
     try {
       switch (wallet.id) {
@@ -329,9 +332,8 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
             openXWalletModal();
           } else if (Pipeline.address && !session?.user?.id) {
             Pipeline.pipeConnector = PipeConnectors.XWallet;
-            setCurrentScreen("siwaConnect");
+            dispatch({ type: "SET_CURRENT_SCREEN", payload: "siwaConnect" });
           }
-
           break;
         case "kibisis":
           Pipeline.pipeConnector = PipeConnectors[wallet.connector];
@@ -348,20 +350,18 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     } catch (error) {
       console.error("Connection error:", error);
       toast.error("Failed to connect wallet.");
-      setCurrentScreen("error");
-      setActiveProvider(null);
-      setLoading(false);
+      dispatch({ type: "SET_CURRENT_SCREEN", payload: "error" });
+      dispatch({ type: "SET_ACTIVE_PROVIDER", payload: null });
+      dispatch({ type: "SET_LOADING", payload: false });
     } finally {
       if (Pipeline?.address && !session?.user) {
-        setCurrentScreen("siwaConnect");
+        dispatch({ type: "SET_CURRENT_SCREEN", payload: "siwaConnect" });
       }
     }
   };
 
-  console.log("currentScreen", currentScreen);
-
   const handleDisconnect = () => {
-    setCurrentScreen("default");
+    dispatch({ type: "SET_CURRENT_SCREEN", payload: "default" });
     disconnectWallet();
   };
 
@@ -374,7 +374,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
           state: "unlock",
           request: "connect",
         });
-        setCurrentScreen("loading");
+        dispatch({ type: "SET_CURRENT_SCREEN", payload: "loading" });
         openXWalletModal();
       } else {
         signInWithSIWA();
@@ -386,19 +386,21 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   };
 
   const renderScreen = () => {
-    switch (currentScreen) {
+    switch (state.currentScreen) {
       case "default":
         return (
           <WalletsScreen
             handleWalletConnect={handleWalletConnect}
-            loading={loading}
+            loading={state.loading}
           />
         );
       case "loading":
         return (
           <LoadingScreen
             provider={provider}
-            setCurrentScreen={setCurrentScreen}
+            setCurrentScreen={(screen) =>
+              dispatch({ type: "SET_CURRENT_SCREEN", payload: screen })
+            }
           />
         );
       case "siwaConnect":
@@ -422,41 +424,32 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
         return (
           <WalletsScreen
             handleWalletConnect={handleWalletConnect}
-            loading={loading}
+            loading={state.loading}
           />
         );
     }
   };
 
   const handleResetScreen = () => {
-    setCurrentScreen("default");
-    setActiveProvider(null);
-    setLoading(false);
+    dispatch({ type: "RESET" });
   };
 
   const handleBackOneScreen = () => {
-    setCurrentScreen((prev) => {
-      if (prev === "siwaConnect" || prev === "provider") {
-        return "default";
-      }
-      return "default";
-    });
-    setActiveProvider(null);
-    setLoading(false);
+    dispatch({ type: "SET_CURRENT_SCREEN", payload: "default" });
+    dispatch({ type: "SET_ACTIVE_PROVIDER", payload: null });
+    dispatch({ type: "SET_LOADING", payload: false });
   };
 
   const onClose = () => {
     setShowLoginModal(false);
-    setActiveProvider(null);
-    setCurrentScreen("default");
-    setLoading(false);
+    dispatch({ type: "RESET" });
   };
 
   useEffect(() => {
     if (isXWalletModalOpen) {
-      setDialogStack(true);
+      dispatch({ type: "SET_DIALOG_STACK", payload: true });
     } else if (!isXWalletModalOpen) {
-      setDialogStack(false);
+      dispatch({ type: "SET_DIALOG_STACK", payload: false });
     }
   }, [isXWalletModalOpen]);
 
@@ -465,15 +458,15 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
       showModal={showLoginModal}
       setShowModal={setShowLoginModal}
       onClose={onClose}
-      dialogStack={dialogStack}
+      dialogStack={state.dialogStack}
     >
       <div className="relative flex flex-row items-start justify-center border-b bg-accents-1 px-6 py-5">
         <h3 className="text-center text-lg font-medium">
-          {currentScreen === "default"
+          {state.currentScreen === "default"
             ? "Connect Wallet"
-            : currentScreen === "loading"
+            : state.currentScreen === "loading"
             ? "Loading"
-            : currentScreen === "siwaConnect"
+            : state.currentScreen === "siwaConnect"
             ? "Connected"
             : "Error"}
         </h3>
@@ -487,7 +480,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
             Cancel
           </Button>
           {getScreenLeftButton(
-            currentScreen,
+            state.currentScreen,
             handleResetScreen,
             handleBackOneScreen,
           )}

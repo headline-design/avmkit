@@ -333,7 +333,6 @@ const ToolbarButton = ({ icon, text, onClick }) => (
   >
     <div
       className="xwallet-main-icon-button"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
       onClick={onClick}
     >
       {icon}

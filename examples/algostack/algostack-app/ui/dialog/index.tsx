@@ -56,9 +56,10 @@ export default function Dialog({
   if (isMobile) {
     return (
       <Drawer.Root
+        dismissible={dialogStack ? false : true}
         open={setShowModal ? showModal : true}
         onOpenChange={(open) => {
-          if (!open) {
+          if (!open && !dialogStack) {
             closeModal({ dragged: true });
           }
         }}

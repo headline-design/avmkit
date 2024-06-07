@@ -626,6 +626,8 @@ xwallet-list-container::-webkit-scrollbar {
 
 :root.dark {
     --xwallet-portal-opacity: .75;
+    --xwallet-color-base: rgba(255, 255, 255, .05);
+    --xwallet-color-base-hover: rgba(255, 255, 255, .08);
     --xwallet-base-bg: #0a0a0a;
     --xwallet-base-border: hsl(240, 3.7%, 15.9%);
     --xwallet-btn-fill-highlight-default-background: #262626;
@@ -930,6 +932,8 @@ xwallet-list-container::-webkit-scrollbar {
 
 :root {
     --xwallet-portal-opacity: 0.25;
+    --xwallet-color-base: #0000000a;
+    --xwallet-color-base-hover: rgba(0, 0, 0, 0.03);
     --xwallet-base-bg: #fff;
     --xwallet-base-border: #ebebeb;
     --xwallet-btn-xxs-line-height: var(--xwallet-line-height-xs);
@@ -2096,7 +2100,7 @@ xwallet-list-container::-webkit-scrollbar {
 .xwallet-icon-toolbar-button:hover:after,
 .xwallet-wallet-list-item-active:active,
 .xwallet-wallet-list-item-hover:hover {
-    background-color: #0000000a
+    background-color: var(--xwallet-color-base-hover);
 }
 
 .xwallet-icon-toolbar-button:after {
@@ -2209,6 +2213,7 @@ xwallet-list-container::-webkit-scrollbar {
 }
 
 .xwallet-main-icon-button {
+    background-color: var(--xwallet-color-base);
     border-radius: 50%;
     width: 46px;
     height: 46px;
@@ -2227,7 +2232,7 @@ xwallet-list-container::-webkit-scrollbar {
 }
 
 .xwallet-main-icon-button:hover:after {
-    background-color: #0000000a;
+    background-color: var(--xwallet-color-base-hover);
     width: 100%;
     height: 100%
 }
@@ -2491,7 +2496,7 @@ button {
 }
 
 .xwallet-wallet-icon-button-hovered:hover:after {
-    background-color: #0000000a
+    background-color: var(--xwallet-color-base-hover);
 }
 
 .xwallet-wallet-icon-button-hovered:after {
@@ -3122,6 +3127,9 @@ button {
     }
 }
 
+.xwallet-modal:focus-visible {
+    outline: none;
+}
 
 
 .xwallet-modal {
@@ -3133,7 +3141,7 @@ button {
     right: 0;
     align-items: center;
     justify-content: center;
-    z-index: 500;
+    z-index: 5000;
 }
 
 @keyframes xWalletfadeInAndOut {
@@ -3159,7 +3167,7 @@ button {
     transition: opacity .35s cubic-bezier(.645, .045, .355, 1);
     background-color: #000;
     pointer-events: none;
-    z-index: 210;
+    z-index: 4999;
     animation: xWalletfadeInAndOut .35s cubic-bezier(.645, .045, .355, 1);
 }
 

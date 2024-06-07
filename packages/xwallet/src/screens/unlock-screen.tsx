@@ -37,6 +37,13 @@ const UnlockScreen = ({
     setPasswordErrorObj({ isError: false, text: "" }); // Reset the error object when changing the password
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
   const { unlockXWallet } = useXWallet();
   const { connectWallet } = useWalletConnection();
 
@@ -67,7 +74,6 @@ const UnlockScreen = ({
       }
       const decryptedMnemonic = deBuffer(decryptedArray);
       Escrow.importAccount(decryptedMnemonic);
-      //console.log('escrow address', Escrow.address);
       setWalletAddress(Escrow.address);
       unlockXWallet(); // Set the wallet to unlocked
       if (xWalletState.request === "open") {
@@ -153,7 +159,7 @@ const UnlockScreen = ({
         </div>
       </div>
       <div className="wallet-content-main">
-        <form className="xwallet-form xwallet-form-vertical">
+        <div className="xwallet-form xwallet-form-vertical">
           <div className="_password_p99nf_29 xwallet-form-item-md xwallet-form-item xwallet-form-item-no-label">
             <div className="xwallet-form-item-control">
               <div className="xwallet-form-item-control-input">
@@ -167,6 +173,7 @@ const UnlockScreen = ({
                         type="password"
                         value={password}
                         onChange={handlePasswordInput}
+                        onKeyDown={handleKeyDown}
                         maxLength={50}
                         autoCapitalize="off"
                         autoCorrect="off"
@@ -208,7 +215,7 @@ const UnlockScreen = ({
               </div>
             </div>
           </div>
-        </form>
+        </div>
         <a href="#forget-password" target="_self" className="forgotPassword">
           <div
             className="xwallet-btn-ghost-content"

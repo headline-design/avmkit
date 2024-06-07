@@ -35,7 +35,7 @@ export const BaseModal: React.FC<ModalProps> = ({
   preventDefaultClose,
   backdropClass = "xwallet-modal-backdrop",
   handle = false,
-  dialogWidth = "450px",
+  dialogWidth = "360px",
 }) => {
   const { height } = useWindowSize();
   const { isMobile } = useMediaQuery();
