@@ -12,6 +12,7 @@ import { Escrow, Pipeline } from "@avmkit/pipeline";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";
+import { useXWallet } from "@avmkit/xwallet";
 
 type Props = SIWAConfig & {
   children: ReactNode;
@@ -49,6 +50,7 @@ export const SIWAProvider = ({
 }: Props) => {
   const [status, setStatus] = useState<StatusState>(StatusState.READY);
   const resetStatus = () => setStatus(StatusState.READY);
+  const { openXWalletModal } = useXWallet();
 
   const pipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState,
@@ -146,11 +148,28 @@ export const SIWAProvider = ({
           );
 
           console.log(`Signature is valid: ${isValid}`);
+        } else if (pipeState.provider === "PeraWallet") {
+          const encodedHashedMessage = new Uint8Array(
+            Buffer.from(hashedMessage),
+          );
+
+          const algoSigArray = await Pipeline.peraSignBytes(
+            encodedHashedMessage,
+          );
+          algoSig = algoSigArray[0];
+          const isValid = algosdk.verifyBytes(
+            encodedHashedMessage,
+            algoSig,
+            Pipeline.address,
+          );
+
+          console.log(`Signature is valid: ${isValid}`);
         } else if (pipeState.provider === "escrow") {
           // Encode the hashed message consistently
 
           if (!Escrow.secret) {
-openXWalletModal();          }
+            openXWalletModal();
+          }
 
           const encodedHashedMessage = new Uint8Array(
             Buffer.from(hashedMessage),

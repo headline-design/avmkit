@@ -53,7 +53,6 @@ const WalletsScreen = ({ handleWalletConnect, loading }) => (
         className="w-full rounded-full border"
         variant="outline"
         size="default"
-        disabled={wallet.id === "pera"}
         key={wallet.id}
         onClick={() => handleWalletConnect(wallet)}
       >
@@ -339,7 +338,8 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
           handleSwitchWallet(wallet);
           break;
         case "pera":
-          toast.error("Pera wallet is not available yet");
+          Pipeline.pipeConnector = PipeConnectors[wallet.connector];
+          handleSwitchWallet(wallet);
           break;
         default:
           toast.error("Unrecognized wallet option");
@@ -379,7 +379,8 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
       } else {
         signInWithSIWA();
       }
-    } if (pipeState.provider !== PipeConnectors.XWallet) {
+    }
+    if (pipeState.provider !== PipeConnectors.XWallet) {
       signInWithSIWA();
     }
   };

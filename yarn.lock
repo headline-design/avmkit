@@ -38,7 +38,7 @@ __metadata:
     "@agoralabs-sh/algorand-provider": ^1.1.0
     "@json-rpc-tools/utils": ^1.7.6
     "@msgpack/msgpack": ^2.7.1
-    "@perawallet/connect": ^1.2.3
+    "@perawallet/connect": ^1.3.4
     "@types/mime": ^2.0.0
     "@walletconnect/modal-sign-html": ^2.5.6
     algo-msgpack-with-bigint: ^2.1.1
@@ -1469,7 +1469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@perawallet/connect@npm:^1.2.3":
+"@perawallet/connect@npm:^1.3.4":
   version: 1.3.4
   resolution: "@perawallet/connect@npm:1.3.4"
   dependencies:
