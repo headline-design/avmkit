@@ -50,19 +50,10 @@ export const XWalletContext = createContext<XWalletContextData>(null!);
 
 export const XWalletProvider: React.FC<
   PropsWithChildren<{
-    algorandGlobalSelectors: any;
     useWalletConnection: any;
-    networkConfig: any;
-    pipeState: any;
     PipeConnectors;
   }>
-> = ({
-  children,
-  pipeState,
-  useWalletConnection,
-  networkConfig,
-  PipeConnectors,
-}) => {
+> = ({ children, useWalletConnection, PipeConnectors }) => {
   const [xWalletState, setXWalletState] = useState<XWalletModalState>({
     title: "",
     header: false,
@@ -72,8 +63,13 @@ export const XWalletProvider: React.FC<
   });
   const [isXWalletModalOpen, setXWalletModalOpen] = useState(false);
   const [isXWalletUnlocked, setXWalletUnlocked] = useState(false);
-  const { isConnected, connectWallet, disconnectWallet } =
-    useWalletConnection();
+  const {
+    isConnected,
+    connectWallet,
+    disconnectWallet,
+    networkConfig,
+    pipeState,
+  } = useWalletConnection();
 
   const appConfig = {
     name: `${window.location.origin}`,

@@ -1,4 +1,4 @@
-import { VectorDataQuery } from "../../pictograms/data-query";
+import { VectorDataQuery } from "../../pictograms";
 
 export const NoResultsRow = () => (
   <div

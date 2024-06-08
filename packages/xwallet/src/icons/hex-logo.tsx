@@ -1,10 +1,18 @@
-const IconCross = ({ className }: { className?: string }) => (
-  <svg
+const IconHexLogo = ({
+  width,
+  height,
+  className,
+}: {
+  width?: any;
+  height?: any;
+  className?: string;
+}) => (
+    <svg
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 21 23.41581"
-    width={20}
-    height={20}
+    width={width}
+    height={height}
     className={className}
   >
     <path
@@ -50,6 +58,6 @@ const IconCross = ({ className }: { className?: string }) => (
       strokeWidth={0}
     />
   </svg>
-);
+  );
 
-export default IconCross;
+export default IconHexLogo;

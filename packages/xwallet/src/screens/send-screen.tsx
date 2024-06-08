@@ -214,8 +214,8 @@ export const ReviewTransactionForm = ({ transactionConfig }) => {
                       <div className="xwallet-wallet-icon xwallet-wallet-icon-radius xwallet-wallet-icon-sm xwallet-wallet-icon-icon undefined xwallet-wallet-icon-button xwallet-wallet-icon-button-hovered xwallet-wallet-icon-button-upstep xwallet-wallet-address-copy">
                         <IconCopyDashed />
                         <div
-                          data-testid="okd-popup"
-                          className="okui-popup okui-tooltip okui-tooltip-neutral   xwallet-wallet-icon-tooltip"
+                          data-testid="xw-popup"
+                          className="xwui-popup xwui-tooltip xwui-tooltip-neutral   xwallet-wallet-icon-tooltip"
                         />
                       </div>
                     </div>
@@ -304,8 +304,8 @@ export const ReviewTransactionForm = ({ transactionConfig }) => {
                       <div className="xwallet-wallet-icon xwallet-wallet-icon-radius xwallet-wallet-icon-sm xwallet-wallet-icon-icon undefined xwallet-wallet-icon-button xwallet-wallet-icon-button-hovered xwallet-wallet-icon-button-upstep xwallet-wallet-address-copy">
                         <IconCopyDashed />
                         <div
-                          data-testid="okd-popup"
-                          className="okui-popup okui-tooltip okui-tooltip-neutral   xwallet-wallet-icon-tooltip"
+                          data-testid="xw-popup"
+                          className="xwui-popup xwui-tooltip xwui-tooltip-neutral   xwallet-wallet-icon-tooltip"
                         />
                       </div>
                     </div>
@@ -364,7 +364,7 @@ export const ReviewTransactionForm = ({ transactionConfig }) => {
                   </div>
                   <div className="xwallet-wallet-space-item">
                     <div className="xwallet-typography-text xwallet-typography-text-left xwallet-typography-text-xs xwallet-typography-text-secondary">
-                    AVM testnet Est network fee
+                      AVM testnet Est network fee
                     </div>
                   </div>
                 </div>
@@ -456,19 +456,19 @@ export const ReviewTransactionForm = ({ transactionConfig }) => {
           </div>
         </div>
         <div className="xwallet-wallet-space-item">
-          <div className="okui-accordion xwallet-view-data">
-            <div className="okui-accordion-header okui-accordion-header-expanded xwallet-view-data-header">
-              <div className="okui-accordion-header-title xwallet-view-data-header-title">
+          <div className="xwui-accordion xwallet-view-data">
+            <div className="xwui-accordion-header xwui-accordion-header-expanded xwallet-view-data-header">
+              <div className="xwui-accordion-header-title xwallet-view-data-header-title">
                 Data
               </div>
-              <div className="xwallet-wallet-icon xwallet-wallet-icon-radius xwallet-wallet-icon-xs xwallet-wallet-icon-icon undefined okui-accordion-header-icon-expanded xwallet-view-data-expande-icon">
+              <div className="xwallet-wallet-icon xwallet-wallet-icon-radius xwallet-wallet-icon-xs xwallet-wallet-icon-icon undefined xwui-accordion-header-icon-expanded xwallet-view-data-expande-icon">
                 <i className="icon iconfont okds-arrow-chevron-down-md xwallet-wallet-icon-icon-core" />
               </div>
             </div>
-            <div className="okui-accordion-content okui-accordion-content-expanded xwallet-view-data-content">
+            <div className="xwui-accordion-content xwui-accordion-content-expanded xwallet-view-data-content">
               <div
-                data-testid="okd-popup"
-                className="okui-popup okui-tooltip okui-tooltip-neutral  "
+                data-testid="xw-popup"
+                className="xwui-popup xwui-tooltip xwui-tooltip-neutral  "
               >
                 <div className="xwallet-typography-text xwallet-typography-text-force-wrap xwallet-typography-text-left xwallet-typography-text-sm xwallet-typography-text-default">
                   {transactionConfig.note}

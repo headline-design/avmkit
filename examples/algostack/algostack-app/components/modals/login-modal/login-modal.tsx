@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { IconArrowLeft, IconKibisis, IconLogout } from "@/dashboard/icons";
@@ -9,7 +9,7 @@ import { useSIWA } from "@/use-siwa";
 import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-context";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
 import { ICON_CLASS, WEB3_PROVIDERS, ALL_PROVIDERS } from "./constants";
-import { cn, shorten } from "@/dashboard/lib/utils";
+import { shorten } from "@/dashboard/lib/utils";
 import { toast } from "@/algostack-app/ui/toast";
 import { IconInfoCircle } from "@/algostack-app/icons/info-circle";
 import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
@@ -189,7 +189,7 @@ const SIWAConnectScreen = ({ handleDisconnect, handleSIWAConnect }) => {
           <div className="inline-block flex-wrap whitespace-break-spaces">
             Your {pipeState.provider} wallet{" "}
             <pre className="text-foreground inline-block">
-              {shorten(pipeState.myAddress)}
+              {shorten(pipeState.address)}
             </pre>{" "}
             is connected. You can now sign in with SIWA.
           </div>
@@ -322,7 +322,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     try {
       switch (wallet.id) {
         case "xwallet":
-          if (!Pipeline.address && !session?.user?.id) {
+          if (!Pipeline.address && !session?.user) {
             setXWalletState({
               title: "Unlock account",
               header: true,
@@ -330,7 +330,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
               request: "connect",
             });
             openXWalletModal();
-          } else if (Pipeline.address && !session?.user?.id) {
+          } else if (Pipeline.address && !session?.user) {
             Pipeline.pipeConnector = PipeConnectors.XWallet;
             dispatch({ type: "SET_CURRENT_SCREEN", payload: "siwaConnect" });
           }

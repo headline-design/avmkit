@@ -1,4 +1,3 @@
-import React from "react";
 import { useXWallet } from "../xwallet-context";
 import { Pipeline } from "@avmkit/pipeline";
 import { wallet } from "../constants";
@@ -27,7 +26,6 @@ const ConfirmationScreen = ({
   const handleConfirm = () => {
     alert("handleConfirm");
     Pipeline.connector = PipeConnectors[wallet.connector]; // Update the connector
-    console.log("Pipeline.connector", Pipeline.connector);
     handleConnect();
     unlockXWallet();
   };
@@ -117,7 +115,7 @@ const ConfirmationScreen = ({
                           <picture className="wallet-icon-image-core">
                             <img
                               className="wallet-icon-image"
-                              src="https://app.galxe.com/favicon.ico"
+                              src="https://siwa.org/favicon.ico"
                             />
                           </picture>
                         </div>
@@ -136,10 +134,10 @@ const ConfirmationScreen = ({
                             className="summary-item-title"
                             style={{ fontWeight: 500, fontSize: 32 }}
                           >
-                            Galxe
+                            SIWA
                           </div>
                           <div className="summary-item-description">
-                            app.galxe.com
+                            siwa.org
                           </div>
                         </div>
                       </div>
@@ -168,12 +166,8 @@ const ConfirmationScreen = ({
                     className="xwallet-popup xwallet-tooltip "
                   >
                     <div className="section-text typography">
-                      app.galxe.com wants you to sign in with your Ethereum
-                      account: 0x8d9d49971eC5B22b521D81C1F4116744269890F0 Sign
-                      in with Ethereum to the app. URI: https://app.galxe.com
-                      Version: 1 Chain ID: 137 Nonce: Kf5xtI6bbjoKtL6at Issued
-                      At: 2024-04-13T09:35:52.405Z Expiration Time:
-                      2024-04-20T09:35:52.374Z
+                      siwa.org wants you to sign in with your Algorand account:
+                      0x8d9d49971eC5B22b521D81C1F4116744269890F0 Sign
                     </div>
                   </div>
                 </div>

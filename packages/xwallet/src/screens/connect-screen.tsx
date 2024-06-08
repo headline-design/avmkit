@@ -152,7 +152,7 @@ const ConnectScreen = ({
         }}
       >
         <div>
-          <WalletItem walletAddress={pipeState.myAddress} />
+          <WalletItem walletAddress={pipeState.address} />
         </div>
       </div>
       <div className="affix-placeholder" style={{ height: "145px" }} />

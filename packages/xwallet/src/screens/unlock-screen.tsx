@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import nacl from "tweetnacl";
 import { Escrow, Pipeline } from "@avmkit/pipeline";
 import { useXWallet } from "@/xwallet-context";
-import { IconCross } from "../icons";
 import { cn } from "../lib/utils";
 import { cBuffer, deBuffer, nonce, pad } from "../utils";
 import { wallet } from "../constants";
+import { VectorHexLogo } from "@/pictograms";
 
 const UnlockScreen = ({
   useWalletConnection,
@@ -49,7 +49,6 @@ const UnlockScreen = ({
 
   const handleConfirm = () => {
     Pipeline.connector = PipeConnectors[wallet.connector]; // Update the connector
-    console.log("Pipeline.connector", Pipeline.connector);
     connectWallet(PipeConnectors[wallet.connector]);
     unlockXWallet();
     setXWalletState({
@@ -134,7 +133,7 @@ const UnlockScreen = ({
         }}
       >
         <div className="onboard-cover-wrapper-icon">
-          <IconCross width={60} height={60} className="onboard-cover-icon" />
+          <VectorHexLogo width={60} height={60} className="onboard-cover-icon" />
         </div>
       </div>
       <div

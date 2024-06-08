@@ -1,4 +1,4 @@
-export const VectorDataQuery = ({ className }: { className?: string }) => (
+const VectorDataQuery = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -18,3 +18,5 @@ export const VectorDataQuery = ({ className }: { className?: string }) => (
     <rect id="_Transparent_Rectangle" style={{ fill: 'none' }} width={32} height={32} />
   </svg>
 );
+
+export default VectorDataQuery;

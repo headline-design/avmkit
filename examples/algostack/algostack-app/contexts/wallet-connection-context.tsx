@@ -13,8 +13,8 @@ import algorandGlobalActions from "@/dashboard/redux/algorand/global/globalActio
 import authActions from "@/dashboard/redux/auth/authActions";
 import { getCurrentGlobalPipeState } from "@/dashboard/utils/functions";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
-import { getChain, getEndpoints } from "@/dashboard/utils/endPoints";
-import { Chains, Networks } from "../utils/constants/common";
+import { getChain } from "@/dashboard/utils/endPoints";
+import { Networks } from "../utils/constants/common";
 import { AnyAction } from "redux";
 import { SIWASession } from "@/siwa";
 import authSelectors from "../redux/auth/authSelectors";
@@ -22,7 +22,7 @@ import { NetworkDetails } from "@/avm/types";
 
 export interface GlobalPipeState {
   provider: string;
-  myAddress: string;
+  address: string;
   mainNet: boolean;
   chain: any;
 }
@@ -36,36 +36,60 @@ interface WalletConnectionContextData {
   connectWallet: (walletType: string) => Promise<void>;
   disconnectWallet: () => void;
   openWallet: () => void;
+  networkConfig: typeof networkConfig;
+  getChainIcon: (chainId: string) => string;
 }
 
 export const WalletConnectionContext = createContext<
   WalletConnectionContextData | undefined
 >(undefined);
 
-export async function UserLoginRequest(signIn) {
-  const result = await signIn()?.then((session?: SIWASession) => {
-    console.log("---session", session);
-  });
-  console.log("Logged in successfully with SIWA", result);
-  return result.data;
+export async function UserLoginRequest(signIn: () => Promise<SIWASession>) {
+  try {
+    const result = await signIn().then((session?: SIWASession) => {
+      console.log("---session", session);
+      return session;
+    });
+    console.log("Logged in successfully with SIWA", result);
+    return result?.data;
+  } catch (error) {
+    console.error("SIWA Login Request Error:", error);
+    throw error;
+  }
 }
 
-export const loginAttempt = async (accountAddress, dispatch) => {
-  if (accountAddress) {
-    try {
-      const data = await UserLoginRequest({ walletAddress: accountAddress });
-      console.log("Login attempt successful:", data);
-    } catch (err) {
-      console.log("Login attempt failed:", err);
-    }
+// default network config - Algorand Mainnet or Voi Testnet
+
+const configurePipeline = (
+  isAltChainEnabled: boolean,
+  globalPipeState: GlobalPipeState,
+) => {
+  if (isAltChainEnabled) {
+    const voiTestnetConfig = networkConfig["1"].testnet;
+    Pipeline.EnableDeveloperAPI = true;
+    Pipeline.indexer = voiTestnetConfig.algod;
+    Pipeline.algod = voiTestnetConfig.algod;
+    Pipeline.token = voiTestnetConfig.token;
+    Pipeline.devGenHash = voiTestnetConfig.genesisHash;
+    Pipeline.devGenId = voiTestnetConfig.genesisId;
+  } else {
+    const algorandMainnetConfig = networkConfig["0"].mainnet;
+    Pipeline.EnableDeveloperAPI = false;
+    Pipeline.indexer = algorandMainnetConfig.algod;
+    Pipeline.algod = algorandMainnetConfig.algod;
+    Pipeline.token = algorandMainnetConfig.token;
+    Pipeline.devGenHash = algorandMainnetConfig.genesisHash;
+    Pipeline.devGenId = algorandMainnetConfig.genesisId;
   }
+
+  Pipeline.pipeConnector = globalPipeState.provider;
+  Pipeline.address = globalPipeState.address;
 };
 
 export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   children,
 }) => {
   const isAltChainEnabled = getChain();
-  const endPoints = getEndpoints();
   const [isConnected, setConnected] = useState(false);
   const [networkDetails, setNetworkDetails] = useState<
     NetworkDetails | undefined
@@ -75,14 +99,13 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   const globalPipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState,
   );
-  const isPipeSignedIn = useSelector(algorandGlobalSelectors.selectSignedIn);
   const token = useSelector(authSelectors.selectToken);
   const [accountAddress, setAccountAddress] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [pipeState, setPipeState] = useState<GlobalPipeState>({
     provider: globalPipeState.provider,
-    myAddress: "",
+    address: globalPipeState.address || "",
     mainNet: Networks.MainNet ? true : false,
     chain: globalPipeState.chain,
   });
@@ -98,7 +121,7 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
           dispatch(
             algorandGlobalActions.doPipeConnectChange({
               ...getCurrentGlobalPipeState(globalPipeState),
-              myAddress: address,
+              address: address,
               provider: Pipeline.pipeConnector,
               chain: pipeState.chain,
             }),
@@ -114,7 +137,7 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
     } else {
       console.log("----- Pipeline init Error: Wallet not initialized");
     }
-  }, [dispatch, globalPipeState]);
+  }, [dispatch, globalPipeState, pipeState.chain]);
 
   const disconnectWallet = useCallback(() => {
     dispatch(authActions.doSignOut() as unknown as AnyAction);
@@ -124,22 +147,20 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   }, [dispatch]);
 
   const openWallet = useCallback(async () => {
-    if (pipeState.provider === "escrow") {
-      return;
-    } else if (pipeState.provider !== "escrow") {
+    if (pipeState.provider !== "escrow") {
       let wallet = Pipeline.pipeConnector;
       Pipeline.connect(wallet);
     }
   }, [pipeState.provider]);
 
   const refresh = useCallback(() => {
-    if (Pipeline.pipeConnector && pipeState.myAddress) {
+    if (Pipeline.pipeConnector && pipeState.address) {
       if (Pipeline.address !== "") {
         setConnected(true);
         setLoading(false);
       }
     }
-  }, [pipeState.myAddress]);
+  }, [pipeState.address]);
 
   const checkConnected = useCallback(() => {
     setLoading(true);
@@ -148,30 +169,18 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   }, [refresh]);
 
   useEffect(() => {
-    if (pipeState.myAddress) {
+    if (pipeState.address) {
       const cleanup = checkConnected();
       return cleanup;
     }
-  }, [pipeState.myAddress, checkConnected]);
+  }, [pipeState.address, checkConnected]);
 
   useEffect(() => {
-    if (isAltChainEnabled) {
-      Pipeline.EnableDeveloperAPI = true;
-      Pipeline.indexer = endPoints.indexer;
-      Pipeline.algod = endPoints.node;
-      Pipeline.token =
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-      Pipeline.devGenHash = "IXnoWtviVVJW5LGivNFc0Dq14V3kqaXuK2u5OQrdVZo=";
-      Pipeline.devGenId = "voitest-v1";
-    }
-
-    Pipeline.pipeConnector = globalPipeState.provider;
-    Pipeline.address = globalPipeState.myAddress;
+    configurePipeline(isAltChainEnabled, globalPipeState);
     setPipeState((prevState) => ({
       ...prevState,
-      myAddress: globalPipeState.myAddress,
-      checked: globalPipeState.mainNet,
-      labelNet: globalPipeState.mainNet ? Networks.MainNet : Networks.TestNet,
+      address: globalPipeState.address,
+      mainNet: globalPipeState.mainNet,
       chain: globalPipeState.chain,
     }));
     setLoading(false);
@@ -192,6 +201,8 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
         connectWallet,
         disconnectWallet,
         openWallet,
+        networkConfig,
+        getChainIcon,
       }}
     >
       {children}
@@ -207,4 +218,76 @@ export const useWalletConnection = () => {
     );
   }
   return context;
+};
+
+export const networkConfig = {
+  "0": {
+    mainnet: {
+      name: "Algorand",
+      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      logoUrl: "/_static/assets/algorand-icon.jpg",
+      genesisId: "mainnet-v1.0",
+      algod: "https://mainnet-api.algonode.network",
+      port: "443",
+      decimals: "6",
+      genesisHash: "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+      additionalOptions: {
+        apiUrl: "https://api.algorand.network/mainnet",
+        explorerUrl: "https://blockpack.app/#/explorer",
+        explorerTxnSegment: "transaction",
+      },
+    },
+    testnet: {
+      name: "Algorand",
+      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      logoUrl: "/_static/assets/algorand-icon.jpg",
+      algod: "https://testnet-api.algonode.network",
+      port: "443",
+      decimals: "6",
+      genesisId: "testnet-v1.0",
+      genesisHash: "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      additionalOptions: {
+        apiUrl: "https://api.algorand.network/testnet",
+        explorerUrl: "https://testnet.blockpack.app/#/explorer",
+        explorerTxnSegment: "transaction",
+      },
+    },
+  },
+  "1": {
+    mainnet: {
+      name: "Voi Network",
+      logoUrl: "/_static/assets/voi-icon.jpg",
+      algod: "https://mainnet-api.voi.nodly.io",
+      port: "443",
+      decimals: "6",
+      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      genesisHash: "EF46QWW34JKVEVXEWGRLZUK42A5LLYK54SU2L3RLNO4TSCW5KWNA",
+      genesisId: "voimain-v1",
+      additionalOptions: {
+        apiUrl: "https://api.voi.network/mainnet",
+        explorerUrl: "https://voi.observer/explorer",
+        explorerTxnSegment: "transaction",
+      },
+    },
+    testnet: {
+      name: "Voi Network",
+      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      logoUrl: "/_static/assets/voi-icon.jpg",
+      algod: "https://testnet-api.voi.nodly.io",
+      port: "443",
+      decimals: "6",
+      genesisHash: "IXnoWtviVVJW5LGivNFc0Dq14V3kqaXuK2u5OQrdVZo=",
+      genesisId: "voitest-v1",
+      additionalOptions: {
+        apiUrl: "https://api.voi.network/testnet",
+        explorerUrl: "https://voi.observer/explorer",
+        explorerTxnSegment: "transaction",
+      },
+    },
+  },
+};
+
+export const getChainIcon = (chainId: string) => {
+  const chain = networkConfig[chainId];
+  return chain?.mainnet?.logoUrl ?? "";
 };

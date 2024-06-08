@@ -42,7 +42,6 @@ import localStore from "store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { XWalletProvider } from "@avmkit/xwallet";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
-import { networkConfig } from "@/avm/constants/network-config";
 import { useSelector } from "react-redux";
 
 function ClientApp() {
@@ -99,7 +98,7 @@ function ClientApp() {
   );
   const [pipeState, setPipeState] = useState<GlobalPipeState>({
     provider: globalPipeState.provider,
-    myAddress: "",
+    address: globalPipeState.address || "",
     mainNet: Networks.MainNet ? true : false,
     chain: globalPipeState.chain,
   });
@@ -111,15 +110,14 @@ function ClientApp() {
           <WalletConnectionProvider>
             <XWalletProvider
               useWalletConnection={useWalletConnection}
-              networkConfig={networkConfig}
               pipeState={pipeState}
               PipeConnectors={PipeConnectors}
             >
-                <Web3Provider>
-                  <LoginModalProvider>
-                    <RouterProvider router={memoizedRouter} />
-                  </LoginModalProvider>
-                </Web3Provider>
+              <Web3Provider>
+                <LoginModalProvider>
+                  <RouterProvider router={memoizedRouter} />
+                </LoginModalProvider>
+              </Web3Provider>
             </XWalletProvider>
           </WalletConnectionProvider>
         </UserProvider>

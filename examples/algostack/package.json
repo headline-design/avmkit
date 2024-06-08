@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@avmkit/pipeline": "*",
-    "@avmkit/sdk": "*",
     "@avmkit/siwa": "*",
     "@avmkit/xwallet": "*",
     "@headlessui/react": "^2.0.3",

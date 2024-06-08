@@ -83,7 +83,7 @@ export const Themes = {
 
 /** DEFAULT REDUX VALUES */
 export const DefaultPipeState = {
-  myAddress: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.myAddress || '',
+  address: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.address || '',
   isMainNet:
     localStore.get(CHAIN_NETWORK_KEY) === true
       ? true
@@ -96,7 +96,7 @@ export const DefaultPipeState = {
 };
 
 export const User = {
-  myAddress: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.myAddress || '',
+  address: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.address || '',
 };
 
 export const uuid = uuidv4;

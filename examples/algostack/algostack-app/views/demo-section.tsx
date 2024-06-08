@@ -24,11 +24,8 @@ const DemoSection = () => {
     algorandGlobalSelectors.selectCurrentPipeConnectState,
   );
 
-  console.log("pipeState", pipeState);
-
   const handleOpenXWalletModal = () => {
     if (!Escrow.secret) {
-      console.log("escrow", Escrow.secret);
       setXWalletState({
         title: "Unlock account",
         header: true,
@@ -37,7 +34,6 @@ const DemoSection = () => {
       });
       openXWalletModal();
     } else {
-      console.log("escrow", Escrow.secret);
       setXWalletState({
         title: "Actions",
         header: false,

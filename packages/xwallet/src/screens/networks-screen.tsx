@@ -11,6 +11,9 @@ import { cn } from "../lib/utils";
 import { switchNets } from "../utils";
 import { Pipeline } from "@avmkit/pipeline";
 
+// Import the logos
+import { AlgoLogoUrl, VoiLogoUrl } from "../logos/data-urls";
+
 const NetworksScreen = () => {
   const { getNetworkDetails, networks, getActiveNetwork } = useXWallet();
   const navigate = useWalletNavigation();
@@ -48,20 +51,35 @@ const NetworksScreen = () => {
     setActiveNetwork(getActiveNetwork()); // Update local state to trigger re-render
   }
 
+  const getLogoUrl = (networkDetails) => {
+    switch (networkDetails.name) {
+      case "Algorand":
+        return AlgoLogoUrl;
+      case "Voi Network":
+        return VoiLogoUrl;
+      default:
+        return ""; // or a default logo URL if needed
+    }
+  };
+
   const generateNetworkTabContent = (type) => {
     const networkComponents = Object.keys(networks)
       .filter(
-        (networkName) =>
-          networks[networkName][type] &&
-          networkName.toLowerCase().includes(searchTerm.toLowerCase()),
+        (networkKey) =>
+          networks[networkKey][type] &&
+          networks[networkKey][type].name.toLowerCase().includes(searchTerm.toLowerCase()),
       )
-      .map((networkName) => {
-        const details = getNetworkDetails(networkName, type);
+      .map((networkKey) => {
+        const details = getNetworkDetails(networkKey, type);
+
+        // Determine the correct logo URL
+        const logoUrl = getLogoUrl(details);
+
         return details ? (
           <NetworkRow
-            onClick={() => toggle(networks[networkName][type])}
-            key={networkName}
-            network={details}
+            onClick={() => toggle(networks[networkKey][type])}
+            key={networkKey}
+            network={{ ...details, logoUrl }} // Pass the logo URL to the network details
             isNetworkActive={activeNetwork?.algod === details.algod}
           />
         ) : null;

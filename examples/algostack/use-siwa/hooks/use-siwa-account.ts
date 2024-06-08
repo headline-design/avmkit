@@ -5,7 +5,7 @@ import { useWalletConnection } from '@/dashboard/contexts/wallet-connection-cont
 const useSIWAAccount = () => {
   const { pipeState } = useWalletConnection();
 
-  const initAddress = pipeState?.myAddress;
+  const initAddress = pipeState?.address;
 
   // Validate the Algorand address
   if (!initAddress || typeof initAddress !== 'string') {

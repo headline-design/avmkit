@@ -10,7 +10,7 @@ const selectCurrentPipeConnectState = createSelector(
 const selectSignedIn = createSelector(
     [selectCurrentPipeConnectState],
     pipeConnectState =>
-        Boolean(pipeConnectState.myAddress) &&
+        Boolean(pipeConnectState.address) &&
         Boolean(pipeConnectState.provider)
 )
 

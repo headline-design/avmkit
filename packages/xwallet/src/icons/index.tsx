@@ -1,7 +1,7 @@
 export { default as IconArrowDown } from './arrow-down';
 export { default as IconArrowUp } from './arrow-up';
 export { default as IconCopy } from './copy';
-export { default as IconCross } from './cross';
+export { default as IconHexLogo } from './hex-logo';
 export { default as IconEditList } from './edit-list';
 export {default as IconWindow} from './window';
 export { default as IconUnlink } from './unlink';

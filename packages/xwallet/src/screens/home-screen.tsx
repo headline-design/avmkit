@@ -18,6 +18,7 @@ import { shorten } from "../utils";
 import GlobalMenu from "../ui/components/global-menu/global-menu";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
 import { AssetRow } from "../ui/components/asset-row";
+import { AlgoLogoUrl, VoiLogoUrl } from "@/logos/data-urls";
 
 const walletConfig = {
   avatarSize: "32px",
@@ -28,13 +29,12 @@ const walletConfig = {
   assets: [
     {
       balance: "0.2 HDL",
-      logoUrl:
-        "",
+      logoUrl: AlgoLogoUrl,
       chainName: "Algorand testnet",
     },
     {
       balance: "1.5 BTC",
-      logoUrl: "",
+      logoUrl: VoiLogoUrl,
       chainName: "Bitcoin Network",
     },
     {
@@ -48,9 +48,22 @@ const walletConfig = {
   networkStatus: "Connected | All networks",
 };
 
+const getLogoUrl = (networkDetails) => {
+  switch (networkDetails.name) {
+    case "Algorand":
+      return AlgoLogoUrl;
+    case "Voi Network":
+      return VoiLogoUrl;
+    default:
+      return ""; // or a default logo URL if needed
+  }
+};
+
 const HomeScreen = ({ pipeState }: { pipeState: any }) => {
   const [isGlobalMenuOpen, setIsGlobalMenuOpen] = useState(false);
   const { getActiveNetwork } = useXWallet();
+  const activeNetwork = getActiveNetwork();
+  const logoUrl = activeNetwork?.name ? getLogoUrl(activeNetwork) : null;
 
   const toggleGlobalMenu = () => {
     setIsGlobalMenuOpen(!isGlobalMenuOpen);
@@ -58,7 +71,7 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
 
   const navigate = useWalletNavigation(); // Using the custom hook
 
-  const activeNetwork = getActiveNetwork();
+  console.log("pipeState", pipeState);
 
   return (
     <>
@@ -67,7 +80,7 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
           <div className="xwallet-main-header-avatar xwallet-main-header-avatar-sm">
             <Avatar
               size="32px"
-              address={pipeState.myAddress}
+              address={pipeState.address}
               className="xwallet-main-header-avatar-core"
             />
           </div>
@@ -87,7 +100,7 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
                 className="xwallet-main-account-description"
                 style={{ fontWeight: 500 }}
               >
-                {shorten(pipeState.myAddress)}
+                {shorten(pipeState.address)}
               </div>
               <IconChevronDownFilled />
             </div>
@@ -148,7 +161,7 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
               >
                 <picture className="xwallet-picture xwallet-wallet-icon-image-core xwallet-picture-font">
                   <img
-                    src={activeNetwork?.logoUrl}
+                    src={logoUrl || activeNetwork?.logoUrl}
                     alt="Wallet Asset Logo"
                     style={{ width: 18, height: 18 }}
                   />
@@ -331,10 +344,7 @@ const ToolbarButton = ({ icon, text, onClick }) => (
       width: 46,
     }}
   >
-    <div
-      className="xwallet-main-icon-button"
-      onClick={onClick}
-    >
+    <div className="xwallet-main-icon-button" onClick={onClick}>
       {icon}
     </div>
     <div className="xwallet-typography-secondary-text">{text}</div>
