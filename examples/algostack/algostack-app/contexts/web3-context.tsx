@@ -5,9 +5,6 @@ import { FC, PropsWithChildren, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { SIWAConfig, SIWAProvider } from "@/siwa";
-import { AVMProvider, WalletProvider } from "@/avm";
-import { createConfig } from "@/avm/createConfig";
-import { createStorage } from "@/avm/createStorage";
 
 export interface SIWACreateMessageArgs {
   nonce: string;
@@ -15,44 +12,6 @@ export interface SIWACreateMessageArgs {
   algoAddress: string;
   chainId: number;
 }
-
-const algorand = {
-  id: "algorand",
-  name: "Algorand",
-  chainId: 1,
-  rpc: "https://api.testnet.algoexplorer.io",
-  explorer: "https://testnet.algoexplorer.io",
-};
-
-const voiNetwork = {
-  id: "voi",
-  name: "Voi Network",
-  chainId: 2,
-  rpc: "https://api.voi.network",
-  explorer: "https://explorer.voi.network",
-};
-
-export function parseCookie(cookie: string, key: string) {
-  const keyValue = cookie.split("; ").find((x) => x.startsWith(`${key}=`));
-  if (!keyValue) return undefined;
-  return keyValue.substring(key.length + 1);
-}
-
-export const cookieStorage = {
-  getItem(key) {
-    if (typeof window === "undefined") return null;
-    const value = parseCookie(document.cookie, key);
-    return value ?? null;
-  },
-  setItem(key, value) {
-    if (typeof window === "undefined") return;
-    document.cookie = `${key}=${value}`;
-  },
-  removeItem(key) {
-    if (typeof window === "undefined") return;
-    document.cookie = `${key}=;max-age=-1`;
-  },
-};
 
 export interface AlgorandProvider {
   on?: (...args: any[]) => void;
@@ -70,38 +29,8 @@ export type Web3ContextT = {
   contract: any | null;
 };
 
-export type NFTContractProviderProps = {
-  children: React.ReactNode;
-};
 
 export const Web3Context = createContext<Web3ContextT>({} as Web3ContextT);
-
-export const getDefaultConfig = (config: any) => {
-  return {
-    setState: () => {},
-    connect: () => {},
-    appName: "SIWA Connect",
-    appIcon: "/favicon.ico",
-    appDescription: "SIWE Connect is a demo application for SIWA.",
-    appUrl: window.location.origin,
-    walletConnectProjectId: "",
-    chains: [],
-    client: null,
-    ...config,
-  };
-};
-
-const config = createConfig(
-  getDefaultConfig({
-    appName: "SIWA Connect",
-    ssr: true,
-    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
-    chains: [algorand, voiNetwork],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-  }),
-);
 
 export const siwaConfig: SIWAConfig = {
   getNonce: async () => {
@@ -161,7 +90,7 @@ export const siwaConfig: SIWAConfig = {
   signOut: () => fetch(`/api/siwa`, { method: "DELETE" }).then((res) => res.ok),
 };
 
-export const Web3Contextual = (props: NFTContractProviderProps) => {
+export const Web3Contextual = (props: any) => {
   const { children } = props;
   const contract = null;
 
@@ -171,18 +100,14 @@ export const Web3Contextual = (props: NFTContractProviderProps) => {
 };
 
 export const Web3Provider = ({ children }: { children: any }) => {
-  return (
-    <AVMProvider config={config}>
-      <Web3ChildProvider>{children}</Web3ChildProvider>
-    </AVMProvider>
-  );
+  return <Web3ChildProvider>{children}</Web3ChildProvider>;
 };
 
 const Web3ChildProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <WalletProvider>
+    <>
       <SIWAProvider
         onSignIn={() => router.refresh()}
         onSignOut={() => router.refresh()}
@@ -190,7 +115,7 @@ const Web3ChildProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       >
         <Web3Contextual>{children}</Web3Contextual>
       </SIWAProvider>
-    </WalletProvider>
+    </>
   );
 };
 

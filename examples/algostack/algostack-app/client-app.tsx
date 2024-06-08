@@ -27,7 +27,6 @@ import {
 import ClientLayout from "./client-layout";
 import { UserProvider } from "@/dashboard/contexts/user-context";
 import {
-  GlobalPipeState,
   WalletConnectionProvider,
   useWalletConnection,
 } from "@/dashboard/contexts/wallet-connection-context";
@@ -41,8 +40,6 @@ import {
 import localStore from "store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { XWalletProvider } from "@avmkit/xwallet";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
-import { useSelector } from "react-redux";
 
 function ClientApp() {
   const routes = useMemo(
@@ -93,16 +90,6 @@ function ClientApp() {
     },
   });
 
-  const globalPipeState = useSelector(
-    algorandGlobalSelectors.selectCurrentPipeConnectState,
-  );
-  const [pipeState, setPipeState] = useState<GlobalPipeState>({
-    provider: globalPipeState.provider,
-    address: globalPipeState.address || "",
-    mainNet: Networks.MainNet ? true : false,
-    chain: globalPipeState.chain,
-  });
-
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
@@ -110,7 +97,6 @@ function ClientApp() {
           <WalletConnectionProvider>
             <XWalletProvider
               useWalletConnection={useWalletConnection}
-              pipeState={pipeState}
               PipeConnectors={PipeConnectors}
             >
               <Web3Provider>

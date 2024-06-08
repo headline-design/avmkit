@@ -118,6 +118,8 @@ const UnlockScreen = ({
     if (!savedMnemonic) openXWalletModal();
   }, [savedMnemonic]);
 
+  const [isInputActive, setIsInputActive] = useState(false);
+
   return (
     <div
       className="wallet-container wallet-main-wrapper"
@@ -133,7 +135,11 @@ const UnlockScreen = ({
         }}
       >
         <div className="onboard-cover-wrapper-icon">
-          <VectorHexLogo width={60} height={60} className="onboard-cover-icon" />
+          <VectorHexLogo
+            width={60}
+            height={60}
+            className="onboard-cover-icon"
+          />
         </div>
       </div>
       <div
@@ -163,7 +169,12 @@ const UnlockScreen = ({
             <div className="xwallet-form-item-control">
               <div className="xwallet-form-item-control-input">
                 <div className="xwallet-form-item-control-input-content">
-                  <div className="xwallet-input xwallet-input-xl">
+                  <div
+                    className={cn(
+                      "xwallet-input xwallet-input-xl",
+                      isInputActive ? "focus" : "",
+                    )}
+                  >
                     <div className="xwallet-input-box">
                       <input
                         autoComplete="off"
@@ -173,6 +184,8 @@ const UnlockScreen = ({
                         value={password}
                         onChange={handlePasswordInput}
                         onKeyDown={handleKeyDown}
+                        onFocus={() => setIsInputActive(true)}
+                        onBlur={() => setIsInputActive(false)}
                         maxLength={50}
                         autoCapitalize="off"
                         autoCorrect="off"

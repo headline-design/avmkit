@@ -16,9 +16,9 @@ import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSel
 import { getChain } from "@/dashboard/utils/endPoints";
 import { Networks } from "../utils/constants/common";
 import { AnyAction } from "redux";
-import { SIWASession } from "@/siwa";
 import authSelectors from "../redux/auth/authSelectors";
-import { NetworkDetails } from "@/avm/types";
+import { NetworkDetails } from "@/use-avm/types";
+import { networkConfig } from "@/use-avm/network-config";
 
 export interface GlobalPipeState {
   provider: string;
@@ -43,20 +43,6 @@ interface WalletConnectionContextData {
 export const WalletConnectionContext = createContext<
   WalletConnectionContextData | undefined
 >(undefined);
-
-export async function UserLoginRequest(signIn: () => Promise<SIWASession>) {
-  try {
-    const result = await signIn().then((session?: SIWASession) => {
-      console.log("---session", session);
-      return session;
-    });
-    console.log("Logged in successfully with SIWA", result);
-    return result?.data;
-  } catch (error) {
-    console.error("SIWA Login Request Error:", error);
-    throw error;
-  }
-}
 
 // default network config - Algorand Mainnet or Voi Testnet
 
@@ -186,10 +172,6 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
     setLoading(false);
   }, [globalPipeState, isAltChainEnabled]);
 
-  const handleTransactionSuccess = useCallback(() => {
-    console.log("----- Transaction Success");
-  }, []);
-
   return (
     <WalletConnectionContext.Provider
       value={{
@@ -218,73 +200,6 @@ export const useWalletConnection = () => {
     );
   }
   return context;
-};
-
-export const networkConfig = {
-  "0": {
-    mainnet: {
-      name: "Algorand",
-      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      logoUrl: "/_static/assets/algorand-icon.jpg",
-      genesisId: "mainnet-v1.0",
-      algod: "https://mainnet-api.algonode.network",
-      port: "443",
-      decimals: "6",
-      genesisHash: "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
-      additionalOptions: {
-        apiUrl: "https://api.algorand.network/mainnet",
-        explorerUrl: "https://blockpack.app/#/explorer",
-        explorerTxnSegment: "transaction",
-      },
-    },
-    testnet: {
-      name: "Algorand",
-      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      logoUrl: "/_static/assets/algorand-icon.jpg",
-      algod: "https://testnet-api.algonode.network",
-      port: "443",
-      decimals: "6",
-      genesisId: "testnet-v1.0",
-      genesisHash: "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-      additionalOptions: {
-        apiUrl: "https://api.algorand.network/testnet",
-        explorerUrl: "https://testnet.blockpack.app/#/explorer",
-        explorerTxnSegment: "transaction",
-      },
-    },
-  },
-  "1": {
-    mainnet: {
-      name: "Voi Network",
-      logoUrl: "/_static/assets/voi-icon.jpg",
-      algod: "https://mainnet-api.voi.nodly.io",
-      port: "443",
-      decimals: "6",
-      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      genesisHash: "EF46QWW34JKVEVXEWGRLZUK42A5LLYK54SU2L3RLNO4TSCW5KWNA",
-      genesisId: "voimain-v1",
-      additionalOptions: {
-        apiUrl: "https://api.voi.network/mainnet",
-        explorerUrl: "https://voi.observer/explorer",
-        explorerTxnSegment: "transaction",
-      },
-    },
-    testnet: {
-      name: "Voi Network",
-      token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      logoUrl: "/_static/assets/voi-icon.jpg",
-      algod: "https://testnet-api.voi.nodly.io",
-      port: "443",
-      decimals: "6",
-      genesisHash: "IXnoWtviVVJW5LGivNFc0Dq14V3kqaXuK2u5OQrdVZo=",
-      genesisId: "voitest-v1",
-      additionalOptions: {
-        apiUrl: "https://api.voi.network/testnet",
-        explorerUrl: "https://voi.observer/explorer",
-        explorerTxnSegment: "transaction",
-      },
-    },
-  },
 };
 
 export const getChainIcon = (chainId: string) => {

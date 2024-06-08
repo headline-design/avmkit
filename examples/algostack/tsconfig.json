@@ -24,8 +24,8 @@
       "@/dashboard/*": ["./algostack-app/*"],
       "@/siwa": ["./use-siwa"],
       "@/siwa/*": ["./use-siwa/*"],
-      "@/avm": ["./avm"],
-      "@/avm/*": ["./avm/*"]
+      "@/avm": ["./use-avm"],
+      "@/avm/*": ["./use-avm/*"]
     }
   },
   "include": [

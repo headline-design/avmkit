@@ -47,7 +47,8 @@ const GlobalMenu = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Popover
-      style={{ zIndex: 100 }}
+      modal={true}
+      style={{ zIndex: 6000 }}
       unstyledPopover
       openPopover={openPopover}
       setOpenPopover={setOpenPopover}

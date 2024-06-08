@@ -79,6 +79,7 @@ export default function Popover({
       </PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal container={container}>
         <PopoverPrimitive.Content
+
           tabIndex={tabIndex}
           onClick={(e: React.MouseEvent) => {
             e.stopPropagation();

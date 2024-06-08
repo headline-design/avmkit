@@ -1,4 +1,3 @@
-
 @font-face {
     font-display: fallback;
     font-family: HarmonyOS Sans;
@@ -626,6 +625,7 @@ xwallet-list-container::-webkit-scrollbar {
 }
 
 :root.dark {
+    --xwallet-dropdown-bg: #161616;
     --xwallet-portal-opacity: .75;
     --xwallet-color-base: rgba(255, 255, 255, .05);
     --xwallet-color-base-hover: rgba(255, 255, 255, .08);
@@ -932,6 +932,7 @@ xwallet-list-container::-webkit-scrollbar {
 
 
 :root {
+    --xwallet-dropdown-bg: #f7f7f7;
     --xwallet-portal-opacity: 0.25;
     --xwallet-color-base: #0000000a;
     --xwallet-color-base-hover: rgba(0, 0, 0, 0.03);
@@ -2176,7 +2177,7 @@ xwallet-list-container::-webkit-scrollbar {
 .xwallet-header-dropdown-container {
     padding: 5px 3.75px 5px 10px;
     display: inline-flex;
-    background-color: #f7f7f7;
+    background-color: var(--xwallet-dropdown-bg);
     border-radius: 35px;
     flex-direction: row;
     justify-content: center;
