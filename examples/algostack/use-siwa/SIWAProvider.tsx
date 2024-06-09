@@ -9,7 +9,7 @@ import {
   SIWASession,
 } from "./SIWAContext";
 import { Escrow, Pipeline } from "@avmkit/pipeline";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";
 import { useXWallet } from "@avmkit/xwallet";

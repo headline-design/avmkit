@@ -71,11 +71,14 @@ export const XWalletProvider: React.FC<
     pipeState,
   } = useWalletConnection();
 
-  const appConfig = {
-    name: `${window.location.origin}`,
-    url: removeHttp(window.location.origin),
-    icon: `${window.location.origin}/favicon.ico`,
-  };
+  let appConfig = { name: "", url: "", icon: "" };
+  if (typeof window !== "undefined") {
+    appConfig = {
+      name: `${window.location.origin}`,
+      url: removeHttp(window.location.origin),
+      icon: `${window.location.origin}/favicon.ico`,
+    };
+  }
 
   const unlockXWallet = useCallback(() => {
     setXWalletUnlocked(true);

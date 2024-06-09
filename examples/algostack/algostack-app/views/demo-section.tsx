@@ -8,13 +8,15 @@ import { IconXGovBadge } from "../assets/xgov-badge";
 import { IconHeadlineTypelogo } from "../assets/headline-typelogo";
 import { Escrow } from "@avmkit/pipeline";
 import { useSelector } from "react-redux";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
 import { useXWallet } from "@avmkit/xwallet";
+import { useWalletConnection } from "../contexts/wallet-connection-context";
 
 const DemoSection = () => {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
   const { data: session } = useSession();
   const { openXWalletModal, setXWalletState } = useXWallet();
+  const { disconnectWallet } = useWalletConnection();
 
   const handleOpenModal = () => {
     setShowLoginModal(true);
@@ -41,6 +43,12 @@ const DemoSection = () => {
       });
       openXWalletModal();
     }
+  };
+
+  const handleDisconnect = () => {
+    signOut().then(() => {
+      disconnectWallet();
+    });
   };
 
   return (
@@ -132,7 +140,7 @@ const DemoSection = () => {
                   {session ? (
                     <Button
                       variant="outline"
-                      onClick={() => signOut()}
+                      onClick={handleDisconnect}
                       className="flex items-center justify-center"
                     >
                       <IconSignOut className="mr-2" /> Logout

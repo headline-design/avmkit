@@ -28,18 +28,12 @@ const selectLoading = createSelector([selectRaw], (raw: any) =>
     Boolean(raw.loading)
 )
 
-const selectUsdAlgoPrice = createSelector(
-    [selectRaw],
-    (raw: any) => raw.usdAlgoPrice
-)
-
 const globalSelectors = {
     selectCurrentPipeConnectState,
     selectCurrentIndexer,
     selectPipeConnectState,
     selectSignedIn,
     selectLoading,
-    selectUsdAlgoPrice,
     selectRaw,
 }
 

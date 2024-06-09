@@ -20,34 +20,6 @@ import { useWalletNavigation } from "../hooks/use-wallet-navigation";
 import { AssetRow } from "../ui/components/asset-row";
 import { AlgoLogoUrl, VoiLogoUrl } from "@/logos/data-urls";
 
-const walletConfig = {
-  avatarSize: "32px",
-  defaultAddress: "0x123...def", // Example address
-  walletName: "Wallet A",
-  accountNumber: "Account 01",
-  totalWalletValue: "4.7 BTC",
-  assets: [
-    {
-      balance: "0.2 HDL",
-      logoUrl: AlgoLogoUrl,
-      chainName: "Algorand testnet",
-    },
-    {
-      balance: "1.5 BTC",
-      logoUrl: VoiLogoUrl,
-      chainName: "Bitcoin Network",
-    },
-    {
-      balance: "3.0 ETH",
-      logoUrl: "",
-      chainName: "Ethereum Network",
-    },
-  ],
-  footerLogoUrl: `${window.location.origin}/favicon.ico`,
-  footerUrl: `${window.location.origin}`,
-  networkStatus: "Connected | All networks",
-};
-
 const getLogoUrl = (networkDetails) => {
   switch (networkDetails.name) {
     case "Algorand":
@@ -64,6 +36,7 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
   const { getActiveNetwork } = useXWallet();
   const activeNetwork = getActiveNetwork();
   const logoUrl = activeNetwork?.name ? getLogoUrl(activeNetwork) : null;
+  const { appConfig } = useXWallet();
 
   const toggleGlobalMenu = () => {
     setIsGlobalMenuOpen(!isGlobalMenuOpen);
@@ -71,7 +44,33 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
 
   const navigate = useWalletNavigation(); // Using the custom hook
 
-  console.log("pipeState", pipeState);
+  const walletConfig = {
+    avatarSize: "32px",
+    defaultAddress: "0x123...def", // Example address
+    walletName: "Wallet A",
+    accountNumber: "Account 01",
+    totalWalletValue: "4.7 BTC",
+    assets: [
+      {
+        balance: "0.2 HDL",
+        logoUrl: AlgoLogoUrl,
+        chainName: "Algorand testnet",
+      },
+      {
+        balance: "1.5 BTC",
+        logoUrl: VoiLogoUrl,
+        chainName: "Bitcoin Network",
+      },
+      {
+        balance: "3.0 ETH",
+        logoUrl: "",
+        chainName: "Ethereum Network",
+      },
+    ],
+    footerLogoUrl: appConfig.icon,
+    footerUrl: appConfig.url,
+    networkStatus: "Connected | All networks",
+  };
 
   return (
     <>
@@ -229,13 +228,21 @@ const HomeScreen = ({ pipeState }: { pipeState: any }) => {
           </div>
         </div>
       </div>
-      <ConnectedFooter />
+      <ConnectedFooter walletConfig={walletConfig} />
       <div />
     </>
   );
 };
 
-const ConnectedFooter = () => {
+const ConnectedFooter = ({
+  walletConfig,
+}: {
+  walletConfig: {
+    footerLogoUrl: string;
+    footerUrl: string;
+    networkStatus: string;
+  };
+}) => {
   return (
     <div className="xwallet-main-footer">
       <div className="xwallet-main-footer-container">

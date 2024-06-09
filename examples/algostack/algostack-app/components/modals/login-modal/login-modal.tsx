@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { IconArrowLeft, IconKibisis, IconLogout } from "@/dashboard/icons";
@@ -7,7 +7,7 @@ import { Pipeline, Escrow } from "@avmkit/pipeline";
 import { useXWallet } from "@avmkit/xwallet";
 import { useSIWA } from "@/use-siwa";
 import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-context";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
 import { ICON_CLASS, WEB3_PROVIDERS, ALL_PROVIDERS } from "./constants";
 import { shorten } from "@/dashboard/lib/utils";
 import { toast } from "@/algostack-app/ui/toast";
@@ -362,7 +362,9 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
 
   const handleDisconnect = () => {
     dispatch({ type: "SET_CURRENT_SCREEN", payload: "default" });
-    disconnectWallet();
+    signOut().then(() => {
+      disconnectWallet();
+    });
   };
 
   const handleSIWAConnect = () => {

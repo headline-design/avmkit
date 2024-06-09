@@ -12,7 +12,7 @@ import { Pipeline } from "@avmkit/pipeline";
 import algorandGlobalActions from "@/dashboard/redux/algorand/global/globalActions";
 import authActions from "@/dashboard/redux/auth/authActions";
 import { getCurrentGlobalPipeState } from "@/dashboard/utils/functions";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelctors";
+import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelectors";
 import { getChain } from "@/dashboard/utils/endPoints";
 import { Networks } from "../utils/constants/common";
 import { AnyAction } from "redux";
