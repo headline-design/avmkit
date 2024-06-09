@@ -1,6 +1,6 @@
 {
     "name": "@avmkit/xwallet",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Wallet to send transactions to Algorand network",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
@@ -25,7 +25,7 @@
     ],
     "author": "Headline",
     "dependencies": {
-        "@avmkit/pipeline": "^1.0.1",
+        "@avmkit/pipeline": "^1.0.2",
         "@radix-ui/react-dialog": "^1.0.5",
         "@radix-ui/react-popover": "^1.0.7",
         "clsx": "2.1.1",

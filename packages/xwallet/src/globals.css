@@ -3208,3 +3208,7 @@ button {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.xwallet-input-password:focus {
+    --tw-ring-color: transparent;
+}
