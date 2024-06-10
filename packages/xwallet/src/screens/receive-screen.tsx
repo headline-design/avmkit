@@ -1,5 +1,5 @@
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
-import { ModalHeader } from "../ui/base-modal/modal-header";
+import { ModalHeader } from "../ui/modal/modal-header";
 
 const ReceiveScreen = () => {
   const navigate = useWalletNavigation();

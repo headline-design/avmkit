@@ -1,5 +1,5 @@
 import { useXWallet } from "./xwallet-context";
-import { BaseModal } from "./ui/base-modal/base-modal";
+import Modal from "./ui/modal/base-modal";
 
 import {
   ConnectScreen,
@@ -89,14 +89,13 @@ const XWalletModal = ({
   };
 
   return (
-    <BaseModal
+    <Modal
       onClose={handleXWalletClose}
-      showModal={isXWalletModalOpen}
-      title={xWalletState.title}
+      isOpen={isXWalletModalOpen}
       header={xWalletState.header}
     >
       <ActiveScreen />
-    </BaseModal>
+    </Modal>
   );
 };
 

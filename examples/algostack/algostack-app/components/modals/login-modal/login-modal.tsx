@@ -15,6 +15,7 @@ import { IconInfoCircle } from "@/algostack-app/icons/info-circle";
 import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
 import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
+import Modal from "@/algostack-app/ui/dialog";
 
 const initialState = {
   loading: false,
@@ -456,11 +457,11 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   }, [isXWalletModalOpen]);
 
   return (
-    <Dialog
-      showModal={showLoginModal}
-      setShowModal={setShowLoginModal}
+    <Modal
+      isOpen={showLoginModal}
       onClose={onClose}
-      dialogStack={state.dialogStack}
+      dialogWidth={""}
+      header={undefined}
     >
       <div className="relative flex flex-row items-start justify-center border-b bg-accents-1 px-6 py-5">
         <h3 className="text-center text-lg font-medium">
@@ -488,7 +489,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
           )}
         </div>
       </div>
-    </Dialog>
+    </Modal>
   );
 };
 

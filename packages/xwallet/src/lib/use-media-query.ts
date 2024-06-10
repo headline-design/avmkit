@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function useMediaQuery() {
-  const [device, setDevice] = useState<"mobile" | "tablet" | "desktop" | null>(
+  const [device, setDevice] = useState<"miniMobile" | "mobile" | "tablet" | "desktop" | null>(
     null,
   );
   const [dimensions, setDimensions] = useState<{
@@ -11,7 +11,9 @@ export default function useMediaQuery() {
 
   useEffect(() => {
     const checkDevice = () => {
-      if (window.matchMedia("(max-width: 640px)").matches) {
+      if (window.matchMedia("(max-width: 450px)").matches) {
+        setDevice("miniMobile");
+      } else if (window.matchMedia("(min-width: 451px) and (max-width: 640px)").matches) {
         setDevice("mobile");
       } else if (
         window.matchMedia("(min-width: 641px) and (max-width: 1024px)").matches
@@ -39,6 +41,7 @@ export default function useMediaQuery() {
     device,
     width: dimensions?.width,
     height: dimensions?.height,
+    isMiniMobile: device === "miniMobile",
     isMobile: device === "mobile",
     isTablet: device === "tablet",
     isDesktop: device === "desktop",

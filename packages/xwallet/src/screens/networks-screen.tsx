@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
-import { ModalHeader } from "../ui/base-modal/modal-header";
+import { ModalHeader } from "../ui/modal/modal-header";
 import Searchbox from "../ui/components/global-menu/searchbox";
 import { Tabs } from "../ui/tabs";
 import { useXWallet } from "../xwallet-context";
@@ -67,7 +67,9 @@ const NetworksScreen = () => {
       .filter(
         (networkKey) =>
           networks[networkKey][type] &&
-          networks[networkKey][type].name.toLowerCase().includes(searchTerm.toLowerCase()),
+          networks[networkKey][type].name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()),
       )
       .map((networkKey) => {
         const details = getNetworkDetails(networkKey, type);

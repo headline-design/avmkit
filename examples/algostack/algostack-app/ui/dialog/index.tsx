@@ -1,132 +1,106 @@
-"use client";
-
-import { Dispatch, SetStateAction } from "react";
-import { useRouter } from "next/navigation";
-import { cn } from "@/dashboard/lib/utils";
-import { Drawer } from "vaul";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import React, { useState, useEffect, useRef, FocusEventHandler } from "react";
+import Portal from "../portal";
 import useMediaQuery from "@/dashboard/lib/hooks/use-media-query";
 import styles from "./styles.module.css";
-import React from "react";
+import { cn } from "@/algostack-app/lib/utils";
 
-export default function Dialog({
-  unstyledModal = false,
-  children,
-  showModal,
-  setShowModal,
-  className,
-  onClose,
-  preventDefaultClose,
-  backdropClass,
-  handle = false,
-  dialogWidth = "450px",
-  dialogStack = false,
-}: {
-  unstyledModal?: boolean;
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
   children: React.ReactNode;
-  showModal?: boolean;
-  setShowModal?: Dispatch<SetStateAction<boolean>>;
-  className?: string;
-  onClose?: () => void;
-  preventDefaultClose?: boolean;
-  backdropClass?: string;
-  handle?: boolean;
-  dialogWidth?: string;
-  dialogStack?: boolean;
-}) {
-  const router = useRouter();
+  dialogWidth: string;
+  header: React.ReactNode;
+};
 
-  const closeModal = ({ dragged }: { dragged?: boolean } = {}) => {
-    if (preventDefaultClose && !dragged) {
-      return;
-    }
-    // fire onClose event if provided
-    onClose && onClose();
-
-    // if setShowModal is defined, use it to close modal
-    if (setShowModal) {
-      setShowModal(false);
-      // else, this is intercepting route @modal
-    } else {
-      router.back();
-    }
-  };
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  header,
+  dialogWidth = "450px",
+}) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const focusGuardBefore = useRef<HTMLDivElement | null>(null);
+  const focusGuardAfter = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useMediaQuery();
 
-  if (isMobile) {
-    return (
-      <Drawer.Root
-        dismissible={dialogStack ? false : true}
-        open={setShowModal ? showModal : true}
-        onOpenChange={(open) => {
-          if (!open && !dialogStack) {
-            closeModal({ dragged: true });
-          }
-        }}
-      >
-        <Drawer.Overlay className="fixed inset-0 z-50 bg-backdrop-1" />
-        <Drawer.Portal>
-          <Drawer.Content
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            onCloseAutoFocus={(e) => e.preventDefault()}
-            className={cn(
-              "rust-modal",
-              "fixed bottom-0 left-0 right-0 z-50 mt-24 w-full overflow-hidden rounded-t-[10px] border-t bg-background",
-              className,
-            )}
-          >
-            {handle && (
-              <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
-                <div className="my-3 h-1 w-12 rounded-full bg-gray-300" />
-              </div>
-            )}
+  const handleClose = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
-            {children}
-          </Drawer.Content>
-          <Drawer.Overlay />
-        </Drawer.Portal>
-      </Drawer.Root>
-    );
-  }
+  const handleFocusTrap = (e: FocusEvent) => {
+    if (e.target === focusGuardAfter.current) {
+      modalRef.current?.focus();
+    }
+    if (e.target === focusGuardBefore.current) {
+      modalRef.current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      modalRef.current?.focus();
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
-    <DialogPrimitive.Root
-      open={setShowModal ? showModal : true}
-      onOpenChange={(open) => {
-        if (!open) {
-          setTimeout(() => closeModal(), 300);
-          closeModal();
-        }
-      }}
-    >
-      <DialogPrimitive.Portal>
-        <div className={styles.dialogBackdrop} />
-        <DialogPrimitive.Overlay
-          id="modal-backdrop"
-          className={cn(styles.dialogOverlay, backdropClass)}
+    <Portal selector="modal-root">
+      <div className={styles.dialogBackdrop} onClick={handleClose} />
+      <div className={styles.dialogOverlay} onClick={handleClose}>
+        <div
+          className="focus-guard"
+          tabIndex={0}
+          ref={focusGuardBefore}
+          onFocus={handleFocusTrap as unknown as FocusEventHandler<HTMLDivElement>}
+        />
+        <div
+          className={cn(
+            isMobile
+              ? "w-full fixed bottom-0 left-0 right-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border-t bg-background rust-modal"
+              : "w-[450px]",
+            styles.dialogWrapper,
+          )}
+          ref={modalRef}
+          tabIndex={-1}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-header"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div tabIndex={-1}>
-            <DialogPrimitive.Content
-              onInteractOutside={(event) => {
-                dialogStack ? event.preventDefault() : closeModal();
-              }}
-              onPointerDownOutside={(event) => {
-                dialogStack ? event.preventDefault() : closeModal();
-              }}
-              style={{ width: dialogWidth }}
-              onOpenAutoFocus={(e) => e.preventDefault()}
-              onCloseAutoFocus={(e) => e.preventDefault()}
-              className={cn(
-                unstyledModal ? "" : styles.dialogWrapper,
-                className,
-                dialogWidth ? "" : "max-w-md",
-              )}
-            >
-              {children}
-            </DialogPrimitive.Content>
-          </div>
-        </DialogPrimitive.Overlay>
-      </DialogPrimitive.Portal>
-    </DialogPrimitive.Root>
+          {children}
+        </div>
+        <div
+          className="focus-guard"
+          tabIndex={0}
+          ref={focusGuardAfter}
+          onFocus={handleFocusTrap as unknown as FocusEventHandler<HTMLDivElement>}
+        />
+      </div>
+    </Portal>
   );
-}
+};
+
+export default Modal;

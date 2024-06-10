@@ -228,14 +228,12 @@ const UnlockScreen = ({
             </div>
           </div>
         </div>
-        <a href="#forget-password" target="_self" className="forgotPassword">
-          <div
-            className="xwallet-btn-ghost-content"
-            style={{ fontWeight: 500 }}
-          >
-            Forgot password?
-          </div>
-        </a>
+        <div
+          className="xwallet-btn-ghost-content"
+          style={{ fontWeight: 500, textAlign: "center", width: "100%" }}
+        >
+          Launch X Wallet
+        </div>
       </div>
     </div>
   );

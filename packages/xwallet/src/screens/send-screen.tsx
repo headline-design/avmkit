@@ -1,6 +1,6 @@
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
 import { sendTransaction } from "../lib/wallet-functions";
-import { ModalHeader } from "../ui/base-modal/modal-header";
+import { ModalHeader } from "../ui/modal/modal-header";
 import { Pipeline, Escrow } from "@avmkit/pipeline";
 import { Footer } from "../ui/components/footer";
 import React from "react";

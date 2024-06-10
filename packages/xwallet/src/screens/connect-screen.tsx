@@ -4,7 +4,7 @@ import { Pipeline } from "@avmkit/pipeline";
 import WalletItem from "../ui/wallet-item";
 import TipMessage from "../ui/tip-message";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
-import { ModalHeader } from "../ui/base-modal/modal-header";
+import { ModalHeader } from "../ui/modal/modal-header";
 
 // Entry point for XWallet connection
 

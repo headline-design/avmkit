@@ -26,9 +26,17 @@
     font-family: HarmonyOS Sans, PingFang SC, Microsoft Yahei, Heiti SC, WenQuanYi Micro Hei, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
+@media screen and (min-width: 641px) {
+    .app-content {
+    width: 360px !important;
+    height: 600px !important;
+    max-height: 100% !important;
+}
+}
+
 .app-content {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -49,25 +57,6 @@
     outline: none;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
-
-    @media screen and (min-width: 361px) {
-        width: 360px;
-        height: 600px;
-        max-height: 100vh;
-    }
-}
-
-@media screen and (max-width: 360px) {
-    .app-content {
-        left: 0;
-    }
-}
-
-@media screen and (max-width: 360px) {
-    .app-content {
-        top: 0;
-        position: absolute;
-    }
 }
 
 .xwallet-typography-text-md {
@@ -161,16 +150,7 @@ xwallet-list-container::-webkit-scrollbar {
 
 .main-container-wrapper {
     flex: 1;
-    background-color: var(--xwallet-base-bg);
-    border-radius: 12px;
-    box-shadow: var(--xwallet-shadow-md);
-    border: 1px solid var(--xwallet-base-border);
 
-
-    @media screen and (max-width: 360px) {
-        border-radius: 0;
-        box-shadow: none;
-    }
 }
 
 .wallet-container {
@@ -423,6 +403,12 @@ xwallet-list-container::-webkit-scrollbar {
     visibility: hidden
 }
 
+@media (max-width: 640px) {
+    .affix-footer {
+      width: 100% !important;
+    }
+}
+
 .affix-footer {
     z-index: 1;
     position: absolute;
@@ -508,11 +494,12 @@ xwallet-list-container::-webkit-scrollbar {
     font-weight: 700;
     width: 100%;
     font-size: 28px;
-    line-height: 20px;
+    line-height: 33px;
     text-align: center;
     position: relative;
     display: inline-block;
-    max-width: 100%
+    max-width: 100%;
+
 }
 
 .space-w-full {
@@ -583,7 +570,7 @@ xwallet-list-container::-webkit-scrollbar {
     caret-color: var(--xwallet-input-hover-caret-color);
     color: var(--xwallet-input-hover-text-color);
     -webkit-text-fill-color: var(--xwallet-input-hover-text-color);
-    font-size: 16px;
+    font-size: 16px !important;
     font-family: caption HarmonyOS Sans, PingFang SC, Microsoft Yahei, Heiti SC, WenQuanYi Micro Hei, Helvetica Neue, Helvetica, Arial, sans-serif;
     padding: calc((var(--xwallet-input-xl-height) - var(--xwallet-input-xl-text-font-size) - 4px)/2)0
 }
@@ -1944,23 +1931,16 @@ xwallet-list-container::-webkit-scrollbar {
     margin-right: 8px
 }
 
-@media screen and (max-width:360px) {
-    .xwallet-app-content {
-        left: 0;
-        top: 0;
-        position: absolute
-    }
-}
 
 .xwallet-app-content {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column
 }
 
-@media screen and (max-width:360px) {
+@media screen and (max-width:640px) {
     .xwallet-main-header-container-wrapper {
         background-color: var(--xwallet-base-bg);
     }
@@ -2873,6 +2853,12 @@ button {
 }
 
 .xwallet-input-xl .xwallet-input-input {
+    @media (max-width: 450px) {
+        font-size: 16px !important;
+    }
+}
+
+.xwallet-input-xl .xwallet-input-input {
     padding: calc((var(--xwallet-input-xl-height) - var(--xwallet-input-xl-text-font-size) - 4px) / 2) 0;
     font-size: var(--xwallet-input-xl-text-font-size);
 }
@@ -3135,12 +3121,7 @@ button {
 
 
 .xwallet-modal {
-    position: fixed;
     display: flex;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     align-items: center;
     justify-content: center;
     z-index: 5000;

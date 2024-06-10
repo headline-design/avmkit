@@ -1,7 +1,7 @@
 import { Escrow } from "@avmkit/pipeline";
 import React, { useState, useEffect } from "react";
 import nacl from "tweetnacl";
-import { ModalHeader } from "../ui/base-modal/modal-header";
+import { ModalHeader } from "../ui/modal/modal-header";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
 import { cBuffer, deBuffer, nonce, pad } from "../utils";
 
