@@ -3970,6 +3970,7 @@ __metadata:
     "@changesets/cli": ^2.27.1
     tsup: 8.0.2
     turbo: ^1.9.3
+    typescript: 5.4.3
   languageName: unknown
   linkType: soft
 
