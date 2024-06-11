@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, FocusEventHandler } from "react";
 import Portal from "../portal";
 
 type ModalProps = {
@@ -29,29 +29,130 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header }) => {
   };
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
+    if (typeof document !== 'undefined') {
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
 
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.removeEventListener("keydown", handleEscape);
+      };
+    }
   }, [onClose]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      modalRef.current?.focus();
-    } else {
-      document.body.style.overflow = "auto";
+    if (typeof document !== 'undefined') {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+        modalRef.current?.focus();
+      } else {
+        document.body.style.overflow = "auto";
+      }
+      return () => {
+        document.body.style.overflow = "auto";
+      };
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const styles = `
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideIn {
+          from {
+            transform: translateY(-20px);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+
+        .modal-backdrop {
+          pointer-events: all;
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          opacity: var(--xwallet-portal-opacity);
+          transition: opacity .35s cubic-bezier(.645,.045,.355,1);
+          background-color: #000;
+          pointer-events: none;
+          z-index: 4999;
+          animation: xWalletfadeInAndOut .35s cubic-bezier(.645,.045,.355,1);
+        }
+
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 5000;
+        }
+
+        .modal-content {
+          flex: 1;
+          background-color: var(--xwallet-base-bg);
+          width: 100%;
+          z-index: 5000;
+          animation: slideIn 0.3s;
+          outline: none;
+          overflow: hidden;
+        }
+
+        .xwallet-base-container {
+          height: 600px;
+          max-height: 100%;
+          overflow-y: auto;
+        }
+
+        @media (min-width: 641px) {
+          .modal-content {
+            border-radius: 12px;
+            box-shadow: var(--xwallet-shadow-md);
+            border: 1px solid var(--xwallet-base-border);
+            max-width: 360px;
+            min-height: 600px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .modal-content {
+            width: 100%;
+            max-width: none;
+            max-height: 100vh !important;
+            height: 100dvh;
+            border-radius: 0;
+          }
+
+          .xwallet-base-container {
+            max-height: 100%;
+            overflow-y: auto;
+          }
+        }
+      `;
+      const styleSheet = document.createElement("style");
+      styleSheet.type = "text/css";
+      styleSheet.innerText = styles;
+      document.head.appendChild(styleSheet);
+    }
+  }, []);
 
   if (!isOpen) return null;
 
@@ -63,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header }) => {
           className="focus-guard"
           tabIndex={0}
           ref={focusGuardBefore}
-          onFocus={handleFocusTrap}
+          onFocus={handleFocusTrap as unknown as FocusEventHandler<HTMLDivElement>}
         />
         <div
           className="modal-content xwallet-modal"
@@ -85,7 +186,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header }) => {
           className="focus-guard"
           tabIndex={0}
           ref={focusGuardAfter}
-          onFocus={handleFocusTrap}
+          onFocus={handleFocusTrap as unknown as FocusEventHandler<HTMLDivElement>}
         />
       </div>
     </Portal>
@@ -93,98 +194,3 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header }) => {
 };
 
 export default Modal;
-
-const styles = `
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.modal-backdrop {
-  pointer-events: all;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  opacity: var(--xwallet-portal-opacity);
-  transition: opacity .35s cubic-bezier(.645,.045,.355,1);
-  background-color: #000;
-  pointer-events: none;
-  z-index: 4999;
-  animation: xWalletfadeInAndOut .35s cubic-bezier(.645,.045,.355,1);
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5000;
-}
-
-.modal-content {
-  flex: 1;
-  background-color: var(--xwallet-base-bg);
-  width: 100%;
-  z-index: 5000;
-  animation: slideIn 0.3s;
-  outline: none;
-  overflow: hidden;
-}
-
-.xwallet-base-container {
-  height: 600px;
-  max-height: 100%;
-  overflow-y: auto;
-}
-
-@media (min-width: 641px) {
-  .modal-content {
-    border-radius: 12px;
-    box-shadow: var(--xwallet-shadow-md);
-    border: 1px solid var(--xwallet-base-border);
-    max-width: 360px;
-    min-height: 600px;
-  }
-}
-
-
-@media (max-width: 640px) {
-  .modal-content {
-    width: 100%;
-    max-width: none;
-    max-height: 100vh !important;
-    height: 100dvh;
-    border-radius: 0;
-  }
-
-  .xwallet-base-container {
-    max-height: 100%;
-    overflow-y: auto;
-  }
-}
-`;
-
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);

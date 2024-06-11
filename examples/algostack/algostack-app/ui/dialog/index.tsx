@@ -2,22 +2,18 @@ import React, { useState, useEffect, useRef, FocusEventHandler } from "react";
 import Portal from "../portal";
 import useMediaQuery from "@/dashboard/lib/hooks/use-media-query";
 import styles from "./styles.module.css";
-import { cn } from "@/algostack-app/lib/utils";
+import { cn } from "@/dashboard/lib/utils";
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  dialogWidth: string;
-  header: React.ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({
+const BaseDialog: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
-  header,
-  dialogWidth = "450px",
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const focusGuardBefore = useRef<HTMLDivElement | null>(null);
@@ -40,28 +36,32 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
 
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.removeEventListener("keydown", handleEscape);
+      };
+    }
   }, [onClose]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      modalRef.current?.focus();
-    } else {
-      document.body.style.overflow = "auto";
+    if (typeof document !== "undefined") {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+        modalRef.current?.focus();
+      } else {
+        document.body.style.overflow = "auto";
+      }
+      return () => {
+        document.body.style.overflow = "auto";
+      };
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -103,4 +103,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal;
+export default BaseDialog;

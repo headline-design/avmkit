@@ -11,18 +11,20 @@ const Portal: React.FC<PortalProps> = ({ selector, children }) => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    const selectorPrefixed = '#' + selector.replace(/^#/, '');
-    ref.current = document.querySelector(selectorPrefixed);
+    if (typeof document !== 'undefined') {
+      const selectorPrefixed = '#' + selector.replace(/^#/, '');
+      ref.current = document.querySelector(selectorPrefixed);
 
-    if (!ref.current) {
-      const div = document.createElement('div');
-      div.setAttribute('id', selector);
-      div.setAttribute('data-xwallet', `0.1.1`);
-      document.body.appendChild(div);
-      ref.current = div;
+      if (!ref.current) {
+        const div = document.createElement('div');
+        div.setAttribute('id', selector);
+        div.setAttribute('data-xwallet', `0.1.1`);
+        document.body.appendChild(div);
+        ref.current = div;
+      }
+
+      setMounted(true);
     }
-
-    setMounted(true);
   }, [selector]);
 
   if (!ref.current) return null;

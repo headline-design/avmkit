@@ -1,6 +1,6 @@
 {
     "name": "@avmkit/xwallet",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Wallet to send transactions to Algorand network",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
