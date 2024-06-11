@@ -29,6 +29,7 @@
     "turbo": "^1.9.3"
   },
   "devDependencies": {
+    "tailwindcss": "3.4.3",
     "tsup": "8.0.2",
     "typescript": "5.4.3"
   },
