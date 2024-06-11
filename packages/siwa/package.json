@@ -20,7 +20,6 @@
   "devDependencies": {
     "@types/mime": "^4.0.0",
     "eslint": "8.15.0",
-    "tsup": "8.0.2",
     "typescript": "5.4.3"
   },
   "dependencies": {
@@ -29,6 +28,7 @@
     "algosdk": "^2.7.0",
     "apg-js": "^4.3.0",
     "dotenv": "^16.0.3",
+    "tsup": "8.0.2",
     "uri-js": "^4.4.1",
     "valid-url": "^1.0.9"
   }
