@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, useRef, FocusEventHandler } from "react";
 import Portal from "../portal";
 import useMediaQuery from "@/dashboard/lib/hooks/use-media-query";
