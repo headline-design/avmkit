@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { inter, unbounded } from "@/dashboard/styles/fonts";
 import "@/dashboard/styles/globals.css";
-import App from "./app";
+import App from "@/dashboard/app";
 import ClientBoundary from "@/dashboard/client-boundary";
 import type { Viewport } from "next";
 

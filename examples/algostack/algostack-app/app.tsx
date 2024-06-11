@@ -3,7 +3,6 @@
 import React from "react";
 import { Provider } from "react-redux";
 import ClientApp from "@/algostack-app/client-app";
-export const dynamic = "force-dynamic";
 
 import { configureReduxStores } from "@/dashboard/redux/store";
 
