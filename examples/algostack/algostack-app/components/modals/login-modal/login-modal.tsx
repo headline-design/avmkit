@@ -8,16 +8,16 @@ import { Button } from "@/dashboard/ui";
 import { Pipeline, Escrow } from "@avmkit/pipeline";
 import { useXWallet } from "@avmkit/xwallet";
 import { useSIWA } from "@/use-siwa";
-import { useWalletConnection } from "@/algostack-app/contexts/wallet-connection-context";
-import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
+import { useWalletConnection } from "@/dashboard/contexts/wallet-connection-context";
+import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelectors";
 import { ICON_CLASS, WEB3_PROVIDERS, ALL_PROVIDERS } from "./constants";
 import { shorten } from "@/dashboard/lib/utils";
-import { toast } from "@/algostack-app/ui/toast";
-import { IconInfoCircle } from "@/algostack-app/icons/info-circle";
-import { IconSIWAStrokeLogo } from "@/algostack-app/assets/siwa-stroke-logo";
+import { toast } from "@/dashboard/ui/toast";
+import { IconInfoCircle } from "@/dashboard/icons/info-circle";
+import { IconSIWAStrokeLogo } from "@/dashboard/assets/siwa-stroke-logo";
 import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
-import BaseDialog from "@/algostack-app/ui/dialog";
+import { BaseDialog } from "@/algostack-app/ui";
 
 const initialState = {
   loading: false,

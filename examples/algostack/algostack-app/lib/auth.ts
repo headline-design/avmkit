@@ -18,6 +18,22 @@ import { SiwaMessage } from '@avmkit/siwa';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
+interface Credentials {
+  algoSignature?: string;
+  message?: string;
+  signature?: string;
+  algoAddress?: string; // Add this line
+}
+
+export interface SIWAResult {
+  success: boolean;
+  data: {
+    algoAddress?: string;
+    address?: string;
+    chainId?: any;
+  };
+}
+
 export interface Session {
   user: {
     email: string;
@@ -53,17 +69,18 @@ export const authOptions: NextAuthOptions = {
           placeholder: '0x0',
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials: Credentials, req) {
         try {
           const siwa = new SiwaMessage(JSON.parse(credentials?.message || '{}'));
+
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL);
 
           // VerifyParams
-          const result = await siwa.verify({
-            signature: credentials?.signature || '',
+          const result: SIWAResult = await siwa.verify({
+            signature: credentials.signature,
             domain: nextAuthUrl.host,
-            algoAddress: credentials?.algoAddress || '',
-            algoSignature: credentials?.algoSignature || '',
+            algoAddress: credentials.algoAddress,
+            algoSignature: credentials.algoSignature || '',
             nonce: await getCsrfToken({ req }),
           });
 
@@ -103,7 +120,6 @@ export const authOptions: NextAuthOptions = {
 
               return profile;
             } else {
-              console.log('wallet', wallet);
 
               const user = await prisma.user.findUnique({
                 where: { id: wallet.userId },

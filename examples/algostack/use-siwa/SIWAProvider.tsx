@@ -20,6 +20,12 @@ type Props = SIWAConfig & {
   onSignOut?: () => void;
 };
 
+declare global {
+  interface Window {
+    algorand: any;
+  }
+}
+
 export function uint8ArrayToBase64(bytes) {
   return btoa(String.fromCharCode.apply(null, bytes));
 }
@@ -30,7 +36,7 @@ function uint8ArrayToEthereumHexString(arr) {
   const first65Bytes = arr.slice(0, 65);
   return (
     "0x" +
-    Array.from(first65Bytes, (byte) => byte.toString(16).padStart(2, "0")).join(
+    Array.from(first65Bytes, (byte) => byte.toString().padStart(2, "0")).join(
       "",
     )
   );

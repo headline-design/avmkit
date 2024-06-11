@@ -5,6 +5,12 @@ import { SiwaErrorType, SiwaMessage, generateNonce } from '@avmkit/siwa';
 import SiwaSession from '@/dashboard/lib/siwa-session';
 import { getSession } from '@/dashboard/lib/auth';
 
+interface SiwaFields {
+  address: string;
+  algoAddress: string;
+  nonce: string;
+}
+
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const session = await getSession();
 
@@ -26,12 +32,14 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const siwaMessage = new SiwaMessage(message);
-    const { data: fields } = await siwaMessage.verify({
+    const { data: siwaFields } = await siwaMessage.verify({
       signature,
       nonce: session.nonce,
       address: session.address,
       algoAddress: session.algoAddress,
     });
+
+    const fields = siwaFields as unknown as SiwaFields;
 
     if (fields.nonce !== session.nonce) {
       return tap(new NextResponse('Invalid nonce.', { status: 422 }), (res: any) =>

@@ -2,7 +2,6 @@ const IconPera = ({className} : {
     className?: string;
 }) => (
     <svg
-      className=""
       width="1.5em"
       height="1.5em"
       focusable="false"
