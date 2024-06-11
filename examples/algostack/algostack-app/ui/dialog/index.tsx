@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef, FocusEventHandler } from "react";
+import React, { useEffect, FocusEventHandler } from "react";
 import Portal from "../portal";
 import useMediaQuery from "@/dashboard/lib/hooks/use-media-query";
 import styles from "./styles.module.css";
@@ -17,9 +17,9 @@ const BaseDialog: React.FC<ModalProps> = ({
   onClose,
   children,
 }) => {
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const focusGuardBefore = useRef<HTMLDivElement | null>(null);
-  const focusGuardAfter = useRef<HTMLDivElement | null>(null);
+  const modalRef = React.useRef<HTMLDivElement | null>(null);
+  const focusGuardBefore = React.useRef<HTMLDivElement | null>(null);
+  const focusGuardAfter = React.useRef<HTMLDivElement | null>(null);
   const { isMobile } = useMediaQuery();
 
   const handleClose = (e: React.MouseEvent) => {

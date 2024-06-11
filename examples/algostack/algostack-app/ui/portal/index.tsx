@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState, useRef } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type PortalProps = {
@@ -9,7 +10,7 @@ type PortalProps = {
 };
 
 const Portal: React.FC<PortalProps> = ({ selector, children }) => {
-  const ref = useRef<Element | null>(null);
+  const ref = React.useRef<Element | null>(null);
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
