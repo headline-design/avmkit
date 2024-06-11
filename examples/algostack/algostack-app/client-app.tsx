@@ -25,7 +25,6 @@ import {
   TermsView,
 } from "./views";
 import ClientLayout from "./client-layout";
-import { UserProvider } from "@/dashboard/contexts/user-context";
 import {
   WalletConnectionProvider,
   useWalletConnection,
@@ -92,7 +91,6 @@ function ClientApp() {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        <UserProvider>
           <WalletConnectionProvider>
             <XWalletProvider
               useWalletConnection={useWalletConnection}
@@ -105,7 +103,6 @@ function ClientApp() {
               </Web3Provider>
             </XWalletProvider>
           </WalletConnectionProvider>
-        </UserProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

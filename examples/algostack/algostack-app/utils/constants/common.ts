@@ -1,6 +1,5 @@
 "use client"
 
-import { v4 as uuidv4 } from 'uuid';
 import { getLocalStorage } from '@/dashboard/localStorage/localStorage';
 import localStore from 'store';
 
@@ -54,15 +53,6 @@ export const PipeConnectors = {
   //XWallet: 'XWallet'
 };
 
-/** INDEXERS */
-
-export const Indexers = {
-  AlgoExplorer: 'AlgoExplorer',
-  AlgoNode: 'AlgoNode',
-};
-
-export const DEFAULT_INDEXER = Indexers.AlgoExplorer;
-
 /** Local Storage keys */
 
 export const PIPECONNECT_STATE_KEY = 'pipeConnectState';
@@ -98,8 +88,6 @@ export const DefaultPipeState = {
 export const User = {
   address: JSON.parse(String(getLocalStorage(PIPECONNECT_STATE_KEY)))?.address || '',
 };
-
-export const uuid = uuidv4;
 
 export const Languages = {
   EN: 'English',

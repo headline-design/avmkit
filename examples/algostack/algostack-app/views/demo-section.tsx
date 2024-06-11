@@ -71,7 +71,7 @@ const DemoSection = () => {
               <p className="text-foreground/80">By the Auth team at HEADLINE</p>
               <div className="flex items-center gap-4 mt-4">
                 <a
-                  href="https://docs.siwa.org/"
+                  href="https://docs.algostack.vercel.app/"
                   target="_blank"
                   rel="noreferrer"
                 >

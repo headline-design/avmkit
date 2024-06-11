@@ -2,14 +2,14 @@ export const NETWORK_STATE = 'networkState';
 
 export const HOME_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
-    ? 'https://siwa.org'
+    ? 'https://algostack.vercel.app'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'http://localhost:3000'
       : 'http://192.168.1.160:3000';
 
 export const SIWA_HOSTNAME =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
-    ? 'https://siwa.org'
+    ? 'https://algostack.vercel.app'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'localhost'
       : '192.168.1.160';
@@ -18,7 +18,7 @@ export const isSiwaState = SIWA_HOSTNAME;
 
 export const API_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
-    ? 'https://api.siwa.org'
+    ? 'https://api.algostack.vercel.app'
     : process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://api.localhost:3000'
       : 'http://api.localhost:3000';
@@ -27,12 +27,12 @@ export const SIWA_PROJECT_ID = 'cllin9yjd00034jpom83r84dc';
 
 export const SIWA_DOMAINS = [
   {
-    slug: 'siwa.org',
+    slug: 'algostack.vercel.app',
     verified: true,
     primary: true,
-    target: 'https://siwa.org',
+    target: 'https://algostack.vercel.app',
     type: 'redirect',
-    placeholder: 'https://siwa.org',
+    placeholder: 'https://algostack.vercel.app',
     allowedHostnames: [],
   },
 ];

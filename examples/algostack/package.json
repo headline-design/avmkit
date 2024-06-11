@@ -53,7 +53,6 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "3.4.3",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^9.0.0",
     "vaul": "^0.7.0"
   },
   "devDependencies": {

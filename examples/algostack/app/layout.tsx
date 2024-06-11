@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     images: ["/siwa-og.png"],
     creator: "@headline_crypto",
   },
-  metadataBase: new URL("https://siwa.org"),
+  metadataBase: new URL("https://algostack.vercel.app"),
 };
 
 export const viewport: Viewport = {
