@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { inter, unbounded } from "@/dashboard/styles/fonts";
 import "@/dashboard/styles/globals.css";
-import App from "@/dashboard/app";
 import ClientBoundary from "@/dashboard/client-boundary";
 import type { Viewport } from "next";
+import dynamic from "next/dynamic";
+
+const App = dynamic(() => import("@/dashboard/app"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "SIWA",
