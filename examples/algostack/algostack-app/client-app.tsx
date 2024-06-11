@@ -34,7 +34,6 @@ import { LoginModalProvider } from "@/dashboard/contexts/login-modal-context";
 import { Pipeline } from "@avmkit/pipeline";
 import {
   CHAIN_NETWORK_KEY,
-  Networks,
   PipeConnectors,
 } from "@/dashboard/utils/constants/common";
 import localStore from "store";

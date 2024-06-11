@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useState } from "react";
+import React, { memo, Suspense } from "react";
 import { ThemeProvider } from "next-themes";
 import { Header } from "./layout/header";
 import ModalProvider from "./contexts/modal-context";

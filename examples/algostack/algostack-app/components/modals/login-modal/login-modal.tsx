@@ -1,3 +1,5 @@
+"use client";
+
 import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
 import { useSelector } from "react-redux";
@@ -457,10 +459,7 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   }, [isXWalletModalOpen]);
 
   return (
-    <BaseDialog
-      isOpen={showLoginModal}
-      onClose={onClose}
-    >
+    <BaseDialog isOpen={showLoginModal} onClose={onClose}>
       <div className="relative flex flex-row items-start justify-center border-b bg-accents-1 px-6 py-5">
         <h3 className="text-center text-lg font-medium">
           {state.currentScreen === "default"
