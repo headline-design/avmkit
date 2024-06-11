@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { satoshi, inter, unbounded } from "@/dashboard/styles/fonts";
+import { inter, unbounded } from "@/dashboard/styles/fonts";
 import "@/dashboard/styles/globals.css";
 import App from "./app";
 import ClientBoundary from "@/dashboard/client-boundary";
@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${satoshi.className} ${unbounded.variable} ${inter.className}`}>
+      <body className={`${unbounded.variable} ${inter.className}`}>
         <ClientBoundary>
           <App />
         </ClientBoundary>
