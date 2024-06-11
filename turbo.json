@@ -15,6 +15,7 @@
       "env": [
         "NEXTAUTH_URL",
         "NEXTAUTH_SECRET",
+        "SESSION_SECRET",
         "NEXT_PUBLIC_APP_INSTALLATION_ID",
         "NEXT_PUBLIC_GH_APP_ID",
         "NEXT_PUBLIC_ROOT_DOMAIN",
