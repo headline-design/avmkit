@@ -8,10 +8,12 @@ import { configureReduxStores } from "@/dashboard/redux/store";
 
 const store = configureReduxStores();
 
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <ClientApp />
     </Provider>
   );
 }
+
+export default App;
