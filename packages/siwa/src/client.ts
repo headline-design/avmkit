@@ -12,7 +12,7 @@ import {
   VerifyParamsKeys,
 } from './types';
 import {
-  checkContractWalletSignature,
+  verifySignature,
   generateNonce,
   checkInvalidKeys,
   isValidISO8601Date,
@@ -342,16 +342,17 @@ export class SiwaMessage {
           data: this,
         });
       } else {
-        const EIP1271Promise = checkContractWalletSignature(
+        const EIP1271Promise = verifySignature(
           this,
           params.algoSignature,
           params.algoAddress,
+          signature
         )
           .then(isValid => {
             if (!isValid) {
               return {
                 success: false,
-                data: { ...this, algoAddress: params.algoAddress},
+                data: { ...this, algoAddress: params.algoAddress },
                 error: new SiwaError(
                   SiwaErrorType.INVALID_SIGNATURE,
                   addr,
@@ -361,7 +362,7 @@ export class SiwaMessage {
             }
             return {
               success: true,
-              data:  { ...this, algoAddress: params.algoAddress},
+              data: { ...this, algoAddress: params.algoAddress },
             };
           })
           .catch(error => {
