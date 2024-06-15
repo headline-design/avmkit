@@ -3325,9 +3325,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"algostack@workspace:examples/algostack":
+"algostack@workspace:templates/algostack":
   version: 0.0.0-use.local
-  resolution: "algostack@workspace:examples/algostack"
+  resolution: "algostack@workspace:templates/algostack"
   dependencies:
     "@avmkit/pipeline": 1.0.2
     "@avmkit/siwa": 1.0.1
