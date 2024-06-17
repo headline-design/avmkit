@@ -29,12 +29,11 @@ export const POST = async (req: NextRequest) => {
   const { message, signature } = await req.json();
 
   const session = await SiwaSession.fromRequest(req);
-  //console.log('---session at 37', session);
 
   try {
     const siwaMessage = new SiwaMessage(message);
 
-    const verifyFields = {
+    const verifyFields: any = {
       signature,
       nonce: session.nonce,
       address: session.address,
