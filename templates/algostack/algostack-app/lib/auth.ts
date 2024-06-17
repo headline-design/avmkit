@@ -22,7 +22,8 @@ interface Credentials {
   algoSignature?: string;
   message?: string;
   signature?: string;
-  algoAddress?: string; // Add this line
+  algoAddress?: string;
+  nfd?: string;
 }
 
 export interface SIWAResult {
@@ -31,6 +32,11 @@ export interface SIWAResult {
     algoAddress?: string;
     address?: string;
     chainId?: any;
+    domain?: string;
+    message?: string;
+    signature?: string;
+    algoSignature?: string;
+    nfd?: string;
   };
 }
 
@@ -40,6 +46,7 @@ export interface Session {
     id: string;
     name: string;
     gh_username?: string;
+    nfd?: string;
     accessToken?: string;
     image?: string;
   };
@@ -75,13 +82,21 @@ export const authOptions: NextAuthOptions = {
 
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL);
 
-          // VerifyParams
-          const result: SIWAResult = await siwa.verify({
+          const verifyData: any = {
             signature: credentials.signature,
             domain: nextAuthUrl.host,
             algoAddress: credentials.algoAddress,
             algoSignature: credentials.algoSignature || '',
             nonce: await getCsrfToken({ req }),
+          };
+
+          if (credentials.nfd) {
+            verifyData.nfd = credentials.nfd;
+          }
+
+          // VerifyParams
+          const result: any = await siwa.verify({
+            ...verifyData,
           });
 
           console.log('result', result);
@@ -98,8 +113,9 @@ export const authOptions: NextAuthOptions = {
               let user = await prisma.user.create({
                 data: {
                   // Assuming 'id' field is auto-generated or you have a method to generate it
-                  name: result.data.algoAddress,
-                  email: `${result.data.algoAddress}@siwa.web3`, // Arbitrary temp email
+                  name: result.data.nfd || result.data.algoAddress,
+                  email: `${result.data.nfd || result.data.algoAddress}@siwa.web3`, // Arbitrary temp email
+                  nfd: result.data.nfd,
                 },
               });
 

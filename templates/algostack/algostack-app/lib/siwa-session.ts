@@ -34,6 +34,7 @@ class SiwaSession {
   teamId?: string;
   userId?: string;
   algoAddress: string | undefined;
+  nfd?: string;
 
   constructor(session?: ISiwaSession) {
     this.nonce = session?.nonce;

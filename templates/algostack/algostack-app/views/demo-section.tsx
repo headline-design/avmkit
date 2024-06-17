@@ -71,7 +71,7 @@ const DemoSection = () => {
               <p className="text-foreground/80">By the Auth team at HEADLINE</p>
               <div className="flex items-center gap-4 mt-4">
                 <a
-                  href="https://docs.algostack.vercel.app/"
+                  href="https://siwa.org/help"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -89,7 +89,7 @@ const DemoSection = () => {
                   </Button>
                 </a>
                 <a
-                  href="https://matrix.to/#/#siwa-general:matrix.org"
+                  href="https://siwa.org/contact"
                   target="_blank"
                   rel="noreferrer"
                 >

@@ -30,6 +30,7 @@ const ISO8601 =
  * @param algoSignatureBase64 The signature in base64 format.
  * @param address The Algorand public address.
  * @param signature The signature in hex format.
+ * @param nfd The Domain Name for address resolution (optional).
  * @returns {Promise<boolean>} Checks for the Algorand address (if it exists) if
  * the signature is valid for given address.
  */
@@ -39,6 +40,7 @@ export const verifySignature = async (
   algoSignatureBase64: string,
   address: string,
   signature: string,
+  nfd?: string,
 ): Promise<boolean> => {
 
   const hashedMessage = new Uint8Array(
@@ -58,6 +60,13 @@ export const verifySignature = async (
   if (!validateHexSignature(signatureUint8Array, signature)) {
     console.log('Hex signature validation failed');
     return false;
+  }
+
+  if (nfd !== "undefined") {
+    if (!validateNFDAddress(address, nfd)) {
+      console.log('NFD validation failed');
+      return false
+    }
   }
 
   try {
@@ -186,3 +195,85 @@ export const validateHexSignature = (algoSignature: Uint8Array, signature: strin
 
   return ethSig === signature;
 }
+
+export const validateNFDAddress = async (address: string, nfd: string): Promise<boolean> => {
+  const nfdAddress = await resolveNFDToAddress(nfd);
+
+  if (!nfdAddress) {
+    console.log('NFD not found');
+    return false;
+  }
+  return nfdAddress === address;
+}
+
+export const resolveAddressToNFD = async (address: string): Promise<string | null> => {
+  try {
+    const response = await fetch(
+      `https://api.nf.domains/nfd/lookup?address=${address}`,
+      {
+        method: "GET",
+        headers: {},
+      }
+    );
+
+    if (!response.ok) {
+      console.log(`HTTP error! status: ${response.status}`);
+      return null; // Explicitly return null on HTTP error
+    }
+
+    const data = await response.json();
+
+    // Check if data is not empty and has at least one key
+    if (data && Object.keys(data).length > 0) {
+      // Extract the first key of the data object
+      const key = Object.keys(data)[0];
+
+      // Check if the nested object has the name property
+      if (data[key] && data[key].name) {
+        const { name } = data[key];
+        return name;
+      } else {
+        console.log("Name property not found in the response.");
+      }
+    } else {
+      console.log("Response data is empty or malformed.");
+    }
+  } catch (error) {
+    console.log("Error resolving address to NFD:", error);
+  }
+  return null; // Return null in case of any errors or unexpected data
+};
+
+
+export const resolveNFDToAddress = async (nfd: string): Promise<string | null> => {
+  try {
+    const response = await fetch(`https://api.nf.domains/nfd/${nfd}`, {
+      method: 'GET',
+      headers: {},
+    });
+
+    if (!response.ok) {
+      console.log(`HTTP error! status: ${response.status}`);
+      return null; // Explicitly return null on HTTP error
+    }
+
+    const data = await response.json();
+
+    // Check if data is not empty and has the expected structure
+    if (data && data.owner) {
+      // Extract the owner property from the first result
+      const owner = data.owner;
+
+      if (owner) {
+        return owner;
+      } else {
+        console.log("Owner property not found in the response.");
+      }
+    } else {
+      console.log("Response data is empty or malformed.");
+    }
+  } catch (error) {
+    console.error("Error resolving NFD to address:", error);
+  }
+  return null; // Return null in case of any errors
+};

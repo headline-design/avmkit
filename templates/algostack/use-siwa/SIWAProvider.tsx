@@ -13,6 +13,7 @@ import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globa
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";
 import { useXWallet } from "@avmkit/xwallet";
+import { resolveAddressToNFD } from "@avmkit/siwa";
 
 type Props = SIWAConfig & {
   children: ReactNode;
@@ -111,6 +112,8 @@ export const SIWAProvider = ({
   };
 
   const signIn = async () => {
+    const nfd = await resolveAddressToNFD(Pipeline.address);
+
     try {
       if (!siwaConfig) {
         throw new Error("SIWA not configured");
@@ -200,19 +203,23 @@ export const SIWAProvider = ({
       }
 
       let algoSigBase64 = uint8ArrayToBase64(algoSig);
-      //console.log('algoSigBase64', algoSigBase64);
       const ethSig = uint8ArrayToEthereumHexString(algoSig);
 
+      // Construct the verifyMessage parameters conditionally
+      const verifyParams: any = {
+        message,
+        signature: ethSig,
+        address: address,
+        algoAddress: Pipeline.address,
+        algoSignature: algoSigBase64,
+      };
+
+      if (nfd) {
+        verifyParams.nfd = nfd;
+      }
+
       // Verify signature
-      if (
-        !(await siwaConfig.verifyMessage({
-          message,
-          signature: ethSig,
-          address: address,
-          algoAddress: Pipeline.address,
-          algoSignature: algoSigBase64,
-        }))
-      ) {
+      if (!(await siwaConfig.verifyMessage(verifyParams))) {
         throw new Error("Error verifying SIWA signature");
       }
 

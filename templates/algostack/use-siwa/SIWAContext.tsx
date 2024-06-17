@@ -1,12 +1,12 @@
-import { createContext } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { createContext } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export enum StatusState {
-  READY = 'ready',
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  REJECTED = 'rejected',
-  ERROR = 'error',
+  READY = "ready",
+  LOADING = "loading",
+  SUCCESS = "success",
+  REJECTED = "rejected",
+  ERROR = "error",
 }
 
 export type SIWASession = {
@@ -29,6 +29,7 @@ export type SIWAConfig = {
     address: string;
     algoAddress: string;
     algoSignature: string;
+    nfd?: string | undefined;
   }) => Promise<boolean>;
   getSession: () => Promise<SIWASession | null>;
   signOut: () => Promise<boolean>;

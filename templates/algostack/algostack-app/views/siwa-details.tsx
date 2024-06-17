@@ -53,6 +53,12 @@ const SIWADetails = ({ user, signOut }) => {
                       </span>
                       <span>{shorten(user?.wallets[0]?.address)}</span>
                     </li>
+                    {user?.nfd && (
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">NFD</span>
+                        <span>{user?.nfd}</span>
+                      </li>
+                    )}
                     <li className="flex items-center justify-between">
                       <span className="text-muted-foreground">Database</span>
                       <span className="text-ellipsis overflow-hidden">

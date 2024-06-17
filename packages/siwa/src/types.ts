@@ -39,6 +39,9 @@ export interface VerifyParams {
   time?: string;
 
   scheme?: string;
+
+  /** NFD for address resolution. */
+  nfd?: string;
 }
 
 export const VerifyParamsKeys: Array<keyof VerifyParams> = [
@@ -46,6 +49,7 @@ export const VerifyParamsKeys: Array<keyof VerifyParams> = [
   'algoSignature',
   'address',
   'algoAddress',
+  'nfd',
   'domain',
   'scheme',
   'nonce',
@@ -126,6 +130,9 @@ export enum SiwaErrorType {
 
   /** `address` does not conform to EIP-55 or is not a valid address. */
   INVALID_ADDRESS = 'Invalid address.',
+
+  /** `address` does not match resolved NFD owner address. */
+  ADDRESS_MISMATCH = 'Address does not match resolved NFD owner address.',
 
   /** `uri` does not conform to RFC 3986. */
   INVALID_URI = 'URI does not conform to RFC 3986.',

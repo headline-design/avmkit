@@ -9,6 +9,7 @@ interface SiwaFields {
   address: string;
   algoAddress: string;
   nonce: string;
+  nfd?: string;
 }
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
@@ -32,11 +33,20 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const siwaMessage = new SiwaMessage(message);
-    const { data: siwaFields } = await siwaMessage.verify({
+
+    const verifyFields = {
       signature,
       nonce: session.nonce,
       address: session.address,
       algoAddress: session.algoAddress,
+    }
+
+    if (session.nfd) {
+      verifyFields.nfd = session.nfd;
+    }
+
+    const siwaFields = await siwaMessage.verify({
+      ...verifyFields,
     });
 
     const fields = siwaFields as unknown as SiwaFields;
@@ -48,6 +58,7 @@ export const POST = async (req: NextRequest) => {
     }
     session.address = fields.address;
     session.algoAddress = fields.algoAddress;
+    session.nfd = fields.nfd;
     session.chainId = 1;
     session.nonce = undefined;
     session.userId = fields.address;

@@ -55,13 +55,15 @@ export const siwaConfig: SIWAConfig = {
     address,
     algoAddress,
     algoSignature,
+    nfd,
   }: {
     message: string | Uint8Array;
     signature: string;
     address: string;
     algoAddress: string;
     algoSignature: string;
-  }) => {
+    nfd?: string;
+    }) => {
     //console.log('message-credentials', address, algoAddress, algoSignature);
 
     return signIn("credentials", {
@@ -69,6 +71,7 @@ export const siwaConfig: SIWAConfig = {
       address,
       algoAddress,
       algoSignature,
+      nfd,
       redirect: false,
       signature,
       callbackUrl: "/",

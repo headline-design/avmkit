@@ -23,6 +23,7 @@ model User {
   image         String?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  nfd           String?
   accounts      Account[]
   wallets       Wallet[]
   sessions      Session[]

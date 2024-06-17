@@ -246,7 +246,9 @@ export class SiwaMessage {
         });
       }
 
-      const { signature, address, scheme, domain, nonce, time } = params;
+      const { signature, address, scheme, domain, nonce, time, algoAddress, algoSignature, nfd } = params;
+
+
 
       /** Scheme for domain binding */
       if (scheme && scheme !== this.scheme) {
@@ -344,15 +346,16 @@ export class SiwaMessage {
       } else {
         const EIP1271Promise = verifySignature(
           this,
-          params.algoSignature,
-          params.algoAddress,
-          signature
+          algoSignature,
+          algoAddress,
+          signature,
+          nfd
         )
           .then(isValid => {
             if (!isValid) {
               return {
                 success: false,
-                data: { ...this, algoAddress: params.algoAddress },
+                data: { ...this, algoAddress, nfd },
                 error: new SiwaError(
                   SiwaErrorType.INVALID_SIGNATURE,
                   addr,
@@ -360,9 +363,14 @@ export class SiwaMessage {
                 ),
               };
             }
+            const returnData: any = { ...this, algoAddress };
+
+            if (nfd !== "undefined") {
+              returnData.nfd = nfd;
+            }
             return {
               success: true,
-              data: { ...this, algoAddress: params.algoAddress },
+              data: { ...returnData },
             };
           })
           .catch(error => {
