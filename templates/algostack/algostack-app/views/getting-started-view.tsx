@@ -57,7 +57,7 @@ const GettingStartedView = () => {
             {copiedCommand === "clone" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            git clone https://github.com/headline-design/avmkit/siwa.git
+            git clone https://github.com/headline-design/algostack.git
           </code>
         </div>
 
