@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function constructMetadata({
   title = 'AlgoStack SSR',
   description = 'The Next.js FullStack SSR Template for Algorand.',
-  image = '/siwa-og.png',
+  image = '/algostack-og.png',
   icons = '/favicon.ico',
   noIndex = false,
 }: {

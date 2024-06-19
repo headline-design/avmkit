@@ -17,7 +17,8 @@ const MainView = () => {
                   Algorand Ecosystem
                 </div>
                 <h1 className="text-3xl font-bold  md:text-6xl md:block text-3xl font-bold  sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-                  The Fullstack Template for Algorand
+                  The Fullstack <br>
+                  </br>SSR Template for Algorand
                 </h1>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed ">
                   A fully-loaded Web3 template that scales with Next.js. The

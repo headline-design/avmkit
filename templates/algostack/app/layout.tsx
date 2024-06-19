@@ -10,23 +10,23 @@ const App = dynamic(() => import("@/dashboard/app"), {
 });
 
 export const metadata: Metadata = {
-  title: "SIWA",
+  title: "AlgoStack",
   description: "Sign In With Algorand",
   icons: "/favicon.ico",
   openGraph: {
-    title: "SIWA",
+    title: "AlgoStack",
     description: "Sign In With Algorand",
     images: [
       {
-        url: "/siwa-og.png",
+        url: "/algostack-og.png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SIWA",
+    title: "AlgoStack",
     description: "Sign In With Algorand",
-    images: ["/siwa-og.png"],
+    images: ["/algostack-og.png"],
     creator: "@headline_crypto",
   },
   metadataBase: new URL("https://algostack.vercel.app"),
