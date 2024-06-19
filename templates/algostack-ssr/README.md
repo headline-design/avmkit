@@ -1,6 +1,6 @@
 # SIWA
 
-SIWA is a boilerplate for building modern web applications with React and Next.js. SIWA is a single-page application (SPA) built inside Next.js. The best of React and Next.js, combined into a seamless experience.
+AlgoStack SSR is a boilerplate for building modern web applications with Algorand and Next.js. AlgoStack SSR is a multi-page application built with the Next.js app router. The best of React and Next.js, combined into a seamless experience.
 
 This is a SIWA project bootstrapped with [Next.js](https://nextjs.org/) and [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
