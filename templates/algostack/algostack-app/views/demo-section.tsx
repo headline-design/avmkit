@@ -80,7 +80,7 @@ const DemoSection = () => {
                   </Button>
                 </a>
                 <a
-                  href="https://github.com/headline-design/avmkit/siwa"
+                  href="https://github.com/headline-design/algostack"
                   target="_blank"
                   rel="noreferrer"
                 >

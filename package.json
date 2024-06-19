@@ -18,6 +18,7 @@
     "gen:use-siwa": "cd packages/use-siwa && yarn build",
     "next-siwa": "cd templates/algostack && yarn dev",
     "build:algostack": "cd templates/algostack && turbo run build",
+    "dev:stack-ssr": "cd templates/algostack-ssr && yarn dev",
     "format": "turbo format --continue --",
     "format:fix": "turbo format --continue -- --write",
     "lint": "turbo lint --continue --",

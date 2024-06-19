@@ -32,7 +32,7 @@ const MainView = () => {
                     target="_blank"
                     size="lg"
                     variant="outline"
-                    href="https://github.com/headline-design/avmkit/siwa"
+                    href="https://github.com/headline-design/algostack"
                   >
                     <IconGithub /> Github
                   </ButtonLink>
