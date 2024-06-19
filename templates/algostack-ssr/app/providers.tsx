@@ -15,7 +15,7 @@ import {
 import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import ModalProvider from "@/algostack-app/contexts/modal-context";
 
-export function ParentProviders({
+export function ClientProvider({
   children,
 }: {
   children: React.ReactNode | any;
@@ -41,7 +41,7 @@ export function ParentProviders({
   );
 }
 
-export function ChildProviders({
+export function ChildProvider({
   children,
 }: {
   children: React.ReactNode | any;

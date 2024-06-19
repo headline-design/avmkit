@@ -72,12 +72,12 @@ const GettingStartedView = () => {
             size="sm"
             className="absolute right-1 top-1"
             variant={"ghost"}
-            onClick={() => handleCopy("cd siwa\nnpm install", "install")}
+            onClick={() => handleCopy("cd algostack-ssr\nnpm install", "install")}
           >
             {copiedCommand === "install" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            cd siwa
+            cd algostack-ssr
             <br />
             npm install
           </code>
@@ -117,9 +117,9 @@ const GettingStartedView = () => {
           <li>
             Import the view in your main{" "}
             <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-              App.tsx
+              page.tsx
             </code>{" "}
-            file, similar to other views:
+            file for "getting-started" in the app directory, similar to other pages:
           </li>
           <pre className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
             <code>
@@ -128,40 +128,54 @@ const GettingStartedView = () => {
             </code>
           </pre>
           <li>
-            Add a new route for the{" "}
+            Adding a new page in the{" "}
             <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-              GettingStartedView
+              app router
             </code>{" "}
-            within the{" "}
+            works by nesting under a common{" "}
             <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-              routes
+              layout
             </code>{" "}
-            array. Define a path that suits your application's structure. For
+            component. Define a shared layout that suits your application's structure. For
             example:
           </li>
           <pre className="mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative p-3 dark:text-foreground text-background">
-            <code>{`const routes = useMemo(
-  () => [
-    <Route
-      key="main"
-      path=""
-      element={
-        <ProviderLayout queryClient={queryClient}>
-          <ErrorBoundary fallbackRender={({ error }) => <ErrorView />}>
-            <ScrollToTop />
-            <Outlet />
-          </ErrorBoundary>
-        </ProviderLayout>
-      }
-    >
-      {/* Other routes... */}
-      <Route path="/getting-started/*" element={<GettingStartedView />} />
-      {/* Remaining routes... */}
-    </Route>,
-    <Route key="error" path="*" element={<ErrorView />} />,
-  ],
-  [queryClient]
-);`}</code>
+            <code>{`import { ClientProvider } from "./providers";
+import { inter, unbounded } from "@/dashboard/styles/fonts";
+import { cn, constructMetadata } from "@/dashboard/lib/utils";
+import { headers } from "next/headers";
+
+import React from "react";
+import ServerProvider from "./server-provider";
+import type { Viewport } from "next";
+
+export const metadata = constructMetadata();
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode | any;
+}) {
+
+  return (
+    <ClientProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={\`\${unbounded.variable} \${inter.className}\`}
+      >
+        <body >
+          <ServerProvider>{children}</ServerProvider>
+        </body>
+      </html>
+    </ClientProvider>
+  );
+}`}</code>
           </pre>
         </ol>
         <p>
@@ -191,8 +205,8 @@ const GettingStartedView = () => {
       </div>
 
       <p className="text-center font-semibold mt-6">
-        Explore and build your application with AlgoStack SSR, leveraging Next.js
-        and Tailwind CSS.
+        Explore and build your application with AlgoStack SSR, leveraging
+        Next.js and Tailwind CSS.
       </p>
     </div>
   );

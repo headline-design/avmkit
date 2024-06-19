@@ -1,9 +1,9 @@
-import { ChildProviders } from "./providers";
+import { ChildProvider } from "./providers";
 
 export default function ServerWrapper({
   children,
 }: {
   children: React.ReactNode | any;
 }) {
-  return <ChildProviders>{children}</ChildProviders>;
+  return <ChildProvider>{children}</ChildProvider>;
 }

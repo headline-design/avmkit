@@ -1,4 +1,4 @@
-import { ParentProviders } from "./providers";
+import { ClientProvider } from "./providers";
 import { inter, unbounded } from "@/dashboard/styles/fonts";
 import { cn, constructMetadata } from "@/dashboard/lib/utils";
 import { headers } from "next/headers";
@@ -19,11 +19,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode | any;
 }) {
-  const headersList = headers();
-  const activePath = headersList.get("x-forwarded-host");
 
   return (
-    <ParentProviders>
+    <ClientProvider>
       <html
         lang="en"
         suppressHydrationWarning
@@ -33,6 +31,6 @@ export default function RootLayout({
           <ServerProvider>{children}</ServerProvider>
         </body>
       </html>
-    </ParentProviders>
+    </ClientProvider>
   );
 }

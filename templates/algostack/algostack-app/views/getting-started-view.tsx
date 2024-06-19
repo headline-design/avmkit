@@ -70,12 +70,12 @@ const GettingStartedView = () => {
             size="sm"
             className="absolute right-1 top-1"
             variant={"ghost"}
-            onClick={() => handleCopy("cd siwa\nnpm install", "install")}
+            onClick={() => handleCopy("cd algostack\nnpm install", "install")}
           >
             {copiedCommand === "install" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            cd siwa
+            cd algostack
             <br />
             npm install
           </code>
