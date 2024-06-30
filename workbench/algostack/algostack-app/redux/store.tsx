@@ -7,7 +7,6 @@ import algorand from './algorand/algorandReducers';
 import application from './application/applicationReducers';
 import loaders from './ui/loaders';
 import theme from './ui/theme';
-import global from './global/global';
 import user from './user/userReducers';
 
 let store: Store;
@@ -20,7 +19,6 @@ export function configureReduxStores(preloadedState?: PreloadedState<any>) {
     user: user,
     application: application,
     theme: theme,
-    global: global,
   };
   store = configureStore({
     reducer,

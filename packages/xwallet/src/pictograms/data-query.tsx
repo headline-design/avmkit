@@ -7,7 +7,6 @@ const VectorDataQuery = ({ className }: { className?: string }) => (
     x="0px"
     y="0px"
     viewBox="0 0 32 32"
-    style={{ enableBackground: 'new 0 0 32 32' }}
     className={className}
     xmlSpace="preserve"
   >

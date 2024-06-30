@@ -18,6 +18,7 @@ export interface XWalletModalState {
   state: string;
   request?: string;
   message?: string;
+  loadingMessage?: string;
   address?: string;
 }
 

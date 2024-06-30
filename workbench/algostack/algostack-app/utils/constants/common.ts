@@ -1,7 +1,6 @@
 "use client"
 
 import { getLocalStorage } from '@/dashboard/localStorage/localStorage';
-import localStore from 'store';
 
 export const NONE_YET = 'none yet';
 export const PREFERRED_DECIMALS = 2;

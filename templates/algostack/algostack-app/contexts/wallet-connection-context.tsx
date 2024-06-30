@@ -14,18 +14,19 @@ import { Pipeline } from "@avmkit/pipeline";
 import algorandGlobalActions from "@/dashboard/redux/algorand/global/globalActions";
 import authActions from "@/dashboard/redux/auth/authActions";
 import { getCurrentGlobalPipeState } from "@/dashboard/utils/functions";
-import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelectors";
-import { getChain } from "@/dashboard/utils/endPoints";
 import { Networks } from "../utils/constants/common";
 import { AnyAction } from "redux";
 import authSelectors from "../redux/auth/authSelectors";
-import { NetworkDetails } from "@/use-avm/types";
-import { networkConfig } from "@/use-avm/network-config";
+import { NetworkDetails } from "@/avm/types";
+import { networkConfig } from "@/avm/network-config";
+import algorandGlobalSelectors from '@/dashboard/redux/algorand/global/globalSelectors';
 
 export interface GlobalPipeState {
   provider: string;
   address: string;
   mainNet: boolean;
+  isMainNet: boolean;
+  isAltChainEnabled: boolean;
   chain: any;
 }
 
@@ -49,10 +50,11 @@ export const WalletConnectionContext = createContext<
 // default network config - Algorand Mainnet or Voi Testnet
 
 const configurePipeline = (
-  isAltChainEnabled: boolean,
   globalPipeState: GlobalPipeState,
+  isMainNet: boolean,
+  isAltChainEnabled: boolean,
 ) => {
-  if (isAltChainEnabled) {
+  if (isAltChainEnabled && !isMainNet) {
     const voiTestnetConfig = networkConfig["1"].testnet;
     Pipeline.EnableDeveloperAPI = true;
     Pipeline.indexer = voiTestnetConfig.algod;
@@ -60,16 +62,31 @@ const configurePipeline = (
     Pipeline.token = voiTestnetConfig.token;
     Pipeline.devGenHash = voiTestnetConfig.genesisHash;
     Pipeline.devGenId = voiTestnetConfig.genesisId;
+  } else if (isAltChainEnabled && isMainNet) {
+    const voiMainnetConfig = networkConfig["1"].mainnet;
+    Pipeline.EnableDeveloperAPI = true;
+    Pipeline.indexer = voiMainnetConfig.algod;
+    Pipeline.algod = voiMainnetConfig.algod;
+    Pipeline.token = voiMainnetConfig.token;
+    Pipeline.devGenHash = voiMainnetConfig.genesisHash;
+    Pipeline.devGenId = voiMainnetConfig.genesisId;
+  } else if (!isAltChainEnabled && !isMainNet) {
+    const algorandTestnetConfig = networkConfig["0"].testnet;
+    Pipeline.EnableDeveloperAPI = true;
+    Pipeline.indexer = algorandTestnetConfig.algod;
+    Pipeline.algod = algorandTestnetConfig.algod;
+    Pipeline.token = algorandTestnetConfig.token;
+    Pipeline.devGenHash = algorandTestnetConfig.genesisHash;
+    Pipeline.devGenId = algorandTestnetConfig.genesisId;
   } else {
     const algorandMainnetConfig = networkConfig["0"].mainnet;
-    Pipeline.EnableDeveloperAPI = false;
+    Pipeline.EnableDeveloperAPI = true;
     Pipeline.indexer = algorandMainnetConfig.algod;
     Pipeline.algod = algorandMainnetConfig.algod;
     Pipeline.token = algorandMainnetConfig.token;
     Pipeline.devGenHash = algorandMainnetConfig.genesisHash;
     Pipeline.devGenId = algorandMainnetConfig.genesisId;
   }
-
   Pipeline.pipeConnector = globalPipeState.provider;
   Pipeline.address = globalPipeState.address;
 };
@@ -77,24 +94,30 @@ const configurePipeline = (
 export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const isAltChainEnabled = getChain();
   const [isConnected, setConnected] = useState(false);
   const [networkDetails, setNetworkDetails] = useState<
     NetworkDetails | undefined
   >();
   const [status, setStatus] = useState("disconnected");
   const dispatch: Dispatch<any> = useDispatch();
-  const globalPipeState = useSelector(
-    algorandGlobalSelectors.selectCurrentPipeConnectState,
-  );
+
   const token = useSelector(authSelectors.selectToken);
   const [accountAddress, setAccountAddress] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const globalPipeState = useSelector(
+    algorandGlobalSelectors.selectCurrentPipeConnectState,
+  );
+
+  const isMainNet = globalPipeState.isMainNet;
+  const isAltChainEnabled = globalPipeState.isAltChainEnabled;
+
   const [pipeState, setPipeState] = useState<GlobalPipeState>({
-    provider: globalPipeState.provider,
+    provider: globalPipeState.provider || "",
     address: globalPipeState.address || "",
     mainNet: Networks.MainNet ? true : false,
+    isMainNet: globalPipeState.isMainNet,
+    isAltChainEnabled: globalPipeState.isAltChainEnabled,
     chain: globalPipeState.chain,
   });
 
@@ -164,15 +187,16 @@ export const WalletConnectionProvider: React.FC<PropsWithChildren<{}>> = ({
   }, [pipeState.address, checkConnected]);
 
   useEffect(() => {
-    configurePipeline(isAltChainEnabled, globalPipeState);
+    configurePipeline(globalPipeState, isMainNet, isAltChainEnabled);
     setPipeState((prevState) => ({
       ...prevState,
       address: globalPipeState.address,
       mainNet: globalPipeState.mainNet,
       chain: globalPipeState.chain,
+      algod: globalPipeState.algod,
     }));
     setLoading(false);
-  }, [globalPipeState, isAltChainEnabled]);
+  }, [globalPipeState, isAltChainEnabled, isMainNet]);
 
   return (
     <WalletConnectionContext.Provider

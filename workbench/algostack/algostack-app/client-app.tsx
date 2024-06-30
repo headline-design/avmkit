@@ -30,12 +30,9 @@ import {
   useWalletConnection,
 } from "@/dashboard/contexts/wallet-connection-context";
 import { LoginModalProvider } from "@/dashboard/contexts/login-modal-context";
-import { Pipeline } from "../../../packages/pipeline/src";
 import {
-  CHAIN_NETWORK_KEY,
   PipeConnectors,
 } from "@/dashboard/utils/constants/common";
-import localStore from "store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { XWalletProvider } from "@avmkit/xwallet";
 
@@ -72,12 +69,6 @@ function ClientApp() {
     () => createBrowserRouter(createRoutesFromElements(routes)),
     [routes],
   );
-
-  const chainNetworkValue = localStore.get(CHAIN_NETWORK_KEY);
-  const isNetworkMainnet = process.env.NEXT_PUBLIC_NETWORK_TYPE === "mainnet";
-
-  Pipeline.main =
-    chainNetworkValue === null ? isNetworkMainnet : chainNetworkValue;
 
   const queryClient = new QueryClient({
     defaultOptions: {
