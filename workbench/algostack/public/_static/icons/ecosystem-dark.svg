@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="icon"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64">
+    <defs>
+        <radialGradient id="radial-gradient" cx="-226.92877" cy="461.7151" fx="-226.92877" fy="461.7151" r="1" gradientTransform="translate(-28462.42366 14012.75003) rotate(90) scale(61.7143 -61.7143)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset="1" stop-color="#fff"/>
+        </radialGradient>
+        <linearGradient id="linear-gradient" x1="16.58716" y1="120.52447" x2="27.08716" y2="101.02447" gradientTransform="translate(0 123.90062) scale(1 -1)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+    </defs>
+    <path d="M32,8h0c13.25484,0,24,10.74516,24,24h0c0,13.25484-10.74516,24-24,24h0c-13.25484,0-24-10.74516-24-24h0c0-13.25484,10.74516-24,24-24Z"/>
+    <path d="M32,8.5h0c12.97869,0,23.5,10.52131,23.5,23.5h0c0,12.97869-10.52131,23.5-23.5,23.5h0c-12.97869,0-23.5-10.52131-23.5-23.5h0c0-12.97869,10.52131-23.5,23.5-23.5Z" fill="none" stroke="url(#radial-gradient)" stroke-opacity=".15"/>
+    <path d="M32,8.5h0c12.97869,0,23.5,10.52131,23.5,23.5h0c0,12.97869-10.52131,23.5-23.5,23.5h0c-12.97869,0-23.5-10.52131-23.5-23.5h0c0-12.97869,10.52131-23.5,23.5-23.5Z" fill="none" stroke="url(#linear-gradient)" stroke-opacity=".5"/>
+    <path d="M32,.5h0c17.39697,0,31.5,14.10303,31.5,31.5h0c0,17.39697-14.10303,31.5-31.5,31.5h0C14.60303,63.5,.5,49.39697,.5,32H.5C.5,14.60303,14.60303,.5,32,.5Z" fill="none" stroke="rgba(255,255,255,.1)"/>
+    <rect x="33.246" y="30.75" width="7.5" height="1.25" fill="#fff"/>
+    <rect x="33.246" y="33.875" width="5" height="1.25" fill="#fff"/>
+    <rect x="33.246" y="27.625" width="7.5" height="1.25" fill="#fff"/>
+    <path d="M35.746,37v2.5h-10v-7.5h5v-1.25h-2.5v-3.75c.00018-1.38099,1.11985-2.50035,2.50084-2.50016,.99408,.00013,1.89367,.5891,2.29135,1.50017l1.14563-.5c-.82897-1.89831-3.03986-2.76518-4.93816-1.93621-1.36611,.59656-2.24926,1.94552-2.24965,3.43621v3.75h-1.25c-.69003,.00079-1.24921,.55997-1.25,1.25v7.5c.00079,.69003,.55997,1.24921,1.25,1.25h10c.69003-.00079,1.24921-.55997,1.25-1.25v-2.5h-1.25Z" fill="#fff"/>
+    <rect id="_Transparent_Rectangle_" x="21.996" y="22" width="20" height="20" fill="none"/>
+</svg>

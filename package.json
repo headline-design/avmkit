@@ -3,7 +3,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "templates/*"
+    "templates/*",
+    "workbench/*"
   ],
   "license": "MIT",
   "private": true,
@@ -17,6 +18,7 @@
     "publish:siwa": "cd packages/siwa && yarn publish --access public",
     "gen:use-siwa": "cd packages/use-siwa && yarn build",
     "next-siwa": "cd templates/algostack && yarn dev",
+    "dev:bench": "cd workbench/algostack && yarn dev",
     "build:algostack": "cd templates/algostack && turbo run build",
     "dev:stack-ssr": "cd templates/algostack-ssr && yarn dev",
     "format": "turbo format --continue --",

@@ -28,10 +28,23 @@ import encodeUint64 from './encode64.js';
 
 export { sendTxns, Escrow, configClient /*PipeWallet*/ };
 
+type AsaObject = {
+  name?: string;
+  symbol?: string;
+  total?: number;
+  decimals?: number;
+  defaultFrozen?: boolean;
+  manager?: string;
+  reserve?: string;
+  freeze?: string;
+  clawback?: string;
+  note?: Uint8Array;
+};
+
 async function waitForUnlock() {
   return new Promise((resolve, reject) => {
     if (typeof window !== 'undefined') {
-      window.approve = () => {
+      (window as any).approve = () => {
         resolve(true);
       };
     } else {
@@ -68,7 +81,9 @@ export class Pipeline {
 
   static wcId = '85663294acf9ea5f7b367dbf260038bc';
 
-  static connector = {};
+  static connector: any = {};
+  static genesisID = '';
+  static fee = algosdk.ALGORAND_MIN_TX_FEE;
 
   /*
 
@@ -89,7 +104,7 @@ export class Pipeline {
 
   static wallet = new Escrow();
 
-  static PeraWallet = new PeraWalletConnect();
+  static peraWallet: PeraWalletConnect = new PeraWalletConnect();
 
   static async balance(address) {
     let indexerURL = configIndexer(this.main, this.EnableDeveloperAPI, this);
@@ -99,7 +114,7 @@ export class Pipeline {
       let data = await fetch(url2);
       let data2 = await data.json();
       let data3 = JSON.stringify(data2.account.amount / 1000000);
-      this.myBalance = data3;
+      this.myBalance = parseFloat(data3);
       return data3;
     } catch (error) {
       console.log(error);
@@ -123,27 +138,17 @@ export class Pipeline {
 
   static async connect(wallet) {
     switch (this.pipeConnector) {
-      case 'myAlgoWallet':
-        try {
-          const accounts = await this.wallet.connect();
-          let item1 = accounts[0];
-          item1 = item1['address'];
-          this.address = item1;
-        } catch (err) {
-          console.error(err);
-        }
-        break;
       case 'PeraWallet':
-        let newAccounts = await this.PeraWallet.connect();
+        let newAccounts = await this.peraWallet.connect();
 
         this.address = newAccounts[0];
 
-        /* try {
-          const peraAccounts = await this.PeraWallet.reconnectSession()
+        try {
+          const peraAccounts = await this.peraWallet.reconnectSession()
 
           if (peraAccounts.length > 0) {
-            this.PeraWallet.connector?.on("disconnect", function () {
-              Pipeline.PeraWallet.disconnect()
+            this.peraWallet.connector?.on("disconnect", function () {
+              Pipeline.peraWallet.disconnect()
               Pipeline.address = ""
             })
             this.address = peraAccounts[0]
@@ -151,15 +156,15 @@ export class Pipeline {
           else { }
         }
         catch (error) {
-          let newAccounts = await this.PeraWallet.connect()
+          let newAccounts = await this.peraWallet.connect()
           // Setup the disconnect event listener
-          this.PeraWallet.connector?.on("disconnect", function () {
-            Pipeline.PeraWallet.disconnect()
+          this.peraWallet.connector?.on("disconnect", function () {
+            Pipeline.peraWallet.disconnect()
             Pipeline.address = ""
           })
 
           this.address = newAccounts[0];
-        }*/
+        }
 
         break;
       case 'WalletConnect':
@@ -172,20 +177,9 @@ export class Pipeline {
         }
         break;
 
-      case 'AlgoSigner':
-        if (typeof AlgoSigner !== 'undefined') {
-          await AlgoSigner.connect();
-          let data = await AlgoSigner.accounts({
-            ledger: this.main === true ? 'MainNet' : 'TestNet',
-          });
-          this.address = data[0].address;
-        } else {
-          alert('AlgoSigner is NOT installed.');
-        }
-        break;
 
       case 'Kibisis':
-        await startKibbles();
+        await injectKibisis();
         break;
 
       /*case "PipeWallet":
@@ -210,229 +204,204 @@ export class Pipeline {
     }
   ) {
     console.log(mytxnb);
-    let signedTxn = '';
+    let signedTxn: Uint8Array[] = [];
 
-    if (this.pipeConnector === 'myAlgoWallet') {
-      if (!group) {
-        signedTxn = await this.wallet.signTransaction(mytxnb.toByte());
-        signedTxn = signedTxn.blob;
-        return signedTxn;
-      } else {
-        signedTxn = await this.wallet.signTransaction(
-          mytxnb.map((txn) => txn.toByte())
-        );
-        let txnsb = [];
-        signedTxn.forEach((item) => {
-          txnsb.push(item.blob);
-        });
-        return txnsb;
-      }
-    } else {
-      if (this.pipeConnector === 'PeraWallet') {
-        try {
-          if (!group) {
-            signedTxn = await this.PeraWallet.signTransaction([
+
+    if (this.pipeConnector === 'PeraWallet') {
+      try {
+        let peraAccounts = await this.peraWallet.reconnectSession()
+        if (!group && peraAccounts.length > 0) {
+          try {
+            signedTxn = await this.peraWallet.signTransaction([
               [{ txn: mytxnb, signers: [Pipeline.address] }],
             ]);
             return signedTxn[0];
-          } else {
-            let index = 0;
-            let groupToSign = [];
-            mytxnb.forEach((txn) => {
-              groupToSign.push([
-                { txn: txn, signers: [signed[index] || Pipeline.address] },
-              ]);
-              index++;
-            });
-            signedTxn = await this.PeraWallet.signTransaction(groupToSign);
-            let txnsb = [];
-            signedTxn.forEach((item) => {
-              txnsb.push(item);
-            });
-            return txnsb;
+          } catch (e) {
+            console.log(e);
           }
-        } catch (e) {
-          if (typeof window !== 'undefined') {
-            window.pipelineErrors.push(e);
+        } else if (peraAccounts.length > 0) {
+          let index = 0;
+          let groupToSign = [];
+          mytxnb.forEach((txn) => {
+            groupToSign.push([
+              { txn: txn, signers: [signed[index] || Pipeline.address] },
+            ]);
+            index++;
+          });
+          signedTxn = await this.peraWallet.signTransaction(groupToSign);
+          let txnsb = [];
+          signedTxn.forEach((item) => {
+            txnsb.push(item);
+          });
+          return txnsb;
+        }
+      } catch (e) {
+        if (typeof window !== 'undefined') {
+          window.pipelineErrors.push(e);
+        }
+      }
+    } else {
+      if (this.pipeConnector === 'escrow') {
+        console.log('Escrow Address: ' + Escrow.address);
+
+        if (this.XWallet) {
+          console.log('XWallet');
+          if (!Escrow.address) {
+            callback();
           }
+          await waitForUnlock();
+        }
+
+        if (!group) {
+          let signedTxn = Escrow.sign(mytxnb);
+          return signedTxn;
+        } else {
+          let signedGroup = [];
+
+          mytxnb.forEach((transaction) => {
+            let signed = Escrow.sign(transaction);
+            signedGroup.push(signed);
+          });
+
+          console.log('Signed Group:');
+          console.log(signedGroup);
+          return signedGroup;
         }
       } else {
-        if (this.pipeConnector === 'escrow') {
-          console.log('Escrow Address: ' + Escrow.address);
+        if (this.pipeConnector === 'Kibisis') {
+          let transactionBytes = Buffer.from(mytxnb.toByte()).toString(
+            'base64'
+          );
+          let sts = { txns: [{ txn: transactionBytes }] };
 
-          if (this.XWallet) {
-            console.log('XWallet');
-            if (!Escrow.address) {
-              callback();
-            }
-            await waitForUnlock();
-          }
+          try {
+            const result = await window.algorand.signTxns(sts);
+            let signedTransactionBytes;
+            signedTransactionBytes = result.stxns[0];
 
-          if (!group) {
-            let signedTxn = Escrow.sign(mytxnb);
-            return signedTxn;
-          } else {
-            let signedGroup = [];
-
-            mytxnb.forEach((transaction) => {
-              let signed = Escrow.sign(transaction);
-              signedGroup.push(signed);
-            });
-
-            console.log('Signed Group:');
-            console.log(signedGroup);
-            return signedGroup;
+            console.log(signedTransactionBytes);
+            return base64ToArrayBuffer(signedTransactionBytes);
+          } catch (e) {
+            console.log(e);
           }
         } else {
-          if (this.pipeConnector === 'Kibisis') {
-            let transactionBytes = Buffer.from(mytxnb.toByte()).toString(
-              'base64'
-            );
-            let sts = { txns: [{ txn: transactionBytes }] };
-
-            try {
-              const result = await window.algorand.signTxns(sts);
-              let signedTransactionBytes;
-              signedTransactionBytes = result.stxns[0];
-
-              console.log(signedTransactionBytes);
-              return base64ToArrayBuffer(signedTransactionBytes);
-            } catch (e) {
-              console.log(e);
-            }
+          let txns: any = [];
+          if (!group) {
+            txns[0] = mytxnb;
           } else {
-            let txns = [];
-            if (!group) {
-              txns[0] = mytxnb;
-            } else {
-              txns = mytxnb;
-            }
+            txns = mytxnb;
+          }
 
-            console.log('Unencoded txns:');
-            console.log(txns);
+          console.log('Unencoded txns:');
+          console.log(txns);
 
-            /*
-                          let prototxn = {
-                              "amt": mytxnb.amount,
-                              "fee": 1000,
-                              "fv": mytxnb.lastRound - 1000,
-                              "gen": mytxnb.genesisID,
-                              "gh": new Uint8Array(Buffer.from(mytxnb.genesisHash, 'base64')),
-                              "lv": mytxnb.lastRound,
-                              "note": mytxnb.note,
-                              "rcv": new Uint8Array(base32.decode.asBytes(mytxnb.to).slice(0, 32)),
-                              "snd": new Uint8Array(base32.decode.asBytes(this.address).slice(0, 32)),
-                              "type": "pay"
-                          }
+          /*
+                        let prototxn = {
+                            "amt": mytxnb.amount,
+                            "fee": 1000,
+                            "fv": mytxnb.lastRound - 1000,
+                            "gen": mytxnb.genesisID,
+                            "gh": new Uint8Array(Buffer.from(mytxnb.genesisHash, 'base64')),
+                            "lv": mytxnb.lastRound,
+                            "note": mytxnb.note,
+                            "rcv": new Uint8Array(base32.decode.asBytes(mytxnb.to).slice(0, 32)),
+                            "snd": new Uint8Array(base32.decode.asBytes(this.address).slice(0, 32)),
+                            "type": "pay"
+                        }
 
-                          let prototxnASA = {};
-                          let prototxnb = encode(prototxn);
-                          let txns = [];
-                          txns[0] = prototxnb;
+                        let prototxnASA = {};
+                        let prototxnb = encode(prototxn);
+                        let txns = [];
+                        txns[0] = prototxnb;
 
-                          if (this.index !== 0) {
-                              prototxnASA = {
-                                  "aamt": mytxnb.amount,
-                                  "arcv": new Uint8Array(base32.decode.asBytes(mytxnb.to).slice(0, 32)),
-                                  "fee": 1000,
-                                  "fv": mytxnb.lastRound - 1000,
-                                  "gen": mytxnb.genesisID,
-                                  "gh": new Uint8Array(Buffer.from(mytxnb.genesisHash, 'base64')),
-                                  "lv": mytxnb.lastRound,
-                                  "note": mytxnb.note,
-                                  "snd": new Uint8Array(base32.decode.asBytes(this.address).slice(0, 32)),
-                                  "type": "axfer",
-                                  "xaid": parseInt(mytxnb.assetIndex)
-                              }
-                              prototxnb = encode(prototxnASA);
-                              txns[0] = prototxnb;
-                          }
+                        if (this.index !== 0) {
+                            prototxnASA = {
+                                "aamt": mytxnb.amount,
+                                "arcv": new Uint8Array(base32.decode.asBytes(mytxnb.to).slice(0, 32)),
+                                "fee": 1000,
+                                "fv": mytxnb.lastRound - 1000,
+                                "gen": mytxnb.genesisID,
+                                "gh": new Uint8Array(Buffer.from(mytxnb.genesisHash, 'base64')),
+                                "lv": mytxnb.lastRound,
+                                "note": mytxnb.note,
+                                "snd": new Uint8Array(base32.decode.asBytes(this.address).slice(0, 32)),
+                                "type": "axfer",
+                                "xaid": parseInt(mytxnb.assetIndex)
+                            }
+                            prototxnb = encode(prototxnASA);
+                            txns[0] = prototxnb;
+                        }
 
-                                  console.log(prototxnb)
-                                  console.log(new TextDecoder().decode(prototxnb))
-                                  console.log(JSON.stringify(decode(prototxnb)))
-                          */
-            // Sign transaction
+                                console.log(prototxnb)
+                                console.log(new TextDecoder().decode(prototxnb))
+                                console.log(JSON.stringify(decode(prototxnb)))
+                        */
+          // Sign transaction
 
-            let txnsToSign = txns.map((txnb) => {
-              let packed = algosdk.encodeUnsignedTransaction(txnb);
-              let encodedTxn = Buffer.from(packed).toString('base64');
-
-              if (this.pipeConnector === 'WalletConnect') {
-                return {
-                  txn: encodedTxn,
-                  message: '',
-                  // Note: if the transaction does not need to be signed (because it's part of an atomic group
-                  // that will be signed by another party), specify an empty singers array like so:
-                  // signers: [],
-                };
-              } else {
-                return { txn: encodedTxn };
-              }
-            });
-
-            let nestedArray = [];
-
-
-            if (group && signed.length !== 0) {
-              for (let i = 0; i < signed.length; i++) {
-                if (signed[i] !== Pipeline.address) {
-                  txnsToSign[i].signers = [];
-                }
-              }
-            }
-
-            let requestParams = [txnsToSign];
-            console.log('TXNs to Sign:');
-            console.log(requestParams);
+          let txnsToSign = txns.map((txnb) => {
+            let packed = algosdk.encodeUnsignedTransaction(txnb);
+            let encodedTxn = Buffer.from(packed).toString('base64');
 
             if (this.pipeConnector === 'WalletConnect') {
-              alert(
-                'Wallet Connect no longer supported due to mind-blowing stupidity'
-              );
-              /*
-
-            let request = formatJsonRpcRequest("algo_signTxn", requestParams);
-
-            //request.id = this.chainId
-
-            console.log(request);
-
-            try {
-              let result = await this.connector.sendCustomRequest(request);
-
-              console.log("Response from walletconnect: ", result)
-
-              let binarySignedTxs = await result.map((tx) => {
-
-                if (tx !== null) {
-                  return new Uint8Array(Buffer.from(tx, "base64"));
-                }
-                else { return tx }
-              });
-              return !group ? binarySignedTxs[0] : binarySignedTxs;
-            } catch (error) {
-              console.log(error);
-            }
-          */
+              return {
+                txn: encodedTxn,
+                message: '',
+                // Note: if the transaction does not need to be signed (because it's part of an atomic group
+                // that will be signed by another party), specify an empty singers array like so:
+                // signers: [],
+              };
             } else {
-              try {
-                let result = await AlgoSigner.signTxn(requestParams);
+              return { txn: encodedTxn };
+            }
+          });
 
-                console.log('Response from AlgoSigner: ', result);
+          let nestedArray = [];
 
-                let binarySignedTxs = await result.map((tx) => {
-                  if (tx !== null) {
-                    return new Uint8Array(Buffer.from(tx.blob, 'base64'));
-                  } else {
-                    return tx;
-                  }
-                });
-                return !group ? binarySignedTxs[0] : binarySignedTxs;
-              } catch (error) {
-                console.log(error);
+
+          if (group && signed.length !== 0) {
+            for (let i = 0; i < signed.length; i++) {
+              if (signed[i] !== Pipeline.address) {
+                txnsToSign[i].signers = [];
               }
             }
+          }
+
+          let requestParams = [txnsToSign];
+          console.log('TXNs to Sign:');
+          console.log(requestParams);
+
+          if (this.pipeConnector === 'WalletConnect') {
+            alert(
+              'Wallet Connect no longer supported due to mind-blowing stupidity'
+            );
+            /*
+
+          let request = formatJsonRpcRequest("algo_signTxn", requestParams);
+
+          //request.id = this.chainId
+
+          console.log(request);
+
+          try {
+            let result = await this.connector.sendCustomRequest(request);
+
+            console.log("Response from walletconnect: ", result)
+
+            let binarySignedTxs = await result.map((tx) => {
+
+              if (tx !== null) {
+                return new Uint8Array(Buffer.from(tx, "base64"));
+              }
+              else { return tx }
+            });
+            return !group ? binarySignedTxs[0] : binarySignedTxs;
+          } catch (error) {
+            console.log(error);
+          }
+        */
+          } else {
+            let signedTxns = algosdk.signTransaction(txns, Pipeline.address as any);
+            return signedTxns;
           }
         }
       }
@@ -474,7 +443,7 @@ export class Pipeline {
     return txn;
   }
 
-  static makeTransfer(address, amt, myNote, index = 0, params = {}) {
+  static makeTransfer(address, amt, myNote, index = 0, params: any = {}) {
     const buf = new Array(myNote.length);
     const encodedNote = new Uint8Array(buf);
     for (let i = 0, strLen = myNote.length; i < strLen; i++) {
@@ -483,7 +452,7 @@ export class Pipeline {
 
     console.log('My encoded note: ' + encodedNote);
 
-    let txn = {
+    let txn: any = {
       from: this.address,
       to: address,
       amount: parseInt(amt),
@@ -492,9 +461,9 @@ export class Pipeline {
       genesisHash: params.genesisHash,
       type: 'pay',
       flatFee: true,
-      fee: 1000,
-      firstRound: parseInt(params['last-round']),
-      lastRound: parseInt(params['last-round'] + 1000),
+      fee: algosdk.ALGORAND_MIN_TX_FEE,
+      firstRound: parseInt(params['last-round'].toString()),
+      lastRound: parseInt(params['last-round'].toString()) + 1000,
     };
 
     console.log('TXN', txn);
@@ -502,7 +471,7 @@ export class Pipeline {
     if (index !== 0) {
       this.index = index;
       txn.type = 'axfer';
-      txn.assetIndex = parseInt(index);
+      txn.assetIndex = parseInt(index as any);
 
       txn = algosdk.makeAssetTransferTxnWithSuggestedParams(
         txn.from,
@@ -527,7 +496,7 @@ export class Pipeline {
       );
     }
 
-    txn.fee = 1000;
+    txn.fee = algosdk.ALGORAND_MIN_TX_FEE;
 
     console.log(txn);
     return txn;
@@ -565,14 +534,14 @@ export class Pipeline {
     }
   }
 
-  static async createAsa(asaObject = {}) {
-    let txn = {};
+  static async createAsa(asaObject: AsaObject = {}) {
+    let txn: any = {};
 
     let client = await configClient(this.main, this.EnableDeveloperAPI, this);
     let transServer = client.tranServer;
     let params = client.params;
 
-    let myNote = asaObject.note || 'New Asa';
+    let myNote: any = asaObject.note || 'New Asa';
 
     let buf = new Array(myNote.length);
     let encodedNote = new Uint8Array(buf);
@@ -586,7 +555,7 @@ export class Pipeline {
 
     txn = createAsaTxn(params, asaObject);
 
-    txn.fee = 1000;
+    txn.fee = algosdk.ALGORAND_MIN_TX_FEE;
 
     console.log(txn);
 
@@ -637,7 +606,7 @@ export class Pipeline {
     onComplete = 0
   ) {
     if (teal !== '') {
-      let algodClient = configAlgosdk(this);
+      let algodClient: any = configAlgosdk(this);
 
       let clientb = await configClient(
         this.main,
@@ -646,7 +615,7 @@ export class Pipeline {
       );
       let transServer = clientb.tranServer;
 
-      let compiled = '';
+      let compiled: any = '';
 
       compiled = await this.compileProgram(algodClient, teal);
       let compiledClear = await this.compileProgram(algodClient, teal2);
@@ -671,7 +640,7 @@ export class Pipeline {
       let gints = bytesInts[3];
 
       let txn = algosdk.makeApplicationCreateTxnFromObject({
-        suggestedParams: params,
+        suggestedParams: params as any,
         from: this.address,
         numLocalByteSlices: lbytes,
         numGlobalByteSlices: gbytes,
@@ -714,7 +683,7 @@ export class Pipeline {
   }
 
   static async optIn(appId = 0, appArgs = []) {
-    let algodClient = configAlgosdk(this);
+    let algodClient: any = configAlgosdk(this);
 
     let clientb = await configClient(this.main, this.EnableDeveloperAPI, this);
     let transServer = clientb.tranServer;
@@ -729,12 +698,12 @@ export class Pipeline {
     });
     appArgs = converted;
 
-    let txn = '';
+    let txn: any = '';
 
     txn = algosdk.makeApplicationOptInTxnFromObject({
       suggestedParams: params,
       from: this.address,
-      appIndex: parseInt(appId),
+      appIndex: parseInt(appId as any),
       appArgs: appArgs,
     });
 
@@ -801,13 +770,13 @@ export class Pipeline {
   }
 
   static async deleteApp(appId = 0) {
-    let algodClient = configAlgosdk(this);
+    let algodClient: any = configAlgosdk(this);
     let params = await algodClient.getTransactionParams().do();
 
     let txn = algosdk.makeApplicationDeleteTxnFromObject({
       suggestedParams: params,
       from: this.address,
-      appIndex: parseInt(appId),
+      appIndex: parseInt(appId as any),
     });
 
     let signedTxn = await this.sign(txn);
@@ -840,19 +809,19 @@ export class Pipeline {
     accounts = undefined,
     assets = undefined
   ) {
-    let id = parseInt(appId);
+    let id = parseInt(appId as any);
 
-    let algodClient = configAlgosdk(this);
+    let algodClient = configAlgosdk(this) as any;
 
     let clientb = await configClient(this.main, this.EnableDeveloperAPI, this);
     let params = clientb.params;
 
     let txns = [
-      this.makeAppCall(id, appArgs, params, accounts, assets),
+      this.makeAppCall(id, appArgs, params, accounts, assets, undefined, undefined),
       this.makeTransfer(reciever, amount, note, index, params),
     ];
 
-    txns = algosdk.assignGroupID(txns);
+    txns = algosdk.assignGroupID(txns as any);
 
     console.log(txns);
 
@@ -905,9 +874,10 @@ export class Pipeline {
   }
 
   static async peraSignBytes(bytes) {
-    let result = await this.PeraWallet.signData([
+    let result = await this.peraWallet.signData([
       {
         data: new Uint8Array(Buffer.from(bytes)),
+        message: ''
       },
     ], Pipeline.address);
     return result;
@@ -918,44 +888,24 @@ export class Pipeline {
   }
 }
 
+declare global {
+  interface Window {
+    pipeline: typeof Pipeline;
+    pipeEscrow: typeof Escrow;
+    pipelineErrors: any[];
+    handleWalletError: (error: string) => void;
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.pipeline = Pipeline;
   //window.PipeWallet = PipeWallet;
   window.pipeEscrow = Escrow;
   window.pipelineErrors = [];
 }
-/* usage
 
-update balance at intervals:
-
-componentDidMount() {
-      this.interval = setInterval(() => this.setState({balance: Pipeline.myBalance}), 1000);
-    }
-
-var balance = 0;
-
-Pipeline.balance(address).then(data => balance = data);
-
-const myAlgoWallet = Pipeline.init();
-
-//useTestNet
-
-Pipeline.main = false;
-
-Pipeline.connect(myAlgoWallet)
-    .then(data => {
-        console.log(data);
-    });
-
-Pipeline.send(address, amount, note, sendingAddress, myAlgowallet, index)
-    .then(data => {
-        console.log(data);
-    });
-
-    */
-
-async function startKibbles() {
-  console.log('Injecting script...');
+async function injectKibisis() {
+  console.log('Injecting Kibisis script...');
 
   async function enableWallet() {
     if (typeof window === 'undefined' || !window.algorand) {

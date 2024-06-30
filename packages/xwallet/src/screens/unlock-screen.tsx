@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import nacl from "tweetnacl";
 import { Escrow, Pipeline } from "@avmkit/pipeline";
-import { useXWallet } from "@/xwallet-context";
+import { useXWallet } from "../xwallet-context";
 import { cn } from "../lib/utils";
 import { cBuffer, deBuffer, nonce, pad } from "../utils";
 import { wallet } from "../constants";
-import { VectorHexLogo } from "@/pictograms";
+import { VectorHexLogo } from "../pictograms";
 
 const UnlockScreen = ({
   useWalletConnection,

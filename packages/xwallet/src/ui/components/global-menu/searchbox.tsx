@@ -1,7 +1,7 @@
 //apply a '.focus' class to the input when it is focused
 //add a onFocus event listener to the div that wraps the input
 
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 import { useState } from "react";
 import { IconSearch } from "../../../icons";
 

@@ -1,6 +1,6 @@
 {
   "name": "@avmkit/pipeline",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Class to send transactions to Algorand network with Algo Connect",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

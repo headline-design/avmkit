@@ -18,7 +18,7 @@ import { shorten } from "../utils";
 import GlobalMenu from "../ui/components/global-menu/global-menu";
 import { useWalletNavigation } from "../hooks/use-wallet-navigation";
 import { AssetRow } from "../ui/components/asset-row";
-import { AlgoLogoUrl, VoiLogoUrl } from "@/logos/data-urls";
+import { AlgoLogoUrl, VoiLogoUrl } from "../logos/data-urls";
 
 const getLogoUrl = (networkDetails) => {
   switch (networkDetails.name) {
