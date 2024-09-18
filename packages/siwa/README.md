@@ -51,7 +51,7 @@ const handleSignIn = async () => {
 
 ```javascript
 // 1. Import SIWA utilities
-import { siwaMessage } from '@avmkit/siwa';
+import { SiwaMessage } from '@avmkit/siwa';
 
 // 2. Backend handler to handle sign-in request
 const verifyData: any = {
