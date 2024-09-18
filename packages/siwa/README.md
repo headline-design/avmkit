@@ -87,5 +87,5 @@ This project is supported by the [Algorand Foundation](https://algorand.foundati
 
   <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/headline-design/xgov-badge/blob/main/xgov-badge-github-banner.png?raw=true">
-       <img alt="siws logo" src="https://github.com/headline-design/xgov-badge/blob/main/xgov-badge-primary.png?raw=true" width="auto" height="60">
+       <img alt="siws logo" src="https://github.com/headline-design/xgov-badge/blob/main/xgov-badge-primary.png?raw=true" width="auto" height="120">
   </picture>
