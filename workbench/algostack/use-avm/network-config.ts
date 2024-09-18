@@ -22,7 +22,7 @@ export const networkConfig = {
       net: 'testnet',
       token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       logoUrl: '/_static/assets/algorand-icon.jpg',
-      algod: 'https://testnet-api.algonode.network',
+      algod: 'https://testnet-api.algonode.cloud',
       indexer: 'https://testnet-idx.algonode.cloud/v2/',
       port: '443',
       decimals: '6',
