@@ -80,6 +80,7 @@ Check out our [full guide](https://siwa.org/help) on how to implement SIWA into 
 
 - [Siwa](https://siwa.org/)
 - [Algorand Foundation](https://developer.algorand.org/)
+- [xGov Badge](https://github.com/headline-design/xgov-badge)
 
 ## Recognition
 
