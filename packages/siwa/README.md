@@ -84,3 +84,8 @@ Check out our [full guide](https://siwa.org/help) on how to implement SIWA into 
 ## Recognition
 
 This project is supported by the [Algorand Foundation](https://algorand.foundation/). This work has been performed with support from the Algorand Foundation xGov Grants Program
+
+  <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/headline-design/xgov-badge/blob/main/xgov-badge-github-banner.png?raw=true">
+       <img alt="siws logo" src="https://github.com/headline-design/xgov-badge/blob/main/xgov-badge-github-banner.png?raw=true" width="auto" height="60">
+  </picture>
