@@ -82,6 +82,18 @@ Check out our [full guide](https://siwa.org/help) on how to implement SIWA into 
 - [Algorand Foundation](https://developer.algorand.org/)
 - [xGov Badge](https://github.com/headline-design/xgov-badge)
 
+## Attribution
+
+SIWA (Sign-In with Algorand) was inspired by and builds upon the concepts introduced by several other blockchain-based authentication protocols:
+
+- **SIWE (Sign-In with Ethereum)**: SIWE, developed by Spruce Systems, Inc., pioneered the concept of using blockchain wallets for authentication. SIWA adapts many of the core principles introduced by SIWE to the Algorand ecosystem. For more information, visit [login.xyz](https://login.xyz/).
+
+- **SIWS (Sign-In with Substrate)**: SIWS extends the concept to the Substrate ecosystem, which powers many parachains in the Polkadot and Kusama networks. While SIWA is specific to Algorand, it shares similar goals of providing decentralized authentication. More details can be found at [Talisman Github](https://github.com/TalismanSociety/siws).
+
+- **SIWS (Sign-In with Solana)**: Another implementation of blockchain-based authentication, SIWS brings these concepts to the Solana ecosystem. SIWA draws inspiration from SIWS in adapting to a high-performance blockchain. For more information, visit [Phantom Github](https://github.com/phantom/sign-in-with-solana).
+
+We acknowledge the contributions of these projects to the broader ecosystem of decentralized authentication and express our gratitude for paving the way for protocols like SIWA.
+
 ## Recognition
 
 This project is supported by the [Algorand Foundation](https://algorand.foundation/). This work has been performed with support from the Algorand Foundation xGov Grants Program
