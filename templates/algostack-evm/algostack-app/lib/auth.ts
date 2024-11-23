@@ -225,7 +225,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        domain: VERCEL_DEPLOYMENT ? ".atlas.box" : ".localhost", // for local development explicitly set the local host domain (i/e home.localhost - not just .localhost (i dont know why this is necessary)). But if on local and root then just use .localhost
+        domain: VERCEL_DEPLOYMENT ? "algostack-evm.vercel.app" : "localhost",
         secure: VERCEL_DEPLOYMENT,
       },
     },
