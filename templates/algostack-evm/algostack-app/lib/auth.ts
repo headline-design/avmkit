@@ -12,9 +12,10 @@ import { UserProps } from '@/dashboard/lib/types';
 import { getSearchParams } from '@/dashboard/lib/utils';
 import { hashToken } from './crypto';
 import { ratelimit } from './upstash';
-import credentialsProvider from 'next-auth/providers/credentials';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { getCsrfToken } from 'next-auth/react';
 import { SiwaMessage } from '@avmkit/siwa';
+import { SiweMessage } from 'siwe';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -61,33 +62,58 @@ export interface Profile {
 }
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
-    credentialsProvider({
-      name: 'Algorand',
+    CredentialsProvider({
+      id: "algorand",
+      name: "Algorand",
       credentials: {
         message: {
-          label: 'Message',
-          type: 'text',
-          placeholder: '0x0',
+          label: "Message",
+          type: "text",
+          placeholder: "0x0",
         },
         signature: {
-          label: 'Signature',
-          type: 'text',
-          placeholder: '0x0',
+          label: "Signature",
+          type: "text",
+          placeholder: "0x0",
+        },
+        domain: {
+          label: "Domain",
+          type: "text",
+          placeholder: "example.com",
+        },
+        algoAddress: {
+          label: "Algorand Address",
+          type: "text",
+          placeholder: "0x0",
+        },
+        algoSignature: {
+          label: "Algorand Signature",
+          type: "text",
+          placeholder: "0x0",
+        },
+        nfd: {
+          label: "NFD",
+          type: "text",
+          placeholder: "HELLO_WORLD",
         },
       },
-      async authorize(credentials: Credentials, req) {
+      async authorize(credentials, req) {
         try {
-          const siwa = new SiwaMessage(JSON.parse(credentials?.message || '{}'));
-
-          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL);
+          const siwa = new SiwaMessage(
+            JSON.parse(credentials?.message || "{}"),
+          );
+          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
+          const validDomain =
+            siwa?.domain === nextAuthUrl.host;
 
           const verifyData: any = {
             signature: credentials.signature,
-            domain: nextAuthUrl.host,
-            algoAddress: credentials.algoAddress,
-            algoSignature: credentials.algoSignature || '',
-            nonce: await getCsrfToken({ req }),
+            domain: validDomain,
+            algoAddress: credentials?.algoAddress || "",
+            algoSignature: credentials?.algoSignature || "",
+            nonce: siwa?.nonce,
           };
 
           if (credentials.nfd) {
@@ -99,65 +125,55 @@ export const authOptions: NextAuthOptions = {
             ...verifyData,
           });
 
-          console.log('result', result);
-          // success
           if (result.success) {
-            // Check if wallet exists
-            let wallet = await prisma.wallet.findUnique({
-              where: { address: result.data.algoAddress },
-            });
-
-            // If wallet does not exist, check for user or create user and wallet
-            if (!wallet) {
-              // Create user associated with the wallet
-              let user = await prisma.user.create({
-                data: {
-                  // Assuming 'id' field is auto-generated or you have a method to generate it
-                  name: result.data.nfd || result.data.algoAddress,
-                  email: `${result.data.nfd || result.data.algoAddress}@siwa.web3`, // Arbitrary temp email
-                  nfd: result.data.nfd,
-                },
-              });
-
-              // Create wallet associated with the found or newly created user
-              let userWallet = await prisma.wallet.create({
-                data: {
-                  address: result.data.algoAddress,
-                  hexAddress: result.data.address,
-                  chainId: result.data.chainId,
-                  userId: user.id, // Use the user's ID here
-                },
-              });
-
-              const profile = {
-                ...user,
-                wallets: [userWallet],
-              };
-
-              return profile;
-            } else {
-
-              const user = await prisma.user.findUnique({
-                where: { id: wallet.userId },
-                include: {
-                  wallets: {
-                    where: {
-                      address: wallet.address,
-                    },
-                  },
-                },
-              });
-
-              return user;
-            }
+            const authResult = await handleWalletAuth(result.data, "AVM");
+            return authResult;
           }
         } catch (error) {
-          console.log('error', error);
-          return null;
+          console.error("Algorand auth error:", error);
         }
+        return null;
       },
     }),
+    CredentialsProvider({
+      id: "ethereum",
+      name: "Ethereum",
+      credentials: {
+        message: {
+          label: "Message",
+          type: "text",
+          placeholder: "0x0",
+        },
+        signature: {
+          label: "Signature",
+          type: "text",
+          placeholder: "0x0",
+        },
+      },
+      async authorize(credentials, req) {
+        try {
+          const siwe = new SiweMessage(
+            JSON.parse(credentials?.message || "{}"),
+          );
+          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
+          const validDomain =
+            siwe?.domain === nextAuthUrl.host ? nextAuthUrl.host : undefined;
 
+          const result = await siwe.verify({
+            signature: credentials?.signature || "",
+            domain: validDomain,
+            nonce: siwe.nonce,
+          });
+
+          if (result.success) {
+            return await handleWalletAuth(result.data, "EVM");
+          }
+        } catch (error) {
+          console.error("Ethereum auth error:", error);
+        }
+        return null;
+      },
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -166,7 +182,7 @@ export const authOptions: NextAuthOptions = {
     TwitterProvider({
       clientId: process.env.AUTH_TWITTER_ID as string,
       clientSecret: process.env.AUTH_TWITTER_SECRET as string,
-      version: '2.0', // opt-in to Twitter OAuth 2.0
+      version: "2.0",
       allowDangerousEmailAccountLinking: true,
     }),
     DiscordProvider({
@@ -174,7 +190,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_DISCORD_SECRET as string,
       authorization: {
         params: {
-          prompt: 'consent',
+          prompt: "consent",
         },
       },
     }),
@@ -183,14 +199,11 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_GITHUB_SECRET as string,
       allowDangerousEmailAccountLinking: true,
       authorization: {
-        params: {
-          scope: 'read:user user:email repo', // Include 'repo' in the scope
-        },
+        params: { scope: "read:user user:email repo" },
       },
-      profile: (profile: Profile) => {
-        // Corrected this line
+      profile(profile: any) {
         return {
-          id: profile.id.toString(),
+          id: (profile as Profile).id.toString(),
           name: profile.name ?? profile.login,
           email: profile.email,
           image: profile.avatar_url,
@@ -202,149 +215,65 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: ``,
     verifyRequest: ``,
-    error: '',
+    error: "",
   },
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: 'jwt' },
+  session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: `${VERCEL_DEPLOYMENT ? '__Secure-' : ''}next-auth.session-token`,
+      name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT ? 'algostack-ssr.vercel.app' : 'localhost',
+        sameSite: "lax",
+        path: "/",
+        domain: VERCEL_DEPLOYMENT ? ".atlas.box" : ".localhost", // for local development explicitly set the local host domain (i/e home.localhost - not just .localhost (i dont know why this is necessary)). But if on local and root then just use .localhost
         secure: VERCEL_DEPLOYMENT,
       },
     },
   },
   callbacks: {
-    signIn: async ({
-      user,
-      account,
-      profile,
-    }: {
-      user?: any;
-      account?: any;
-      profile?: Profile;
-    }) => {
-      const session = await getSession();
-      // we expect the user to have an email
-      //if (!user.email || (await isBlacklistedEmail(user.email))) {
-      if (!user.email && !session?.user.id) {
-        return false;
+    async signIn({ user, account, profile }) {
+      if (!user.email) {
+        const session = await getSession();
+        if (!session?.user.id) return false;
+        user.email =
+          session.user.email ||
+          `${user.name || session.user.id}@${account.provider}-provider.com`;
       }
-      if (!user.email && session?.user.email) {
-        // assign a generic email to the user
-        user.email = session.user.email;
-      }
-      if (!user.email && !session?.user.email) {
-        // assign a generic email to the user
-        user.email = `${user.name ? user.name : user.username ? user.username : session?.user.id
-          }@${account.provider}-provider.com`;
-      }
+
       if (
-        account?.provider === 'google' ||
-        account?.provider === 'github' ||
-        account?.provider === 'twitter' ||
-        account?.provider === 'discord' ||
-        account?.provider === 'algorand'
+        [
+          "google",
+          "github",
+          "twitter",
+          "discord",
+          "algorand",
+          "ethereum",
+        ].includes(account?.provider)
       ) {
-        const userExists: any = await prisma.user.findUnique({
-          where: { email: user.email },
-          select: { name: true },
-        });
-        // if the user already exists via email,
-        // update the user with their name and image from Google
-        if (userExists && !userExists.name) {
-          await prisma.user.update({
-            where: { email: user.email },
-            data: {
-              name: profile?.name,
-              gh_username: profile?.login,
-              // @ts-ignore - this is a bug in the types, `picture` is a valid on the `Profile` type
-              image: profile?.picture,
-            },
-          });
-        }
-
-        // Github specific logic
-        if (account?.provider === 'github') {
-          // add the user's GitHub username to their user
-          if (userExists && (!userExists.gh_username || !userExists.gitProvider)) {
-            await prisma.user.update({
-              where: { email: user.email },
-              data: {
-                // @ts-ignore - this is a bug in the types, `login` is a valid on the `Profile` type
-                gh_username: profile?.login,
-                gitProvider: 'github',
-              },
-            });
-          }
-
-          // create a temp data object to store the user's access token
-          const userData = {
-            name: profile?.name || user.name,
-            image: account.provider === 'github' ? profile?.avatar_url : user.image,
-            gh_username: '',
-            accessToken: '',
-          };
-
-          // GitHub username
-          userData.gh_username = profile.login;
-          // Store the GitHub access token directly
-          userData.accessToken = account.access_token;
-        }
-      } else if (account?.provider === 'saml' || account?.provider === 'saml-idp') {
-        let samlProfile: any;
-
-        if (account?.provider === 'saml-idp') {
-          // can't get project id from saml-idp so we return it for now
-          return true;
-        } else {
-          samlProfile = profile;
-        }
-
-        if (!samlProfile?.requested?.tenant) {
-          return false;
-        }
+        await handleOAuthSignIn(user, account, profile);
       }
       return true;
     },
-    jwt: async ({
-      token,
-      user,
-      trigger,
-      account,
-      profile,
-    }: {
-      token?: any;
-      user?: any;
-      trigger?: any;
-      account?: any;
-      profile?: Profile;
-    }) => {
-      // force log out banned users
-      //if (!token.email || (await isBlacklistedEmail(token.email))) {
-      if (!token.email) {
-        return {};
+    async jwt({ token, user, account, profile }) {
+      if (!token.email) return {};
+
+      if (account?.provider) {
+        token.provider = account.provider;
+      }
+      if (account?.provider === "github") {
+        token.accessToken = account.access_token;
+        token.githubId = (profile as Profile).id.toString();
       }
 
-      // Store GitHub access token and ID when signing in with GitHub
-      if (account?.provider === 'github') {
-        token.accessToken = account.access_token; // GitHub access token
-        token.githubId = profile.id.toString(); // GitHub user ID
-      }
-
-      if (user) {
-        token.user = user;
-      }
+      if (user) token.user = user;
 
       // refresh the user's data if they update their name / email
-      if (trigger === 'update') {
+      if (token.trigger === "update") {
         const refreshedUser = await prisma.user.findUnique({
           where: { id: token.sub },
+          include: {
+            wallets: true,
+          },
         });
         if (refreshedUser) {
           token.user = refreshedUser;
@@ -352,35 +281,118 @@ export const authOptions: NextAuthOptions = {
           return {};
         }
       }
-
-      return token; // Return the updated token
+      return token;
     },
-
-    session: async ({ session, token }) => {
+    async session({ session, token }) {
       session.user = {
-        id: token.sub,
-        // @ts-ignore
-        ...(token || session).user,
+        ...(typeof token.user === "object" ? token.user : {}),
+        // Add the provider information here
       };
       return session;
     },
   },
-  events: {
-    async signIn(message) {
-      if (message.isNewUser) {
-        const email = message.user.email as string;
-        const user = await prisma.user.findUnique({
-          where: { email },
-          select: {
-            name: true,
-            gh_username: true,
-            createdAt: true,
-          },
-        });
-      }
-    },
-  },
 };
+
+async function handleWalletAuth(
+  data: any,
+  vm: "AVM" | "EVM",
+) {
+  const address =
+    vm === "AVM"
+      ? data.algoAddress
+      : vm === "EVM"
+        ? data.address
+        : data.address;
+  const session = await getSession();
+  const emailProvider = vm.toLowerCase();
+  const chainId =
+    vm === "AVM"
+      ? data.chainId
+      : vm === "EVM"
+        ? data.chainId
+        : 0;
+
+  let wallet = await prisma.wallet.findUnique({ where: { address } });
+
+  // If wallet does not exist, check for user or create user and wallet
+  if (!wallet) {
+    let user: any;
+
+    // Check if user exists
+    if (session?.user?.id) {
+      user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+      });
+    }
+
+    if (!user) {
+      // Create user associated with the wallet
+      user = await prisma.user.create({
+        data: {
+          name: address,
+          email: `${address}@${emailProvider}.web3`,
+        },
+      });
+    }
+
+    // Create wallet associated with the found or newly created user
+    const userWallet = await prisma.wallet.create({
+      data: {
+        address,
+        hexAddress: data.address,
+        chainId: chainId,
+        userId: user.id,
+      },
+    });
+
+    // add wallet.status to the userWallet object
+    wallet = userWallet;
+
+    const profile = {
+      ...user,
+      wallets: [userWallet],
+    };
+
+    return profile;
+  } else {
+    return await prisma.user.findUnique({
+      where: { id: wallet.userId },
+      include: { wallets: { where: { address: wallet.address } } },
+    });
+  }
+}
+
+async function handleOAuthSignIn(user: any, account: any, profile: any) {
+  const userExists = await prisma.user.findUnique({
+    where: { email: user.email },
+    select: { name: true, gh_username: true, gitProvider: true },
+  });
+
+  if (userExists && !userExists.name) {
+    await prisma.user.update({
+      where: { email: user.email },
+      data: {
+        name: profile?.name,
+        gh_username: profile?.login,
+        image: profile?.picture || profile?.avatar_url,
+      },
+    });
+  }
+
+  if (
+    account?.provider === "github" &&
+    userExists &&
+    (!userExists.gh_username || !userExists.gitProvider)
+  ) {
+    await prisma.user.update({
+      where: { email: user.email },
+      data: {
+        gh_username: profile?.login,
+        gitProvider: "github",
+      },
+    });
+  }
+}
 
 export default NextAuth(authOptions);
 
