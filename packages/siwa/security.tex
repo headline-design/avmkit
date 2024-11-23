@@ -1,0 +1,226 @@
+\title{SIWA: A Secure Authentication Standard for Algorand}
+
+\author{Algorand Foundation}
+
+\newcommand{\abstractText}{\noindent
+Sign-In with Algorand (SIWA) is a new authentication standard that allows users to sign in to applications using their Algorand accounts. This paper discusses the security considerations of SIWA, including its design, potential vulnerabilities, and best practices for implementation. We analyze the SIWA message structure, signature verification process, and provide recommendations for secure integration in both client and server environments.
+}
+
+%%%%%%%%%%%%%%%%%
+% Configuration %
+%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt, a4paper, twocolumn]{article}
+\usepackage{microtype}
+\usepackage{xurl}
+\usepackage[sort&compress]{natbib}
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage[skip=10pt]{parskip}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+
+% Any configuration that should be done before the end of the preamble:
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue}
+\usepackage[capitalize,nameinlink,noabbrev]{cleveref} % must load after hyperref
+
+\begin{document}
+
+%%%%%%%%%%%%
+% Abstract %
+%%%%%%%%%%%%
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+      \abstractText
+      \newline \newline
+    \end{abstract}
+  \end{@twocolumnfalse}
+]
+
+%%%%%%%%%%%
+% Article %
+%%%%%%%%%%%
+
+\section{Introduction}
+
+Blockchain-based authentication systems have gained popularity due to their ability to provide user-controlled identities without relying on centralized authorities. Sign-In with Algorand (SIWA) is one such system, designed specifically for the Algorand blockchain.
+
+\subsection{Background}
+
+Algorand is a proof-of-stake blockchain that uses the Ed25519 signature scheme. SIWA leverages this cryptographic foundation to create a secure authentication mechanism.
+
+\subsection{SIWA Overview}
+
+SIWA allows users to authenticate with web applications and services using their Algorand accounts. The process involves creating a structured message, signing it with the user's private key, and verifying the signature on the server side.
+
+\section{SIWA Message Structure}
+
+The SIWA message follows a specific format to ensure consistency and security:
+
+\begin{verbatim}
+{domain} wants you to sign in with your Algorand account:
+{address}
+
+{statement}
+
+URI: {uri}
+Version: {version}
+Chain ID: {chain-id}
+Nonce: {nonce}
+Issued At: {issued-at}
+Expiration Time: {expiration-time}
+Not Before: {not-before}
+Request ID: {request-id}
+Resources:
+- {resources[0]}
+- {resources[1]}
+...
+- {resources[n]}
+\end{verbatim}
+
+\subsection{Field Descriptions}
+
+\begin{itemize}[label=\textendash, itemsep=-0.5em]
+  \item \verb=domain=: The domain requesting the sign-in (e.g., "example.com")
+  \item \verb=address=: The Algorand address of the user
+  \item \verb=statement=: A human-readable statement about the sign-in request
+  \item \verb=uri=: The URI of the sign-in request
+  \item \verb=version=: The version of the SIWA protocol
+  \item \verb=chain-id=: The Algorand network identifier
+  \item \verb=nonce=: A unique value to prevent replay attacks
+  \item \verb=issued-at=: Timestamp of when the request was issued
+  \item \verb=expiration-time=: (Optional) Expiration time of the request
+  \item \verb=not-before=: (Optional) Time before which the request is not valid
+  \item \verb=request-id=: (Optional) Unique identifier for the request
+  \item \verb=resources=: (Optional) List of resources the user is requesting access to
+\end{itemize}
+
+\section{Security Considerations}
+
+\subsection{Signature Verification}
+
+SIWA relies on the security of the Ed25519 signature scheme. Proper implementation of signature verification is crucial for the security of the system. The signature verification process utilizes the algosdk.verifyBytes function, which takes the message bytes, signature, and address as parameters.
+
+\subsection{Nonce Generation and Validation}
+
+The nonce field is critical for preventing replay attacks. It should be:
+
+\begin{itemize}[label=\textendash, itemsep=-0.5em]
+  \item Unique for each request
+  \item Sufficiently long (at least 8 characters)
+  \item Generated using a cryptographically secure random number generator
+\end{itemize}
+
+\subsection{Timestamp Validation}
+
+Proper validation of the \verb=issued-at=, \verb=expiration-time=, and \verb=not-before= fields is essential to prevent timing-based attacks.
+
+\subsection{Domain Binding}
+
+To prevent phishing attacks, the client must verify that the \verb=domain= in the message matches the domain of the website requesting authentication.
+
+\section{Best Practices for Implementation}
+
+\subsection{Client-side Considerations}
+
+\begin{enumerate}
+  \item Use a secure Algorand wallet or SDK for signing messages
+  \item Verify the domain in the message matches the current website
+  \item Display the full message to the user before signing
+\end{enumerate}
+
+\subsection{Server-side Considerations}
+
+\begin{enumerate}
+  \item Implement proper signature verification
+  \item Validate all fields in the SIWA message
+  \item Use HTTPS for all communications
+  \item Implement rate limiting to prevent brute-force attacks
+\end{enumerate}
+
+\section{Potential Vulnerabilities}
+
+\subsection{Replay Attacks}
+
+If nonces are reused or not properly validated, an attacker could replay a valid signature to gain unauthorized access.
+
+\subsection{Man-in-the-Middle Attacks}
+
+Without proper domain binding and HTTPS usage, an attacker could potentially intercept and modify SIWA messages.
+
+\subsection{Phishing Attacks}
+
+Users must be educated to verify the domain and message content before signing to prevent phishing attempts.
+
+\section{Comparison with Other Authentication Standards}
+
+\subsection{SIWA vs. OAuth 2.0}
+
+While both provide delegated authentication, SIWA is specifically designed for blockchain-based identities and doesn't require a centralized identity provider.
+
+\subsection{SIWA vs. Sign-In with Ethereum (SIWE)}
+
+SIWA and SIWE share many similarities in their approach, but SIWA is tailored for the Algorand ecosystem and uses Ed25519 signatures instead of ECDSA.
+
+\section{Ethereum Compatibility and NFD Integration}
+
+\subsection{Deriving Ethereum-Compatible Addresses}
+
+SIWA implements a method to derive Ethereum-compatible addresses from Algorand public keys. This allows for interoperability with Ethereum-based systems and tools. The process involves decoding the Algorand address, hashing the public key with Keccak-256, and applying EIP-55 checksum rules to create an Ethereum-compatible address.
+
+\subsection{Validating NFD Decentralized Identifiers}
+
+SIWA supports Non Fungible Domains (NFD) decentralized identifiers, which allow users to associate human-readable names with their Algorand addresses. The system includes functions to validate NFD addresses, resolve NFDs to Algorand addresses, and vice versa. These functions interact with the NFD API to perform resolutions and validations.
+
+\subsection{Security Considerations}
+
+When working with Ethereum-compatible addresses and NFDs, developers should consider the following security aspects:
+
+\begin{itemize}
+  \item Ensure that all API calls to resolve NFDs are made over secure HTTPS connections.
+  \item Implement proper error handling and fallback mechanisms in case NFD resolution fails.
+  \item Be aware that NFD ownership can change, so applications should not permanently associate an NFD with a specific Algorand address.
+  \item Validate that the resolved Ethereum-compatible address matches the original Algorand address to prevent potential spoofing attacks.
+\end{itemize}
+
+By implementing these features and following these security considerations, SIWA provides a robust and interoperable authentication system that bridges the Algorand and Ethereum ecosystems while supporting user-friendly identifiers.
+
+\section{Future Improvements}
+
+\subsection{Multi-signature Support}
+
+Future versions of SIWA could include support for multi-signature Algorand accounts, allowing for more complex authentication scenarios.
+
+\subsection{Integration with Decentralized Identifiers (DIDs)}
+
+Incorporating DIDs could enhance SIWA's interoperability with other identity systems and provide additional features like selective disclosure.
+
+\section{Conclusion}
+
+Sign-In with Algorand provides a secure and decentralized authentication mechanism for Algorand users. By following the security considerations and best practices outlined in this paper, developers can implement SIWA in a way that maintains the high security standards of the Algorand ecosystem.
+
+%%%%%%%%%%%%%%
+% References %
+%%%%%%%%%%%%%%
+
+\nocite{*}
+\bibliographystyle{unsrt}
+\bibliography{sources}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
