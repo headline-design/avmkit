@@ -55,14 +55,8 @@ const BaseDialog: React.FC<ModalProps> = ({
   useEffect(() => {
     if (typeof document !== "undefined") {
       if (isOpen) {
-        document.body.style.overflow = "hidden";
         modalRef.current?.focus();
-      } else {
-        document.body.style.overflow = "auto";
       }
-      return () => {
-        document.body.style.overflow = "auto";
-      };
     }
   }, [isOpen]);
 

@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const siwe = new SiweMessage(JSON.parse(message || "{}"));
-    console.log("siwe", siwe);
+
     const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
     const validDomain =
       siwe.domain === nextAuthUrl.host ? nextAuthUrl.host : undefined;
@@ -38,12 +38,8 @@ export const POST = async (req: NextRequest) => {
       nonce: session.nonce,
     };
 
-    console.log("verifyData", verifyData);
-
     // VerifyParams
     const { data: fields } = await siwe.verify({ ...verifyData });
-
-    console.log("fields", fields);
 
     if (fields.nonce !== session.nonce) {
       return tap(new NextResponse("Invalid nonce.", { status: 422 }), (res) =>

@@ -106,7 +106,7 @@ export const authOptions: NextAuthOptions = {
           );
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
           const validDomain =
-            siwa?.domain === nextAuthUrl.host;
+            siwa?.domain === nextAuthUrl.host ? nextAuthUrl.host : undefined;
 
           const verifyData: any = {
             signature: credentials.signature,

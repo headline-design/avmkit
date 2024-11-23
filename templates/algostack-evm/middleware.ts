@@ -52,7 +52,7 @@ export default async function middleware(req: NextRequest) {
   // rewrites for app pages
   if (hostname == `${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     return NextResponse.rewrite(
-      new URL(`/algostack-ssr.app${path === "/" ? "" : path}`, req.url),
+      new URL(`/algostack-evm.app${path === "/" ? "" : path}`, req.url),
     );
   }
 

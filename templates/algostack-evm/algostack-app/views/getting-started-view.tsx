@@ -51,7 +51,7 @@ const GettingStartedView = () => {
             variant={"ghost"}
             onClick={() =>
               handleCopy(
-                "git clone https://github.com/headline-design/algostack-ssr.git",
+                "git clone https://github.com/headline-design/algostack-evm.git",
                 "clone",
               )
             }
@@ -59,7 +59,7 @@ const GettingStartedView = () => {
             {copiedCommand === "clone" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            git clone https://github.com/headline-design/algostack-ssr.git
+            git clone https://github.com/headline-design/algostack-evm.git
           </code>
         </div>
 
@@ -72,12 +72,12 @@ const GettingStartedView = () => {
             size="sm"
             className="absolute right-1 top-1"
             variant={"ghost"}
-            onClick={() => handleCopy("cd algostack-ssr\nnpm install", "install")}
+            onClick={() => handleCopy("cd algostack-evm\nnpm install", "install")}
           >
             {copiedCommand === "install" ? <IconTick /> : <IconCopy />}
           </Button>
           <code>
-            cd algostack-ssr
+            cd algostack-evm
             <br />
             npm install
           </code>

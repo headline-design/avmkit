@@ -19,6 +19,7 @@ import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
 import { BaseDialog } from "@/algostack-app/ui";
 import SIWEConnectFormButton from "./siwe-login-button";
+import { useLogout } from "@/algostack-app/lib/hooks/use-logout";
 
 const initialState = {
   loading: false,
@@ -365,12 +366,12 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     }
   };
 
-  const handleDisconnect = () => {
-    dispatch({ type: "SET_CURRENT_SCREEN", payload: "default" });
-    signOut().then(() => {
-      disconnectWallet();
-    });
-  };
+  const { handleDisconnect: handleFullDisconnect, signingOut } = useLogout();
+
+  const handleDisconnect = async () => {
+    dispatch({ type: "RESET" });
+    handleFullDisconnect();
+  }
 
   const handleSIWAConnect = () => {
     if (pipeState.provider === PipeConnectors.XWallet) {
