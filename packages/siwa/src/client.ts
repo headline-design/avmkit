@@ -186,7 +186,7 @@ export class SiwaMessage {
    * @deprecated
    * Verifies the integrity of the object by matching its signature.
    * @param signature Signature to match the address in the message.
-   * @param provider Ethers provider to be used for EIP-1271 validation
+   * @param provider Wallet provider to be used for validation
    */
   async validate(signature: string) {
     console.warn(
