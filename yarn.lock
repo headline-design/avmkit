@@ -63,7 +63,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@avmkit/siwa@^1.0.3, @avmkit/siwa@workspace:packages/siwa":
+"@avmkit/siwa@1.0.3, @avmkit/siwa@^1.0.3, @avmkit/siwa@workspace:packages/siwa":
   version: 0.0.0-use.local
   resolution: "@avmkit/siwa@workspace:packages/siwa"
   dependencies:
@@ -81,23 +81,6 @@ __metadata:
     valid-url: ^1.0.9
   languageName: unknown
   linkType: soft
-
-"@avmkit/siwa@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@avmkit/siwa@npm:1.0.2"
-  dependencies:
-    "@noble/hashes": ^1.1.2
-    "@stablelib/random": ^1.0.1
-    algosdk: ^2.7.0
-    apg-js: ^4.3.0
-    dotenv: ^16.0.3
-    js-sha3: ^0.9.3
-    tsup: 8.0.2
-    uri-js: ^4.4.1
-    valid-url: ^1.0.9
-  checksum: 65f0c3062ffac028bd132ea0e8a2899ea9979cdd7c09afb3da82e7d5bfdf97703383bbb52fa0d5dc61246216e1c6520df720ea4157bcd651d3cdd60a4ba2dfaa
-  languageName: node
-  linkType: hard
 
 "@avmkit/xwallet@1.0.6, @avmkit/xwallet@workspace:packages/xwallet":
   version: 0.0.0-use.local
@@ -5471,7 +5454,7 @@ __metadata:
   resolution: "algostack-evm@workspace:templates/algostack-evm"
   dependencies:
     "@avmkit/pipeline": 1.0.3
-    "@avmkit/siwa": 1.0.2
+    "@avmkit/siwa": 1.0.3
     "@avmkit/xwallet": 1.0.6
     "@next-auth/prisma-adapter": 1.0.7
     "@prisma/client": ^5.5.2
@@ -5539,7 +5522,7 @@ __metadata:
   resolution: "algostack-ssr@workspace:templates/algostack-ssr"
   dependencies:
     "@avmkit/pipeline": 1.0.3
-    "@avmkit/siwa": 1.0.2
+    "@avmkit/siwa": 1.0.3
     "@avmkit/xwallet": 1.0.6
     "@next-auth/prisma-adapter": 1.0.7
     "@prisma/client": ^5.5.2
@@ -5601,7 +5584,7 @@ __metadata:
   resolution: "algostack@workspace:templates/algostack"
   dependencies:
     "@avmkit/pipeline": 1.0.3
-    "@avmkit/siwa": 1.0.2
+    "@avmkit/siwa": 1.0.3
     "@avmkit/xwallet": 1.0.6
     "@next-auth/prisma-adapter": 1.0.7
     "@prisma/client": ^5.5.2
