@@ -13844,9 +13844,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"siwa-pera-app@workspace:templates/siwa-connect":
+"siwa-connect@workspace:templates/siwa-connect":
   version: 0.0.0-use.local
-  resolution: "siwa-pera-app@workspace:templates/siwa-connect"
+  resolution: "siwa-connect@workspace:templates/siwa-connect"
   dependencies:
     "@avmkit/siwa": ^1.0.3
     "@blockshake/defly-connect": ^1.1.6

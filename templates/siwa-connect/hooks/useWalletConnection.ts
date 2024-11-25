@@ -3,8 +3,6 @@ import { PeraWalletConnect } from "@perawallet/connect";
 import { DeflyWalletConnect } from "@blockshake/defly-connect";
 import algosdk from "algosdk";
 import {
-  uint8ArrayToBase64,
-  uint8ArrayToEthereumHexString,
   getMessageBytes,
   hashMessage,
   initializeAlgodClient,
@@ -130,7 +128,7 @@ export const useWalletConnection = () => {
         const txnGroup = [{ txn, signerAddress: [algoAddress] }];
         const deflySigArray = await deflyWallet.signTransaction([txnGroup]);
         const decodedTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
-        return decodedTxn.sig as Uint8Array;
+        return decodedTxn.sig as unknown as Uint8Array;
       default:
         throw new Error("Unsupported wallet provider");
     }
