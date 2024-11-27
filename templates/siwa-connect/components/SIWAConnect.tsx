@@ -108,12 +108,14 @@ export default function SIWAConnect() {
     setError(null);
     setSigning(true);
     try {
-      const domain = window.location.host;
+      const uri = typeof window !== "undefined" ? window.location.origin : "";
+      const domain = typeof window !== "undefined" ? window.location.host : "";
+
       const siwaMessage = new SiwaMessage({
         domain,
         address,
         statement: "Sign in with Algorand to the app.",
-        uri: window.location.origin,
+        uri,
         version: "1",
         chainId: 416001,
         nonce: "randomNonce123", // In production, use a secure random nonce
@@ -160,7 +162,7 @@ export default function SIWAConnect() {
 
       const verifyParams = {
         signature: credentials.signature,
-        domain: window.location.host,
+        domain: typeof window !== "undefined" ? window.location.host : "",
         address: address || undefined,
       };
 
