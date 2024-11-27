@@ -125,12 +125,14 @@ export default function SIWAConnect() {
       setFullSigningMessage(siwaMessage);
 
       const messageToSign = siwaMessage.prepareMessage();
-      const signature = await signMessage(messageToSign);
+      const { signature, transaction: encodedTransaction} = await signMessage(messageToSign);
 
       const algoSig = uint8ArrayToBase64(signature);
 
       setCredentials({
         message: JSON.stringify(siwaMessage),
+        encodedTransaction: encodedTransaction || null,
+        provider: provider || null,
         signature: algoSig,
         address: address,
       });
@@ -160,10 +162,13 @@ export default function SIWAConnect() {
         JSON.parse(credentials?.message || "{}"),
       );
 
+      //const algoSigBase64 = uint8ArrayToBase64(credentials?.signature);
+
       const verifyParams = {
-        signature: credentials.signature,
+        signature: credentials?.signature,
         domain: typeof window !== "undefined" ? window.location.host : "",
-        address: address || undefined,
+        provider: provider || null,
+        encodedTransaction: credentials?.encodedTransaction || null,
       };
 
       const result = await siwaMessage.verify(verifyParams);
@@ -190,8 +195,8 @@ export default function SIWAConnect() {
         return (
           <div className="space-y-4">
             <PeraConnectButton
-              isLoading={isLoading && pendingProvider === "PeraWallet"}
-              onConnect={() => handleConnectWallet("PeraWallet")}
+              isLoading={isLoading && pendingProvider === "Pera"}
+              onConnect={() => handleConnectWallet("Pera")}
             />
             <DeflyConnectButton
               onConnect={() => handleConnectWallet("Defly")}

@@ -11,31 +11,34 @@ import {
 } from "@/utils/siwaUtils";
 import LuteConnect from "lute-connect";
 
-export type WalletProvider = "PeraWallet" | "Defly" | "Kibisis" | "Lute";
+export type WalletProvider = "Pera" | "Defly" | "Kibisis" | "Lute";
 
-// Ensure window is only accessed on the client side
 declare global {
   interface Window {
-    algorand?: any;
+    algorand: any;
     handleWalletError: (error: string) => void;
   }
 }
 
 const isClient = typeof window !== "undefined";
-const clientWindow = isClient ? window : {} as typeof window;
-clientWindow.algorand = clientWindow.algorand || {};
 
-const luteWallet = new LuteConnect('SIWA Connect')
-const peraWallet = new PeraWalletConnect();
-const deflyWallet = new DeflyWalletConnect();
-const algodClient = initializeAlgodClient();
+let luteWallet: LuteConnect | null = null;
+let peraWallet: PeraWalletConnect;
+let deflyWallet: DeflyWalletConnect;
+let algodClient: algosdk.Algodv2;
+
+if (isClient) {
+  luteWallet = new LuteConnect("SIWA Connect");
+  peraWallet = new PeraWalletConnect();
+  deflyWallet = new DeflyWalletConnect();
+  algodClient = initializeAlgodClient();
+}
 
 export const useWalletConnection = () => {
   const [address, setAddress] = useState<string | null>(null);
-  const [provider, setProvider] = useState<WalletProvider>("PeraWallet");
+  const [provider, setProvider] = useState<WalletProvider>("Pera");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Move localStorage access to useEffect
   useEffect(() => {
     if (isClient) {
       const storedAddress = localStorage.getItem("address");
@@ -52,7 +55,7 @@ export const useWalletConnection = () => {
   }, [provider]);
 
   const disconnectWallet = useCallback(() => {
-    if (provider === "PeraWallet") {
+    if (provider === "Pera") {
       peraWallet.disconnect();
     } else if (provider === "Defly") {
       deflyWallet.disconnect();
@@ -68,7 +71,7 @@ export const useWalletConnection = () => {
     setIsLoading(true);
     try {
       let newAccounts: string[];
-      if (selectedProvider === "PeraWallet") {
+      if (selectedProvider === "Pera") {
         newAccounts = await peraWallet.connect();
         peraWallet.connector?.on("disconnect", disconnectWallet);
       } else if (selectedProvider === "Defly") {
@@ -80,9 +83,7 @@ export const useWalletConnection = () => {
       } else if (selectedProvider === "Lute") {
         const address = await connectLute();
         newAccounts = [address];
-      }
-
-      else {
+      } else {
         throw new Error("Unsupported wallet provider");
       }
       setAddress(newAccounts[0]);
@@ -110,7 +111,7 @@ export const useWalletConnection = () => {
           setProvider(storedProvider);
           setAddress(storedAddress);
 
-          if (storedProvider === "PeraWallet") {
+          if (storedProvider === "Pera") {
             await peraWallet.reconnectSession();
             peraWallet.connector?.on("disconnect", disconnectWallet);
           } else if (storedProvider === "Defly") {
@@ -130,12 +131,14 @@ export const useWalletConnection = () => {
   useEffect(() => {
     reconnectSession();
     return () => {
-      peraWallet.connector?.off("disconnect");
-      deflyWallet.connector?.off("disconnect");
+      if (isClient) {
+        peraWallet.connector?.off("disconnect");
+        deflyWallet.connector?.off("disconnect");
+      }
     };
   }, [reconnectSession]);
 
-  const signMessage = async (message: string): Promise<Uint8Array> => {
+  const signMessage = async (message: string): Promise<{ signature: Uint8Array; transaction?: any | null }> => {
     if (!address) {
       throw new Error("No address connected");
     }
@@ -143,18 +146,20 @@ export const useWalletConnection = () => {
     const hashedMessage = hashMessage(message);
     const encodedHashedMessage = getMessageBytes(Buffer.from(hashedMessage).toString("utf8"));
 
-    // Retrieve suggestedParams only once when needed
     const suggestedParams = ["Defly", "Lute"].includes(provider)
       ? await algodClient.getTransactionParams().do()
       : null;
 
     switch (provider) {
-      case "PeraWallet":
+      case "Pera":
         const peraSigArray = await peraWallet.signData(
           [{ data: encodedHashedMessage, message: "" }],
           address
         );
-        return peraSigArray[0];
+        return {
+          signature: peraSigArray[0],
+          transaction: null,
+        }
 
       case "Defly":
         if (!suggestedParams) {
@@ -171,15 +176,24 @@ export const useWalletConnection = () => {
         const deflyTxnGroup = [{ txn: deflyTxn, signerAddress: [address] }];
         const deflySigArray = await deflyWallet.signTransaction([deflyTxnGroup]);
         const decodedDeflyTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
-        return decodedDeflyTxn.sig as unknown as Uint8Array;
+        return {
+          signature: decodedDeflyTxn.sig as unknown as Uint8Array,
+          transaction: deflySigArray[0],
+        }
 
       case "Kibisis":
+        if (!isClient) {
+          throw new Error("Kibisis is only available in the browser");
+        }
         const kibisisMessage = "MX" + JSON.stringify(message);
-        const kibisisResult = await clientWindow?.algorand.signBytes({
-          data: new Uint8Array(clientWindow?.Buffer.from(kibisisMessage)),
+        const kibisisResult = await window.algorand.signBytes({
+          data: new Uint8Array(Buffer.from(kibisisMessage)),
         });
 
-        return kibisisResult?.signature as Uint8Array;
+        return {
+          signature: kibisisResult?.signature,
+          transaction: null,
+        };
 
       case "Lute":
         if (!suggestedParams) {
@@ -191,19 +205,23 @@ export const useWalletConnection = () => {
           to: address,
           amount: 0,
           suggestedParams,
-        } as any);
+        });
 
-        const luteSigArray = await luteWallet.signTxns([
+        const luteSigArray = await luteWallet!.signTxns([
           { txn: Buffer.from(algosdk.encodeUnsignedTransaction(luteTxn)).toString("base64") },
         ]);
 
-        return new Uint8Array(Buffer.from(luteSigArray[0] as unknown as string, "base64"));
+        const decodedLuteTxn = algosdk.decodeSignedTransaction(luteSigArray[0]);
+
+        return {
+          signature: decodedLuteTxn.sig as unknown as Uint8Array,
+          transaction: luteSigArray[0],
+        }
 
       default:
         throw new Error("Unsupported wallet provider");
     }
   };
-
 
   return {
     address,
@@ -215,8 +233,11 @@ export const useWalletConnection = () => {
   };
 };
 
-// Warning: Browser will block pop-up if user doesn't trigger lute.connect() with a button click
+// Function to handle Lute wallet connection
 export const connectLute = async () => {
+  if (!isClient || !luteWallet) {
+    throw new Error("Lute wallet is not available");
+  }
   try {
     const genesis = await algodClient.genesis().do();
     const genesisID = `${genesis.network}-${genesis.id}`;
@@ -226,15 +247,19 @@ export const connectLute = async () => {
     console.error(`[LuteWallet] Error connecting: ${err.message}`);
     throw err;
   }
-}
+};
 
+// Function to inject Kibisis wallet
 export const injectKibisis = async () => {
+  if (!isClient) {
+    throw new Error("Kibisis is only available in the browser");
+  }
   console.log("Injecting Kibisis script...");
 
   async function enableWallet() {
-    if (typeof window === "undefined" || !window.algorand) {
+    if (!window.algorand) {
       console.error("AVM Wallets not available");
-      return null; // No Algorand wallets available, handle as an error.
+      return null;
     }
 
     try {
@@ -243,11 +268,11 @@ export const injectKibisis = async () => {
       if (result.accounts && result.accounts.length > 0) {
         return result.accounts[0].address;
       } else {
-        throw new Error("No accounts available"); // Throwing error if no accounts found.
+        throw new Error("No accounts available");
       }
     } catch (error) {
       console.error("Error enabling wallet:", error);
-      return null; // Returning null on user cancellation or any other error.
+      return null;
     }
   }
 
@@ -256,9 +281,7 @@ export const injectKibisis = async () => {
     return address;
   } else {
     console.log("No address obtained or user cancelled.");
-    if (typeof window !== "undefined") {
-      window.handleWalletError("User cancelled or no accounts available"); // Handling errors or cancellations globally.
-    }
+    window.handleWalletError("User cancelled or no accounts available");
     throw new Error("User cancelled or no accounts available");
   }
 };

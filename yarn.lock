@@ -63,7 +63,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@avmkit/siwa@1.0.4, @avmkit/siwa@workspace:packages/siwa":
+"@avmkit/siwa@1.0.5, @avmkit/siwa@workspace:packages/siwa":
   version: 0.0.0-use.local
   resolution: "@avmkit/siwa@workspace:packages/siwa"
   dependencies:
@@ -74,11 +74,27 @@ __metadata:
     dotenv: ^16.0.3
     eslint: 8.15.0
     tsup: 8.0.2
+    tweetnacl: ^1.0.3
     typescript: 5.4.3
     uri-js: ^4.4.1
     valid-url: ^1.0.9
   languageName: unknown
   linkType: soft
+
+"@avmkit/siwa@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@avmkit/siwa@npm:1.0.4"
+  dependencies:
+    "@stablelib/random": ^1.0.1
+    algosdk: ^2.7.0
+    apg-js: ^4.3.0
+    dotenv: ^16.0.3
+    tsup: 8.0.2
+    uri-js: ^4.4.1
+    valid-url: ^1.0.9
+  checksum: 686a77a44ab20bbb928ece504ea107b2fb23a50d01fcb6a116d54f3d77f1e022690ad62905119ccfe2bee6d7f655c85d20a6761381f2e32f4e9aecccb9c4b7b1
+  languageName: node
+  linkType: hard
 
 "@avmkit/xwallet@1.0.6, @avmkit/xwallet@workspace:packages/xwallet":
   version: 0.0.0-use.local
@@ -13829,7 +13845,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "siwa-connect@workspace:templates/siwa-connect"
   dependencies:
-    "@avmkit/siwa": 1.0.4
+    "@avmkit/siwa": 1.0.5
     "@blockshake/defly-connect": ^1.1.6
     "@perawallet/connect": ^1.3.5
     "@types/node": ^20

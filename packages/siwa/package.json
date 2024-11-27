@@ -1,6 +1,6 @@
 {
   "name": "@avmkit/siwa",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -28,6 +28,7 @@
     "apg-js": "^4.3.0",
     "dotenv": "^16.0.3",
     "tsup": "8.0.2",
+    "tweetnacl": "^1.0.3",
     "uri-js": "^4.4.1",
     "valid-url": "^1.0.9"
   }

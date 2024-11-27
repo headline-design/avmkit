@@ -2,6 +2,7 @@
 import algosdk from 'algosdk';
 import { randomStringForEntropy } from '@stablelib/random';
 import type { SiwaMessage } from './client';
+import { verifySignedTransaction } from './aux-utils';
 
 /**
  * Signs a message using an Algorand private key.
@@ -24,52 +25,70 @@ const ISO8601 =
 
 
 /**
- * Verifies a signature against a message using an Algorand public key.
- * @param message The EIP-4361 original message that was signed.
- * @param address The Algorand public address.
+ * Verifies a signature against a message or transaction.
+ * @param message The SIWA message.
  * @param signature The signature in base64 format.
- * @param nfd The Domain Name for address resolution (optional).
- * @returns {Promise<boolean>} Checks for the Algorand address (if it exists) if
- * the signature is valid for given address.
+ * @param provider The Algorand wallet used for signing.
+ * @param encodedTransaction The encoded transaction in Base64 format.
+ * @param nfd The optional NFD domain for address resolution.
+ * @returns True if the signature is valid, otherwise false.
  */
-
 export const verifySignature = async (
   message: SiwaMessage,
-  address: string,
   signature: string,
-  nfd?: string,
+  provider: string,
+  encodedTransaction?: string,
+  nfd?: string
 ): Promise<boolean> => {
+  // Prepare hashed message bytes for Pera and Kibisis
+  const hashedMessage = new Uint8Array(Buffer.from(JSON.stringify(message.prepareMessage())));
 
-  const hashedMessage = new Uint8Array(
-    Buffer.from(JSON.stringify(message.prepareMessage()))
-  );
-  const signatureUint8Array = Uint8Array.from(
-    atob(signature)
-      .split('')
-      .map((char) => char.charCodeAt(0))
-  );
+  // Decode the signature from base64 to Uint8Array
+  const signatureUint8Array = Uint8Array.from(atob(signature).split("").map((char) => char.charCodeAt(0)));
 
-  if (nfd !== "undefined") {
-    if (!validateNFDAddress(address, nfd)) {
-      console.log('NFD validation failed');
-      return false
+  // Optional NFD validation
+  if (nfd && !(await validateNFDAddress(message.address, nfd))) {
+    return false; // Direct return on failure
+  }
+
+  // Handle provider-specific verification
+  if (provider === "Pera" || provider === "Kibisis") {
+    try {
+      const isValid = algosdk.verifyBytes(hashedMessage, signatureUint8Array, message.address);
+      return isValid; // Return isValid (boolean) in Pera/Kibisis
+    } catch (error) {
+      return false; // Return false if verification fails
     }
   }
 
-  try {
-    const isValid = algosdk.verifyBytes(
-      new Uint8Array(Buffer.from(hashedMessage)),
-      signatureUint8Array,
-      address
-    );
+  if (provider === "Lute" || provider === "Defly") {
+    if (!encodedTransaction) {
+      return false; // Return false if no encodedTransaction is provided
+    }
 
-    console.log('Verification result:', isValid);
-    return isValid; // Returns true or false based on the signature verification
-  } catch (error) {
-    console.error('Verification failed:', error);
-    return false;
+    try {
+      const packTransaction = Buffer.from(encodedTransaction, "base64");
+      const decodedTransaction = algosdk.decodeSignedTransaction(packTransaction);
+      const transactionResult = verifySignedTransaction(decodedTransaction);
+      if (!transactionResult) {
+        return false; // Return false if verification fails
+      }
+
+      const { isValid: isTransactionValid, signature: txnSignature } = transactionResult;
+      // Check if the transaction signature matches the provided signature
+
+      const isSignatureValid = txnSignature === signature; // Compare the signatures
+      const isValid = isTransactionValid && isSignatureValid; // Combine the results
+
+      return isValid;
+    } catch (error) {
+      return false; // Return false if verification fails
+    }
   }
+
+  return false; // Return false if the provider is not recognized
 };
+
 
 /**
  * This method leverages a native CSPRNG with support for both browser and Node.js

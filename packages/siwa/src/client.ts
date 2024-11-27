@@ -244,7 +244,7 @@ export class SiwaMessage {
         });
       }
 
-      const { signature, address, scheme, domain, nonce, time, nfd } = params;
+      const { signature, address, scheme, domain, nonce, time, nfd, provider, encodedTransaction } = params;
 
 
 
@@ -345,6 +345,8 @@ export class SiwaMessage {
         const EIP1271Promise = verifySignature(
           this,
           signature,
+          provider,
+          encodedTransaction,
           nfd
         )
           .then(isValid => {
