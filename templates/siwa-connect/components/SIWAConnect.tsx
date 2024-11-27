@@ -20,7 +20,7 @@ import LuteConnectButton from "./LuteConnectButton";
 
 /**
  * SIWAConnect Component
- * This component handles the Sign-In with Algorand (SIWA) flow using Pera Wallet and Defly Wallet
+ * This component handles the Sign-In with Algorand (SIWA) flow using Pera Wallet and Defly Wallet and Kibisis Wallet and Lute Wallet.
  */
 export default function SIWAConnect() {
   // Custom hook to manage wallet connections
