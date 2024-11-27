@@ -15,7 +15,7 @@ const deflyWallet = new DeflyWalletConnect();
 const algodClient = initializeAlgodClient();
 
 export const useWalletConnection = () => {
-  const [address, setAddress] = useState<string | null>(null);
+  const [activeAddress, setActiveAddress] = useState<string | null>(null);
   const [provider, setProvider] = useState<WalletProvider>(() => {
     if (typeof window !== "undefined") {
       return (localStorage.getItem("walletProvider") as WalletProvider) || "PeraWallet";
@@ -36,7 +36,7 @@ export const useWalletConnection = () => {
     } else if (provider === "Defly") {
       deflyWallet.disconnect();
     }
-    setAddress(null);
+    setActiveAddress(null);
     localStorage.removeItem("walletProvider");
     localStorage.removeItem("address");
   }, [provider]);
@@ -54,7 +54,7 @@ export const useWalletConnection = () => {
       } else {
         throw new Error("Unsupported wallet provider");
       }
-      setAddress(newAccounts[0]);
+      setActiveAddress(newAccounts[0]);
       setProvider(selectedProvider);
       localStorage.setItem("walletProvider", selectedProvider);
       localStorage.setItem("address", newAccounts[0]);
@@ -70,11 +70,11 @@ export const useWalletConnection = () => {
     setIsLoading(true);
     try {
       const storedProvider = localStorage.getItem("walletProvider") as WalletProvider;
-      const storedAddress = localStorage.getItem("address");
+      const storedAddress = localStorage.getItem("algoAddress");
 
       if (storedProvider && storedAddress) {
         setProvider(storedProvider);
-        setAddress(storedAddress);
+        setActiveAddress(storedAddress);
 
         if (storedProvider === "PeraWallet") {
           await peraWallet.reconnectSession();
@@ -101,7 +101,7 @@ export const useWalletConnection = () => {
   }, [reconnectSession]);
 
   const signMessage = async (message: string): Promise<Uint8Array> => {
-    if (!address) {
+    if (!activeAddress) {
       throw new Error("No address connected");
     }
 
@@ -112,7 +112,7 @@ export const useWalletConnection = () => {
       case "PeraWallet":
         const peraSigArray = await peraWallet.signData(
           [{ data: encodedHashedMessage, message: "" }],
-          address
+          activeAddress
         );
         return peraSigArray[0];
       case "Defly":
@@ -120,12 +120,13 @@ export const useWalletConnection = () => {
         const suggestedParams = await algodClient.getTransactionParams().do();
         const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
           note: encodedHashedMessage,
-          from: address,
-          to: address,
+          from: activeAddress,
+          to: activeAddress,
           amount: 0,
           suggestedParams,
         } as any);
-        const txnGroup = [{ txn, signerAddress: [address] }];
+        console.log("TXN to sign", txn);
+        const txnGroup = [{ txn, signerAddress: [activeAddress] }];
         const deflySigArray = await deflyWallet.signTransaction([txnGroup]);
         const decodedTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
         return decodedTxn.sig as unknown as Uint8Array;
@@ -135,7 +136,7 @@ export const useWalletConnection = () => {
   };
 
   return {
-    address,
+    address: activeAddress,
     provider,
     isLoading,
     connectWallet,
