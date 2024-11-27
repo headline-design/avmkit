@@ -1,11 +1,16 @@
 "use client";
 
-import SIWAConnect from "@/components/SIWAConnect";
+import dynamic from "next/dynamic";
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import("../components/SIWAConnect"),
+  { ssr: false },
+);
 
 export default function Home() {
   return (
     <main className="flex min-h-screen  ">
-      {typeof window !== "undefined" ? <SIWAConnect /> : null}
+      <DynamicComponentWithNoSSR />
     </main>
   );
 }
