@@ -1,7 +1,6 @@
 import { ClientProvider } from "./providers";
 import { inter, unbounded } from "@/dashboard/styles/fonts";
 import { cn, constructMetadata } from "@/dashboard/lib/utils";
-import { headers } from "next/headers";
 
 import React from "react";
 import ServerProvider from "./server-provider";
