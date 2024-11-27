@@ -5,7 +5,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  transpilePackages: ['@wagmi', 'connectkit', '@metamask/sdk'],
+  transpilePackages: ['wagmi', '@wagmi', 'connectkit', '@metamask/sdk', '@metamask'],
   typescript: {
     ignoreBuildErrors: true,
   },
