@@ -9,8 +9,9 @@ import {
   hashMessage,
   initializeAlgodClient,
 } from "@/utils/siwaUtils";
+import LuteConnect from "lute-connect";
 
-export type WalletProvider = "PeraWallet" | "Defly" | "Kibisis";
+export type WalletProvider = "PeraWallet" | "Defly" | "Kibisis" | "Lute";
 
 // Ensure window is only accessed on the client side
 declare global {
@@ -24,6 +25,7 @@ const isClient = typeof window !== "undefined";
 const clientWindow = isClient ? window : {} as typeof window;
 clientWindow.algorand = clientWindow.algorand || {};
 
+const luteWallet = new LuteConnect('SIWA Connect')
 const peraWallet = new PeraWalletConnect();
 const deflyWallet = new DeflyWalletConnect();
 const algodClient = initializeAlgodClient();
@@ -75,7 +77,12 @@ export const useWalletConnection = () => {
       } else if (selectedProvider === "Kibisis") {
         const address = await injectKibisis();
         newAccounts = [address];
-      } else {
+      } else if (selectedProvider === "Lute") {
+        const address = await connectLute();
+        newAccounts = [address];
+      }
+
+      else {
         throw new Error("Unsupported wallet provider");
       }
       setAddress(newAccounts[0]);
@@ -136,6 +143,11 @@ export const useWalletConnection = () => {
     const hashedMessage = hashMessage(message);
     const encodedHashedMessage = getMessageBytes(Buffer.from(hashedMessage).toString("utf8"));
 
+    // Retrieve suggestedParams only once when needed
+    const suggestedParams = ["Defly", "Lute"].includes(provider)
+      ? await algodClient.getTransactionParams().do()
+      : null;
+
     switch (provider) {
       case "PeraWallet":
         const peraSigArray = await peraWallet.signData(
@@ -143,35 +155,55 @@ export const useWalletConnection = () => {
           address
         );
         return peraSigArray[0];
+
       case "Defly":
-        // This is a temporary solution until Defly Wallet supports signing arbitrary messages
-        const suggestedParams = await algodClient.getTransactionParams().do();
-        console.log("Suggested params", suggestedParams);
-        console.log(address)
-        const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        if (!suggestedParams) {
+          throw new Error("Suggested params are not available");
+        }
+        const deflyTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
           note: encodedHashedMessage,
           from: address,
           to: address,
           amount: 0,
           suggestedParams,
         } as any);
-        console.log("TXN to sign", txn);
-        const txnGroup = [{ txn, signerAddress: [address] }];
-        const deflySigArray = await deflyWallet.signTransaction([txnGroup]);
-        const decodedTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
-        return decodedTxn.sig as unknown as Uint8Array;
+
+        const deflyTxnGroup = [{ txn: deflyTxn, signerAddress: [address] }];
+        const deflySigArray = await deflyWallet.signTransaction([deflyTxnGroup]);
+        const decodedDeflyTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
+        return decodedDeflyTxn.sig as unknown as Uint8Array;
 
       case "Kibisis":
-        const MXMessage = "MX" + JSON.stringify(message);
-        const result = await clientWindow?.algorand.signBytes({
-          data: new Uint8Array(clientWindow?.Buffer.from(MXMessage)),
+        const kibisisMessage = "MX" + JSON.stringify(message);
+        const kibisisResult = await clientWindow?.algorand.signBytes({
+          data: new Uint8Array(clientWindow?.Buffer.from(kibisisMessage)),
         });
 
-        return result?.signature as Uint8Array;
+        return kibisisResult?.signature as Uint8Array;
+
+      case "Lute":
+        if (!suggestedParams) {
+          throw new Error("Suggested params are not available");
+        }
+        const luteTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+          note: encodedHashedMessage,
+          from: address,
+          to: address,
+          amount: 0,
+          suggestedParams,
+        } as any);
+
+        const luteSigArray = await luteWallet.signTxns([
+          { txn: Buffer.from(algosdk.encodeUnsignedTransaction(luteTxn)).toString("base64") },
+        ]);
+
+        return new Uint8Array(Buffer.from(luteSigArray[0] as unknown as string, "base64"));
+
       default:
         throw new Error("Unsupported wallet provider");
     }
   };
+
 
   return {
     address,
@@ -182,6 +214,19 @@ export const useWalletConnection = () => {
     signMessage,
   };
 };
+
+// Warning: Browser will block pop-up if user doesn't trigger lute.connect() with a button click
+export const connectLute = async () => {
+  try {
+    const genesis = await algodClient.genesis().do();
+    const genesisID = `${genesis.network}-${genesis.id}`;
+    const addresses = await luteWallet.connect(genesisID);
+    return addresses[0];
+  } catch (err: any) {
+    console.error(`[LuteWallet] Error connecting: ${err.message}`);
+    throw err;
+  }
+}
 
 export const injectKibisis = async () => {
   console.log("Injecting Kibisis script...");

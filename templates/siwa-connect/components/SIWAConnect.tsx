@@ -16,6 +16,7 @@ import {
 import { Button } from "./Button";
 import { Alert } from "./Alert";
 import { KibisisConnectButton } from "./KibisisConnectButton";
+import LuteConnectButton from "./LuteConnectButton";
 
 /**
  * SIWAConnect Component
@@ -197,6 +198,10 @@ export default function SIWAConnect() {
             <KibisisConnectButton
               isLoading={isLoading && pendingProvider === "Kibisis"}
               onConnect={() => handleConnectWallet("Kibisis")}
+            />
+            <LuteConnectButton
+              onConnect={() => handleConnectWallet("Lute")}
+              isLoading={isLoading && pendingProvider === "Lute"}
             />
           </div>
         );

@@ -10777,6 +10777,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lute-connect@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "lute-connect@npm:1.4.1"
+  checksum: 93e43b61d0613c9952975e06d54e482d53790244975897a1252416b5bd1c158e4d6f10287d12c7160b0683ebd9f6d8c12cd036d60975ec603434130e8262061f
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.0.0, make-dir@npm:^3.0.2":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -13831,6 +13838,7 @@ __metadata:
     algosdk: ^2.1.0
     eslint: ^8
     eslint-config-next: 15.0.3
+    lute-connect: ^1.4.1
     next: 15.0.3
     postcss: ^8
     react: 19.0.0-rc-66855b96-20241106
