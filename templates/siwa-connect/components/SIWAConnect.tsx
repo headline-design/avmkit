@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { SiwaMessage } from "@avmkit/siwa";
-import useSIWAAccount from "@/hooks/useSIWAAccount";
 import JSONViewer from "./JsonViewer";
 import LoadingSpinner from "./LoadingSpinner";
 import {
   uint8ArrayToBase64,
-  uint8ArrayToEthereumHexString,
 } from "@/utils/siwaUtils";
 import ConnectedNote from "./ConnectedNote";
 import PeraConnectButton from "./PeraConnectButton";
@@ -27,7 +25,7 @@ import { Alert } from "./Alert";
 export default function SIWAConnect() {
   // Custom hook to manage wallet connections
   const {
-    algoAddress,
+    address,
     provider,
     isLoading,
     connectWallet,
@@ -54,16 +52,15 @@ export default function SIWAConnect() {
   const [activeStep, setActiveStep] = useState(0);
 
   // Custom hook to get the SIWA account
-  const { address } = useSIWAAccount(algoAddress || "");
 
-  // Effect to update activeStep when algoAddress changes
+  // Effect to update activeStep when address changes
   useEffect(() => {
-    if (algoAddress) {
+    if (address) {
       setActiveStep(1);
     } else {
       setActiveStep(0);
     }
-  }, [algoAddress]);
+  }, [address]);
 
   /**
    * Wrapper function for connectWallet to handle errors
@@ -129,13 +126,11 @@ export default function SIWAConnect() {
       const signature = await signMessage(messageToSign);
 
       const algoSig = uint8ArrayToBase64(signature);
-      const ethSig = uint8ArrayToEthereumHexString(signature);
 
       setCredentials({
         message: JSON.stringify(siwaMessage),
-        signature: ethSig,
-        algoAddress: algoAddress,
-        algoSignature: algoSig,
+        signature: algoSig,
+        address: address,
       });
 
       setSignedMessage(Buffer.from(signature).toString("base64"));
@@ -167,8 +162,6 @@ export default function SIWAConnect() {
         signature: credentials.signature,
         domain: window.location.host,
         address: address || undefined,
-        algoAddress: algoAddress || undefined,
-        algoSignature: credentials.algoSignature,
       };
 
       const result = await siwaMessage.verify(verifyParams);
@@ -252,7 +245,6 @@ export default function SIWAConnect() {
                 {activeStep > 0 && activeStep < 3 && (
                   <ConnectedNote
                     address={address}
-                    algoAddress={algoAddress}
                     provider={provider}
                   />
                 )}

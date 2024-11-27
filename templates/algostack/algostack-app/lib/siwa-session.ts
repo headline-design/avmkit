@@ -33,7 +33,6 @@ class SiwaSession {
   address?: string;
   teamId?: string;
   userId?: string;
-  algoAddress: string | undefined;
   nfd?: string;
 
   constructor(session?: ISiwaSession) {

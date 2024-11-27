@@ -20,15 +20,12 @@ export type SIWAConfig = {
   createMessage: (args: {
     nonce: string;
     address: string;
-    algoAddress: string;
     chainId: number;
   }) => string;
   verifyMessage: (args: {
     message: string | Uint8Array;
     signature: string;
     address: string;
-    algoAddress: string;
-    algoSignature: string;
     nfd?: string | undefined;
   }) => Promise<boolean>;
   getSession: () => Promise<SIWASession | null>;

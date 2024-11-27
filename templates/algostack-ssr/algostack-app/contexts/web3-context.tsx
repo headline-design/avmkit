@@ -9,7 +9,6 @@ import { SIWAConfig, SIWAProvider } from "@/siwa";
 export interface SIWACreateMessageArgs {
   nonce: string;
   address: string;
-  algoAddress: string;
   chainId: number;
 }
 
@@ -28,7 +27,6 @@ declare let window: {
 export type Web3ContextT = {
   contract: any | null;
 };
-
 
 export const Web3Context = createContext<Web3ContextT>({} as Web3ContextT);
 
@@ -53,24 +51,18 @@ export const siwaConfig: SIWAConfig = {
     message,
     signature,
     address,
-    algoAddress,
-    algoSignature,
     nfd,
   }: {
     message: string | Uint8Array;
     signature: string;
     address: string;
-    algoAddress: string;
-    algoSignature: string;
     nfd?: string;
-    }) => {
-    //console.log('message-credentials', address, algoAddress, algoSignature);
+  }) => {
+    //console.log('message-credentials', address);
 
     return signIn("credentials", {
       message: JSON.stringify(message),
       address,
-      algoAddress,
-      algoSignature,
       nfd,
       redirect: false,
       signature,

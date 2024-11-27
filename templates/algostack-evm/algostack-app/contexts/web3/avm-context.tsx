@@ -9,7 +9,6 @@ import { SIWAConfig, SIWAProvider } from "@/use-siwa";
 export interface SIWACreateMessageArgs {
   nonce: string;
   address: string;
-  algoAddress: string;
   chainId: number;
 }
 
@@ -95,15 +94,11 @@ export const siwaConfig: SIWAConfig = {
       message,
       signature,
       address,
-      algoAddress,
-      algoSignature,
       nfd,
     }: {
       message: string | Uint8Array;
       signature: string;
       address: string;
-      algoAddress: string;
-      algoSignature: string;
       nfd?: string;
     }) => {
       const res = await fetch(`/api/siwa`, {
@@ -111,8 +106,6 @@ export const siwaConfig: SIWAConfig = {
         body: JSON.stringify({
           message: JSON.stringify(message),
           address,
-          algoAddress,
-          algoSignature,
           nfd,
           signature,
         }),
@@ -124,8 +117,6 @@ export const siwaConfig: SIWAConfig = {
       return await signIn("algorand", {
         message: JSON.stringify(message),
         address,
-        algoAddress,
-        algoSignature,
         nfd,
         redirect: false,
         signature,

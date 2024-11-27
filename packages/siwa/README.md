@@ -54,11 +54,17 @@ const handleSignIn = async () => {
 import { SiwaMessage } from '@avmkit/siwa';
 
 // 2. Backend handler to handle sign-in request
+const siwa = new SiwaMessage({
+  domain: 'localhost',
+  uri: 'http://localhost:3000/sign-in',
+  address: account.address,
+  nonce, // a challenge generated from the backend
+  statement: 'Welcome to my dApp!',
+});
 const verifyData: any = {
   signature: credentials.signature,
   domain: nextAuthUrl.host,
-  algoAddress: credentials.algoAddress,
-  algoSignature: credentials.algoSignature || '',
+  address: siwa.address,
   nonce: await getCsrfToken({ req }),
 };
 

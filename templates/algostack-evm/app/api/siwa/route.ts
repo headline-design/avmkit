@@ -19,7 +19,7 @@ export const PUT = async (req: NextRequest): Promise<NextResponse> => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const { message, signature, algoAddress, algoSignature, nfd } =
+  const { message, signature, nfd } =
     await req.json();
 
   const session = await SiwaSession.fromRequest(req);
@@ -34,8 +34,7 @@ export const POST = async (req: NextRequest) => {
     const verifyData: any = {
       signature: signature,
       domain: validDomain,
-      algoAddress: algoAddress,
-      algoSignature: algoSignature || "",
+      address: siwa.address,
       nonce: session.nonce,
     };
 
@@ -53,7 +52,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     //@ts-ignore
-    session.address = fields.algoAddress;
+    session.address = fields.address;
     session.chainId = fields.chainId;
     session.nonce = undefined;
   } catch (error) {

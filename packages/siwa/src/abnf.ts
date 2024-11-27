@@ -1,6 +1,6 @@
-import apgApi from "apg-js/src/apg-api/api";
 import apgLib from "apg-js/src/apg-lib/node-exports";
-import { isEIP55Address, parseIntegerNumber } from "./aux-utils";
+import apgApi from "apg-js/src/apg-api/api";
+import { parseIntegerNumber } from "./aux-utils";
 
 const GRAMMAR = `
 sign-in-with-algorand =
@@ -22,10 +22,9 @@ sign-in-with-algorand =
 
 domain = authority
 
-address = "0x" 40*40HEXDIG
-    ; Must also conform to captilization
-    ; checksum encoding specified in EIP-55
-    ; where applicable (EOAs).
+address = 58*58(ALPHA / DIGIT)
+    ; Must conform to Algorand's address format.
+    ; See Algorand's official documentation for address validation.
 
 statement = 1*( reserved / unreserved / " " )
     ; The purpose is to exclude LF (line breaks).
@@ -41,14 +40,13 @@ not-before = date-time
 request-id = *pchar
 
 chain-id = 1*DIGIT
-    ; See EIP-155 for valid CHAIN_IDs.
+    ; Algorand's chain ID.
 
 resources = *( LF resource )
 
 resource = "- " URI
 
 ; ------------------------------------------------------------------------------
-; RFC 3986
 
 URI           = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
 
@@ -112,7 +110,6 @@ sub-delims    = "!" / "$" / "&" / "'" / "(" / ")"
               / "*" / "+" / "," / ";" / "="
 
 ; ------------------------------------------------------------------------------
-; RFC 3339
 
 date-fullyear   = 4DIGIT
 date-month      = 2DIGIT  ; 01-12
@@ -134,7 +131,6 @@ full-time       = partial-time time-offset
 date-time       = full-date "T" full-time
 
 ; ------------------------------------------------------------------------------
-; RFC 5234
 
 ALPHA          =  %x41-5A / %x61-7A   ; A-Z / a-z
 LF             =  %x0A
@@ -145,19 +141,19 @@ HEXDIG         =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
 `;
 
 class GrammarApi {
-	static grammarObj = this.generateApi();
+  static grammarObj = this.generateApi();
 
-	static generateApi() {
-		const api = new apgApi(GRAMMAR);
-		api.generate();
-		if (api.errors.length) {
-			console.error(api.errorsToAscii());
-			console.error(api.linesToAscii());
-			console.log(api.displayAttributeErrors());
-			throw new Error(`ABNF grammar has errors`);
-		}
-		return api.toObject();
-	}
+  static generateApi() {
+    const api = new apgApi(GRAMMAR);
+    api.generate();
+    if (api.errors.length) {
+      console.error(api.errorsToAscii());
+      console.error(api.linesToAscii());
+      console.log(api.displayAttributeErrors());
+      throw new Error(`ABNF grammar has errors`);
+    }
+    return api.toObject();
+  }
 }
 
 export class ParsedMessage {
@@ -345,8 +341,5 @@ export class ParsedMessage {
 			throw new Error("Domain cannot be empty.");
 		}
 
-		if (!isEIP55Address(this.address)) {
-			throw new Error("Address not conformant to EIP-55.");
-		}
 	}
 }

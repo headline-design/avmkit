@@ -20,23 +20,20 @@ import { SiweMessage } from 'siwe';
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
 interface Credentials {
-  algoSignature?: string;
   message?: string;
   signature?: string;
-  algoAddress?: string;
+  address?: string;
   nfd?: string;
 }
 
 export interface SIWAResult {
   success: boolean;
   data: {
-    algoAddress?: string;
     address?: string;
     chainId?: any;
     domain?: string;
     message?: string;
     signature?: string;
-    algoSignature?: string;
     nfd?: string;
   };
 }
@@ -83,16 +80,6 @@ export const authOptions: NextAuthOptions = {
           type: "text",
           placeholder: "example.com",
         },
-        algoAddress: {
-          label: "Algorand Address",
-          type: "text",
-          placeholder: "0x0",
-        },
-        algoSignature: {
-          label: "Algorand Signature",
-          type: "text",
-          placeholder: "0x0",
-        },
         nfd: {
           label: "NFD",
           type: "text",
@@ -111,8 +98,7 @@ export const authOptions: NextAuthOptions = {
           const verifyData: any = {
             signature: credentials.signature,
             domain: validDomain,
-            algoAddress: credentials?.algoAddress || "",
-            algoSignature: credentials?.algoSignature || "",
+            address: siwa.address || "",
             nonce: siwa?.nonce,
           };
 
@@ -299,7 +285,7 @@ async function handleWalletAuth(
 ) {
   const address =
     vm === "AVM"
-      ? data.algoAddress
+      ? data.address
       : vm === "EVM"
         ? data.address
         : data.address;

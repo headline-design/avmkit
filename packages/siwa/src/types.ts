@@ -23,12 +23,6 @@ export interface VerifyParams {
   /** Address of the wallet that signed the message */
   address?: string;
 
-  /** Algo Signature of the message signed by the wallet */
-  algoSignature?: string;
-
-  /** Algo Address of the wallet that signed the messge */
-  algoAddress?: string;
-
   /** RFC 4501 dns authority that is requesting the signing. */
   domain?: string;
 
@@ -46,9 +40,7 @@ export interface VerifyParams {
 
 export const VerifyParamsKeys: Array<keyof VerifyParams> = [
   'signature',
-  'algoSignature',
   'address',
-  'algoAddress',
   'nfd',
   'domain',
   'scheme',
@@ -128,7 +120,7 @@ export enum SiwaErrorType {
   /** `nonce` don't match the nonce provided for verification. */
   NONCE_MISMATCH = 'Nonce does not match provided nonce for verification.',
 
-  /** `address` does not conform to EIP-55 or is not a valid address. */
+  /** `address` is not a valid address. */
   INVALID_ADDRESS = 'Invalid address.',
 
   /** `address` does not match resolved NFD owner address. */

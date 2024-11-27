@@ -1,7 +1,6 @@
 
 import * as uri from 'valid-url';
 
-import { getAddress, verifyMessage } from './algosdkCompat';
 import {
   SiwaError,
   SiwaErrorType,
@@ -18,15 +17,14 @@ import {
   isValidISO8601Date,
 } from './utils';
 import { ParsedMessage } from './parsers';
-import { isEIP55Address, parseIntegerNumber } from './aux-utils';
+import { parseIntegerNumber } from './aux-utils';
 
 export class SiwaMessage {
   /**RFC 3986 URI scheme for the authority that is requesting the signing. */
   scheme?: string;
   /**RFC 4501 dns authority that is requesting the signing. */
   domain: string;
-  /**Algorand address performing the signing conformant to capitalization
-   * encoded checksum specified in EIP-55 where applicable. */
+  /**Algorand address performing the signing conformant to capitalization */
   address: string;
   /**Human-readable ASCII assertion that the user will sign, and it must not
    * contain `\n`. */
@@ -246,7 +244,7 @@ export class SiwaMessage {
         });
       }
 
-      const { signature, address, scheme, domain, nonce, time, algoAddress, algoSignature, nfd } = params;
+      const { signature, address, scheme, domain, nonce, time, nfd } = params;
 
 
 
@@ -346,8 +344,6 @@ export class SiwaMessage {
       } else {
         const EIP1271Promise = verifySignature(
           this,
-          algoSignature,
-          algoAddress,
           signature,
           nfd
         )
@@ -355,7 +351,7 @@ export class SiwaMessage {
             if (!isValid) {
               return {
                 success: false,
-                data: { ...this, algoAddress, nfd },
+                data: { ...this, nfd },
                 error: new SiwaError(
                   SiwaErrorType.INVALID_SIGNATURE,
                   addr,
@@ -363,7 +359,7 @@ export class SiwaMessage {
                 ),
               };
             }
-            const returnData: any = { ...this, algoAddress };
+            const returnData: any = { ...this };
 
             if (nfd !== "undefined") {
               returnData.nfd = nfd;
@@ -428,15 +424,6 @@ export class SiwaMessage {
       throw new SiwaError(
         SiwaErrorType.INVALID_DOMAIN,
         `${this.domain} to be a valid domain.`
-      );
-    }
-
-    /** EIP-55 `address` check. */
-    if (!isEIP55Address(this.address)) {
-      throw new SiwaError(
-        SiwaErrorType.INVALID_ADDRESS,
-        getAddress(this.address),
-        this.address
       );
     }
 

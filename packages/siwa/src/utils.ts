@@ -2,7 +2,6 @@
 import algosdk from 'algosdk';
 import { randomStringForEntropy } from '@stablelib/random';
 import type { SiwaMessage } from './client';
-import { keccak256 } from 'js-sha3';
 
 /**
  * Signs a message using an Algorand private key.
@@ -27,9 +26,8 @@ const ISO8601 =
 /**
  * Verifies a signature against a message using an Algorand public key.
  * @param message The EIP-4361 original message that was signed.
- * @param algoSignatureBase64 The signature in base64 format.
  * @param address The Algorand public address.
- * @param signature The signature in hex format.
+ * @param signature The signature in base64 format.
  * @param nfd The Domain Name for address resolution (optional).
  * @returns {Promise<boolean>} Checks for the Algorand address (if it exists) if
  * the signature is valid for given address.
@@ -37,7 +35,6 @@ const ISO8601 =
 
 export const verifySignature = async (
   message: SiwaMessage,
-  algoSignatureBase64: string,
   address: string,
   signature: string,
   nfd?: string,
@@ -47,20 +44,10 @@ export const verifySignature = async (
     Buffer.from(JSON.stringify(message.prepareMessage()))
   );
   const signatureUint8Array = Uint8Array.from(
-    atob(algoSignatureBase64)
+    atob(signature)
       .split('')
       .map((char) => char.charCodeAt(0))
   );
-
-  if (!validateChecksumAddress(address, message)) {
-    console.log('Checksum address validation failed');
-    return false;
-  }
-
-  if (!validateHexSignature(signatureUint8Array, signature)) {
-    console.log('Hex signature validation failed');
-    return false;
-  }
 
   if (nfd !== "undefined") {
     if (!validateNFDAddress(address, nfd)) {
@@ -140,61 +127,6 @@ export const checkInvalidKeys = <T>(
   });
   return invalidKeys;
 };
-
-export const validateChecksumAddress = (address: string, message: SiwaMessage): boolean => {
-
-  // Decode the Algorand address to get the publicKey
-  let addrArray;
-  try {
-    addrArray = algosdk.decodeAddress(address);
-  } catch (error) {
-    console.log('Failed to decode address:', error);
-    return false;
-  }
-
-  // Convert publicKey to a hex string
-  let publicKeyHex = Buffer.from(addrArray.publicKey).toString('hex');
-
-  // Create a keccak256 hash of the public key
-  const hash = keccak256(Buffer.from(publicKeyHex, 'hex'));
-
-  // Convert the hash to a hexadecimal string and take the last 20 bytes (40 characters)
-  const addressHex = Buffer.from(hash).toString('hex').substring(24, 64);
-
-  // Initialize a variable for the checksum address starting with '0x'
-  let checksumAddress = '0x';
-
-  // Apply the EIP-55 checksum rules based on the hash
-  for (let i = 0; i < 40; i++) {
-    const character = addressHex[i];
-    const hashValue = parseInt(hash[i % hash.length], 16);
-    checksumAddress += hashValue >= 8 ? character.toUpperCase() : character.toLowerCase();
-  }
-
-  if (message.address !== checksumAddress) {
-    console.log('Checksum address does not match:', message.address, checksumAddress);
-  }
-
-  return message.address === checksumAddress;
-};
-
-// Function to convert the first 65 bytes of Uint8Array to Ethereum-like hex string
-export function uint8ArrayToEthereumHexString(arr) {
-  // Take the first 65 bytes only
-  const first65Bytes = arr.slice(0, 65);
-  return (
-    "0x" +
-    Array.from(first65Bytes, (byte) => byte.toString().padStart(2, "0")).join(
-      "",
-    )
-  );
-}
-
-export const validateHexSignature = (algoSignature: Uint8Array, signature: string): boolean => {
-  const ethSig = uint8ArrayToEthereumHexString(algoSignature);
-
-  return ethSig === signature;
-}
 
 export const validateNFDAddress = async (address: string, nfd: string): Promise<boolean> => {
   const nfdAddress = await resolveNFDToAddress(nfd);

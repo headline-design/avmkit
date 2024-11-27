@@ -7,7 +7,6 @@ import { getSession } from '@/dashboard/lib/auth';
 
 interface SiwaFields {
   address: string;
-  algoAddress: string;
   nonce: string;
   nfd?: string;
 }
@@ -37,7 +36,6 @@ export const POST = async (req: NextRequest) => {
       signature,
       nonce: session.nonce,
       address: session.address,
-      algoAddress: session.algoAddress,
     }
 
     if (session.nfd) {
@@ -56,7 +54,6 @@ export const POST = async (req: NextRequest) => {
       );
     }
     session.address = fields.address;
-    session.algoAddress = fields.algoAddress;
     session.nfd = fields.nfd;
     session.chainId = 1;
     session.nonce = undefined;
