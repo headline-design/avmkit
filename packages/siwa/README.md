@@ -74,7 +74,7 @@ const result: any = await siwa.verify({
 
 ## Documentation
 
-Check out our [full guide](https://siwa.org/help) on how to implement SIWA into your dapp!
+Check out our [full guide](https://docs.siwa.org/help) on how to implement SIWA into your dapp!
 
 ## Support
 
