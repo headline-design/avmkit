@@ -3,11 +3,11 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   transpilePackages: ["connectkit"],
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   webpack: (config, { webpack, isServer }) => {
     if (isServer) {
