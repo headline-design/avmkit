@@ -14,7 +14,7 @@ import { optimism, Chain } from "wagmi/chains";
 import { http } from "wagmi";
 import { useRouter } from "next/navigation";
 import { cookieStorage } from "wagmi";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const APP_NAME = "Algostack";
 
