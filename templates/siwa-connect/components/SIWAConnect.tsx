@@ -4,9 +4,7 @@ import React, { useState, useEffect } from "react";
 import { SiwaMessage } from "@avmkit/siwa";
 import JSONViewer from "./JsonViewer";
 import LoadingSpinner from "./LoadingSpinner";
-import {
-  uint8ArrayToBase64,
-} from "@/utils/siwaUtils";
+import { uint8ArrayToBase64 } from "@/utils/siwaUtils";
 import ConnectedNote from "./ConnectedNote";
 import PeraConnectButton from "./PeraConnectButton";
 import DeflyConnectButton from "./DeflyConnectButton";
@@ -17,6 +15,7 @@ import {
 } from "@/hooks/useWalletConnection";
 import { Button } from "./Button";
 import { Alert } from "./Alert";
+import { KibisisConnectButton } from "./KibisisConnectButton";
 
 /**
  * SIWAConnect Component
@@ -36,16 +35,16 @@ export default function SIWAConnect() {
   // State management
   const [signedMessage, setSignedMessage] = useState<string | null>(null);
   const [pendingProvider, setPendingProvider] = useState<WalletProvider | null>(
-    null
+    null,
   );
   const [signing, setSigning] = useState(false);
   const [fullSigningMessage, setFullSigningMessage] = useState<any | null>(
-    null
+    null,
   );
   const [credentials, setCredentials] = useState<any | null>(null);
   const [error, setError] = useState<any | null>(null);
   const [verificationResult, setVerificationResult] = useState<any | null>(
-    null
+    null,
   );
   const [siwaMessageInstance, setSiwaMessageInstance] =
     useState<SiwaMessage | null>(null);
@@ -155,7 +154,7 @@ export default function SIWAConnect() {
     setError(null);
     try {
       const siwaMessage = new SiwaMessage(
-        JSON.parse(credentials?.message || "{}")
+        JSON.parse(credentials?.message || "{}"),
       );
 
       const verifyParams = {
@@ -195,6 +194,10 @@ export default function SIWAConnect() {
               onConnect={() => handleConnectWallet("Defly")}
               isLoading={isLoading && pendingProvider === "Defly"}
             />
+            <KibisisConnectButton
+              isLoading={isLoading && pendingProvider === "Kibisis"}
+              onConnect={() => handleConnectWallet("Kibisis")}
+            />
           </div>
         );
       case 1:
@@ -208,7 +211,11 @@ export default function SIWAConnect() {
       case 2:
         return (
           <div>
-            <Button className="h-12 w-full" onClick={verifySIWAMessage} disabled={isLoading}>
+            <Button
+              className="h-12 w-full"
+              onClick={verifySIWAMessage}
+              disabled={isLoading}
+            >
               {isLoading ? <LoadingSpinner /> : "Verify SIWA Message"}
             </Button>
           </div>
@@ -243,10 +250,7 @@ export default function SIWAConnect() {
               </h2>
               <div className="transition-opacity duration-300 ease-in-out">
                 {activeStep > 0 && activeStep < 3 && (
-                  <ConnectedNote
-                    address={address}
-                    provider={provider}
-                  />
+                  <ConnectedNote address={address} provider={provider} />
                 )}
                 {renderStep()}
               </div>
@@ -277,7 +281,9 @@ export default function SIWAConnect() {
               >
                 {error && (
                   <Alert variant="error">
-                    <p className="text-sm">{error.message || "An error occurred"}</p>
+                    <p className="text-sm">
+                      {error.message || "An error occurred"}
+                    </p>
                   </Alert>
                 )}
               </div>

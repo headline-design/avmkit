@@ -10,29 +10,41 @@ import {
   initializeAlgodClient,
 } from "@/utils/siwaUtils";
 
-export type WalletProvider = "PeraWallet" | "Defly";
+export type WalletProvider = "PeraWallet" | "Defly" | "Kibisis";
+
+// Ensure window is only accessed on the client side
+declare global {
+  interface Window {
+    algorand?: any;
+    handleWalletError: (error: string) => void;
+  }
+}
+
+const isClient = typeof window !== "undefined";
+const clientWindow = isClient ? window : {} as typeof window;
+clientWindow.algorand = clientWindow.algorand || {};
 
 const peraWallet = new PeraWalletConnect();
 const deflyWallet = new DeflyWalletConnect();
 const algodClient = initializeAlgodClient();
 
 export const useWalletConnection = () => {
-  const [address, setAddress] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("address");
-    }
-    return null;
-  });
-  const [provider, setProvider] = useState<WalletProvider>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("walletProvider") as WalletProvider) || "PeraWallet";
-    }
-    return "PeraWallet";
-  });
+  const [address, setAddress] = useState<string | null>(null);
+  const [provider, setProvider] = useState<WalletProvider>("PeraWallet");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Move localStorage access to useEffect
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (isClient) {
+      const storedAddress = localStorage.getItem("address");
+      const storedProvider = localStorage.getItem("walletProvider") as WalletProvider;
+      if (storedAddress) setAddress(storedAddress);
+      if (storedProvider) setProvider(storedProvider);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
       localStorage.setItem("walletProvider", provider);
     }
   }, [provider]);
@@ -44,8 +56,10 @@ export const useWalletConnection = () => {
       deflyWallet.disconnect();
     }
     setAddress(null);
-    localStorage.removeItem("walletProvider");
-    localStorage.removeItem("address");
+    if (isClient) {
+      localStorage.removeItem("walletProvider");
+      localStorage.removeItem("address");
+    }
   }, [provider]);
 
   const connectWallet = async (selectedProvider: WalletProvider) => {
@@ -58,13 +72,18 @@ export const useWalletConnection = () => {
       } else if (selectedProvider === "Defly") {
         newAccounts = await deflyWallet.connect();
         deflyWallet.connector?.on("disconnect", disconnectWallet);
+      } else if (selectedProvider === "Kibisis") {
+        const address = await injectKibisis();
+        newAccounts = [address];
       } else {
         throw new Error("Unsupported wallet provider");
       }
       setAddress(newAccounts[0]);
       setProvider(selectedProvider);
-      localStorage.setItem("walletProvider", selectedProvider);
-      localStorage.setItem("address", newAccounts[0]);
+      if (isClient) {
+        localStorage.setItem("walletProvider", selectedProvider);
+        localStorage.setItem("address", newAccounts[0]);
+      }
     } catch (error) {
       console.error(`Error connecting to ${selectedProvider}:`, error);
       throw error;
@@ -76,19 +95,21 @@ export const useWalletConnection = () => {
   const reconnectSession = useCallback(async () => {
     setIsLoading(true);
     try {
-      const storedProvider = localStorage.getItem("walletProvider") as WalletProvider;
-      const storedAddress = localStorage.getItem("algoAddress");
+      if (isClient) {
+        const storedProvider = localStorage.getItem("walletProvider") as WalletProvider;
+        const storedAddress = localStorage.getItem("algoAddress");
 
-      if (storedProvider && storedAddress) {
-        setProvider(storedProvider);
-        setAddress(storedAddress);
+        if (storedProvider && storedAddress) {
+          setProvider(storedProvider);
+          setAddress(storedAddress);
 
-        if (storedProvider === "PeraWallet") {
-          await peraWallet.reconnectSession();
-          peraWallet.connector?.on("disconnect", disconnectWallet);
-        } else if (storedProvider === "Defly") {
-          await deflyWallet.reconnectSession();
-          deflyWallet.connector?.on("disconnect", disconnectWallet);
+          if (storedProvider === "PeraWallet") {
+            await peraWallet.reconnectSession();
+            peraWallet.connector?.on("disconnect", disconnectWallet);
+          } else if (storedProvider === "Defly") {
+            await deflyWallet.reconnectSession();
+            deflyWallet.connector?.on("disconnect", disconnectWallet);
+          }
         }
       }
     } catch (error) {
@@ -125,6 +146,8 @@ export const useWalletConnection = () => {
       case "Defly":
         // This is a temporary solution until Defly Wallet supports signing arbitrary messages
         const suggestedParams = await algodClient.getTransactionParams().do();
+        console.log("Suggested params", suggestedParams);
+        console.log(address)
         const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
           note: encodedHashedMessage,
           from: address,
@@ -137,6 +160,14 @@ export const useWalletConnection = () => {
         const deflySigArray = await deflyWallet.signTransaction([txnGroup]);
         const decodedTxn = algosdk.decodeSignedTransaction(deflySigArray[0]);
         return decodedTxn.sig as unknown as Uint8Array;
+
+      case "Kibisis":
+        const MXMessage = "MX" + JSON.stringify(message);
+        const result = await clientWindow?.algorand.signBytes({
+          data: new Uint8Array(clientWindow?.Buffer.from(MXMessage)),
+        });
+
+        return result?.signature as Uint8Array;
       default:
         throw new Error("Unsupported wallet provider");
     }
@@ -150,5 +181,40 @@ export const useWalletConnection = () => {
     disconnectWallet,
     signMessage,
   };
+};
+
+export const injectKibisis = async () => {
+  console.log("Injecting Kibisis script...");
+
+  async function enableWallet() {
+    if (typeof window === "undefined" || !window.algorand) {
+      console.error("AVM Wallets not available");
+      return null; // No Algorand wallets available, handle as an error.
+    }
+
+    try {
+      const result = await window.algorand.enable("kibisis");
+      console.log("Wallet enabled:", result);
+      if (result.accounts && result.accounts.length > 0) {
+        return result.accounts[0].address;
+      } else {
+        throw new Error("No accounts available"); // Throwing error if no accounts found.
+      }
+    } catch (error) {
+      console.error("Error enabling wallet:", error);
+      return null; // Returning null on user cancellation or any other error.
+    }
+  }
+
+  let address = await enableWallet();
+  if (address) {
+    return address;
+  } else {
+    console.log("No address obtained or user cancelled.");
+    if (typeof window !== "undefined") {
+      window.handleWalletError("User cancelled or no accounts available"); // Handling errors or cancellations globally.
+    }
+    throw new Error("User cancelled or no accounts available");
+  }
 };
 
