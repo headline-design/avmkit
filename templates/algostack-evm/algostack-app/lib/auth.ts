@@ -13,7 +13,6 @@ import { getSearchParams } from '@/dashboard/lib/utils';
 import { hashToken } from './crypto';
 import { ratelimit } from './upstash';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { getCsrfToken } from 'next-auth/react';
 import { SiwaMessage } from '@avmkit/siwa';
 import { SiweMessage } from 'siwe';
 
@@ -96,7 +95,6 @@ export const authOptions: NextAuthOptions = {
             siwa?.domain === nextAuthUrl.host ? nextAuthUrl.host : undefined;
 
           const verifyData: any = {
-            signature: credentials.signature,
             domain: validDomain,
             address: siwa.address || "",
             nonce: siwa?.nonce,

@@ -46,7 +46,7 @@ export enum Grid {
 
 export const PipeConnectors = {
   MyAlgoWallet: 'myAlgoWallet',
-  PeraWallet: 'PeraWallet',
+  Pera: 'PeraWallet',
   XWallet: 'escrow',
   Kibisis: 'Kibisis',
   //AlgoSigner: 'AlgoSigner',

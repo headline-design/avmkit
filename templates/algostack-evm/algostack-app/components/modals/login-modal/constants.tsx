@@ -63,7 +63,7 @@ export const WEB3_PROVIDERS = [
     id: 'pera',
     name: 'Pera',
     icon: <IconPera className={ICON_CLASS} />,
-    connector: 'PeraWallet',
+    connector: 'Pera',
     type: 'web3',
   },
 ];
@@ -87,7 +87,7 @@ export const WEB3_PROVIDERS_SM = [
     id: 'pera',
     name: 'Pera',
     icon: <IconPera className={SMALL_ICON_CLASS} />,
-    connector: 'PeraWallet',
+    connector: 'Pera',
     type: 'web3',
   },
 ];
