@@ -117,6 +117,7 @@ export const siwaConfig: SIWAConfig = {
     return await signIn("algorand", {
       message: JSON.stringify(message),
       nfd,
+      provider,
       redirect: false,
       signature,
       callbackUrl: currentCallbackUrl,

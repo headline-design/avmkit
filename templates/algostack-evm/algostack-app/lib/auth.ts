@@ -79,38 +79,45 @@ export const authOptions: NextAuthOptions = {
           type: "text",
           placeholder: "example.com",
         },
+        provider: {
+          label: "Provider",
+          type: "text",
+          placeholder: "Unknown",
+        },
         nfd: {
           label: "NFD",
           type: "text",
           placeholder: "HELLO_WORLD",
         },
+
       },
       async authorize(credentials, req) {
         try {
-          const siwa = new SiwaMessage(
-            JSON.parse(credentials?.message || "{}"),
-          );
+          const siwa = new SiwaMessage(JSON.parse(credentials.message || "{}"));
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
           const validDomain =
             siwa?.domain === nextAuthUrl.host ? nextAuthUrl.host : undefined;
 
           const verifyData: any = {
+            signature: credentials.signature,
             domain: validDomain,
-            address: siwa.address || "",
             nonce: siwa?.nonce,
+            provider: credentials.provider,
           };
 
-          if (credentials.nfd) {
+          console.log("VerifyData", verifyData);
+
+          if (credentials?.nfd && credentials.nfd !== "null" && credentials.nfd !== "undefined") {
             verifyData.nfd = credentials.nfd;
           }
 
           // VerifyParams
-          const result: any = await siwa.verify({
-            ...verifyData,
-          });
+          const { data: fields, success } = await siwa.verify({ ...verifyData });
 
-          if (result.success) {
-            const authResult = await handleWalletAuth(result.data, "AVM");
+          console.log("result", success);
+
+          if (fields && success) {
+            const authResult = await handleWalletAuth(fields, "AVM");
             return authResult;
           }
         } catch (error) {

@@ -197,6 +197,7 @@ export const SIWAProvider = ({
         message,
         signature: algoSigBase64,
         address: Pipeline.address,
+        provider: pipeState.provider === "Perawallet" ? "Pera" : "Kibisis",
       };
 
       if (nfd) {
