@@ -42,7 +42,7 @@ export async function setRandomKey(
   /* recursively set link till successful */
   const key = nanoid();
   const response = await redis.set(
-    `algostack-ssr.vercel.app:${key}`,
+    `algostack-ssr.siwa.org:${key}`,
     {
       url,
     },

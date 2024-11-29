@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     images: ["/algostack-og.png"],
     creator: "@headline_crypto",
   },
-  metadataBase: new URL("https://algostack.vercel.app"),
+  metadataBase: new URL("https://algostack.siwa.org"),
 };
 
 export const viewport: Viewport = {

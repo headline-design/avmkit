@@ -216,7 +216,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        domain: VERCEL_DEPLOYMENT ? "algostack-evm.vercel.app" : "localhost",
+        domain: VERCEL_DEPLOYMENT ? "algostack-evm.siwa.org" : "localhost",
         secure: VERCEL_DEPLOYMENT,
       },
     },

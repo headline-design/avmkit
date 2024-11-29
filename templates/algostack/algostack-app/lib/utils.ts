@@ -42,7 +42,7 @@ export function constructMetadata({
       creator: '@headline_crypto',
     },
     icons,
-    metadataBase: new URL('https://algostack.vercel.app'),
+    metadataBase: new URL('https://algostack.siwa.org'),
     ...(noIndex && {
       robots: {
         index: false,
