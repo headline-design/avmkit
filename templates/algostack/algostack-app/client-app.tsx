@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Web3Provider from "@/algostack-app/contexts/web3-context";
 import ScrollToTop from "@/algostack-app/components/scroll-to-top";
 import ErrorBoundary from "@/algostack-app/lib/error-boundary";
 import { SessionProvider } from "next-auth/react";
@@ -37,7 +36,7 @@ import {
 } from "@/dashboard/utils/constants/common";
 import localStore from "store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { XWalletProvider } from "@avmkit/xwallet";
+import Web3AVMProvider from "./contexts/avm-context";
 
 function ClientApp() {
   const routes = useMemo(
@@ -91,18 +90,13 @@ function ClientApp() {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-          <WalletConnectionProvider>
-            <XWalletProvider
-              useWalletConnection={useWalletConnection}
-              PipeConnectors={PipeConnectors}
-            >
-              <Web3Provider>
-                <LoginModalProvider>
-                  <RouterProvider router={memoizedRouter} />
-                </LoginModalProvider>
-              </Web3Provider>
-            </XWalletProvider>
-          </WalletConnectionProvider>
+        <WalletConnectionProvider>
+          <Web3AVMProvider>
+            <LoginModalProvider>
+              <RouterProvider router={memoizedRouter} />
+            </LoginModalProvider>
+          </Web3AVMProvider>
+        </WalletConnectionProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

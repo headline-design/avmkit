@@ -47,10 +47,8 @@ export enum Grid {
 export const PipeConnectors = {
   MyAlgoWallet: 'myAlgoWallet',
   PeraWallet: 'PeraWallet',
-  XWallet: 'escrow',
   Kibisis: 'Kibisis',
   //AlgoSigner: 'AlgoSigner',
-  //XWallet: 'XWallet'
 };
 
 /** Local Storage keys */

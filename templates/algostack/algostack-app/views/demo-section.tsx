@@ -1,54 +1,28 @@
+"use client";
+
 import { Button } from "@/algostack-app/ui/button";
 import SIWADetails from "./siwa-details";
 import { IconSignOut } from "../icons";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ModalContext } from "@/dashboard/contexts/modal-context";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { IconXGovBadge } from "../assets/xgov-badge";
 import { IconHeadlineTypelogo } from "../assets/headline-typelogo";
-import { Escrow } from "@avmkit/pipeline";
-import { useSelector } from "react-redux";
-import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
-import { useXWallet } from "@avmkit/xwallet";
-import { useWalletConnection } from "../contexts/wallet-connection-context";
+import { useLogout } from "../lib/hooks/use-logout";
 
 const DemoSection = () => {
-  const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
+  const { setShowLoginModal } = useContext(ModalContext);
   const { data: session } = useSession();
-  const { openXWalletModal, setXWalletState } = useXWallet();
-  const { disconnectWallet } = useWalletConnection();
 
   const handleOpenModal = () => {
     setShowLoginModal(true);
   };
 
-  const pipeState = useSelector(
-    algorandGlobalSelectors.selectCurrentPipeConnectState,
-  );
+  const { handleDisconnect: handleFullDisconnect } = useLogout();
 
-  const handleOpenXWalletModal = () => {
-    if (!Escrow.secret) {
-      setXWalletState({
-        title: "Unlock account",
-        header: true,
-        state: "unlock",
-        request: "open",
-      });
-      openXWalletModal();
-    } else {
-      setXWalletState({
-        title: "Actions",
-        header: false,
-        state: "actions",
-      });
-      openXWalletModal();
-    }
-  };
-
-  const handleDisconnect = () => {
-    signOut().then(() => {
-      disconnectWallet();
-    });
+  const handleDisconnect = async () => {
+    console.log("Disconnecting...");
+    handleFullDisconnect();
   };
 
   return (
@@ -57,7 +31,7 @@ const DemoSection = () => {
         <>
           {session ? (
             <div className="w-full py-4 sm:px-0 px-4 flex flex-col items-center lg:items-end gap-2 text-center lg:text-left h-full lg:min-h-[384px]">
-              <SIWADetails user={session?.user} signOut={signOut} />
+              <SIWADetails user={session?.user} signOut={handleDisconnect} />
             </div>
           ) : (
             <div className="w-full py-4 sm:px-0 px-4  flex flex-col items-center lg:items-start gap-2 text-center lg:text-left h-full lg:min-h-[384px]">
@@ -80,7 +54,7 @@ const DemoSection = () => {
                   </Button>
                 </a>
                 <a
-                  href="https://github.com/headline-design/algostack"
+                  href="https://github.com/headline-design/algostack-evm"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -127,16 +101,6 @@ const DemoSection = () => {
                       Connect Wallet
                     </Button>
                   </div>
-
-                  {session && pipeState.provider === "escrow" ? (
-                    <Button
-                      variant="outline"
-                      onClick={handleOpenXWalletModal}
-                      className="flex items-center justify-center"
-                    >
-                      Open XWallet
-                    </Button>
-                  ) : null}
                   {session ? (
                     <Button
                       variant="outline"

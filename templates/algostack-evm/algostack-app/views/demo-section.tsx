@@ -8,16 +8,13 @@ import { ModalContext } from "@/dashboard/contexts/modal-context";
 import { signOut, useSession } from "next-auth/react";
 import { IconXGovBadge } from "../assets/xgov-badge";
 import { IconHeadlineTypelogo } from "../assets/headline-typelogo";
-import { Escrow } from "@avmkit/pipeline";
 import { useSelector } from "react-redux";
 import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
-import { useXWallet } from "@avmkit/xwallet";
 import { useLogout } from "../lib/hooks/use-logout";
 
 const DemoSection = () => {
   const { showLoginModal, setShowLoginModal } = useContext(ModalContext);
   const { data: session } = useSession();
-  const { openXWalletModal, setXWalletState } = useXWallet();
 
   const handleOpenModal = () => {
     setShowLoginModal(true);
@@ -26,25 +23,6 @@ const DemoSection = () => {
   const pipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState
   );
-
-  const handleOpenXWalletModal = () => {
-    if (!Escrow.secret) {
-      setXWalletState({
-        title: "Unlock account",
-        header: true,
-        state: "unlock",
-        request: "open",
-      });
-      openXWalletModal();
-    } else {
-      setXWalletState({
-        title: "Actions",
-        header: false,
-        state: "actions",
-      });
-      openXWalletModal();
-    }
-  };
 
   const { handleDisconnect: handleFullDisconnect } = useLogout();
 
@@ -129,16 +107,6 @@ const DemoSection = () => {
                       Connect Wallet
                     </Button>
                   </div>
-
-                  {session && pipeState.provider === "escrow" ? (
-                    <Button
-                      variant="outline"
-                      onClick={handleOpenXWalletModal}
-                      className="flex items-center justify-center"
-                    >
-                      Open XWallet
-                    </Button>
-                  ) : null}
                   {session ? (
                     <Button
                       variant="outline"

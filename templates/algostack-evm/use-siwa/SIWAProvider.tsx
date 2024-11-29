@@ -12,7 +12,6 @@ import { Escrow, Pipeline } from "@avmkit/pipeline";
 import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";
-import { useXWallet } from "@avmkit/xwallet";
 import { resolveAddressToNFD } from "@avmkit/siwa";
 
 type Props = SIWAConfig & {
@@ -45,7 +44,6 @@ export const SIWAProvider = ({
 }: Props) => {
   const [status, setStatus] = useState<StatusState>(StatusState.READY);
   const resetStatus = () => setStatus(StatusState.READY);
-  const { openXWalletModal } = useXWallet();
 
   const pipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState,
@@ -160,32 +158,7 @@ export const SIWAProvider = ({
             Pipeline.address,
           );
 
-          console.log(`Signature is valid: ${isValid}`);
-        } else if (pipeState.provider === "escrow") {
-          // Encode the hashed message consistently
-
-          if (!Escrow.secret) {
-            openXWalletModal();
-          }
-
-          const encodedHashedMessage = new Uint8Array(
-            Buffer.from(hashedMessage),
-          );
-
-          // Sign the bytes using the escrow secret
-          algoSig = algosdk.signBytes(
-            encodedHashedMessage,
-            Escrow.secret as unknown as Uint8Array,
-          );
-
-          // Verify the signature to ensure its validity
-          const isValid = algosdk.verifyBytes(
-            encodedHashedMessage,
-            algoSig,
-            Pipeline.address,
-          );
-          console.log(`Signature is valid: ${isValid}`);
-        }
+          console.log(`Signature is valid: ${isValid}`);        }
       } catch (error) {
         console.error("Error during signing process:", error);
       }

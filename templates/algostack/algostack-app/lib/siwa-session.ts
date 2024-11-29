@@ -3,7 +3,7 @@ import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { NextRequest, NextResponse } from 'next/server';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
-export const APP_NAME = 'AlgoStack';
+export const APP_NAME = 'Algostack';
 export const COOKIE_NAME = 'web3session';
 
 if (!process.env.SESSION_SECRET) {

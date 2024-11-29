@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { IconArrowLeft, IconKibisis, IconLogout } from "@/dashboard/icons";
 import { Button } from "@/dashboard/ui";
 import { Pipeline, Escrow } from "@avmkit/pipeline";
-import { useXWallet } from "@avmkit/xwallet";
 import { useSIWA } from "@/use-siwa";
 import { useWalletConnection } from "@/dashboard/contexts/wallet-connection-context";
 import algorandGlobalSelectors from "@/dashboard/redux/algorand/global/globalSelectors";
@@ -18,6 +17,7 @@ import { IconSIWAStrokeLogo } from "@/dashboard/assets/siwa-stroke-logo";
 import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import { IconErrorCircle } from "@/algostack-app/icons/error-circle";
 import { BaseDialog } from "@/algostack-app/ui";
+import { useLogout } from "@/algostack-app/lib/hooks/use-logout";
 
 const initialState = {
   loading: false,
@@ -226,9 +226,7 @@ const SIWAConnectScreen = ({ handleDisconnect, handleSIWAConnect }) => {
 export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
   const { data: session, status } = useSession();
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const { openXWalletModal, setXWalletState, isXWalletModalOpen } =
-    useXWallet();
+  const { handleDisconnect: handleFullDisconnect } = useLogout();
   const { signIn: signInWithSIWA } = useSIWA();
   const {
     status: walletStatus,
@@ -324,20 +322,6 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
 
     try {
       switch (wallet.id) {
-        case "xwallet":
-          if (!Pipeline.address && !session?.user) {
-            setXWalletState({
-              title: "Unlock account",
-              header: true,
-              state: "unlock",
-              request: "connect",
-            });
-            openXWalletModal();
-          } else if (Pipeline.address && !session?.user) {
-            Pipeline.pipeConnector = PipeConnectors.XWallet;
-            dispatch({ type: "SET_CURRENT_SCREEN", payload: "siwaConnect" });
-          }
-          break;
         case "kibisis":
           Pipeline.pipeConnector = PipeConnectors[wallet.connector];
           handleSwitchWallet(wallet);
@@ -363,31 +347,15 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     }
   };
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
     dispatch({ type: "SET_CURRENT_SCREEN", payload: "default" });
-    signOut().then(() => {
-      disconnectWallet();
-    });
+    console.log("Disconnecting...");
+    handleFullDisconnect();
+    disconnectWallet();
   };
 
   const handleSIWAConnect = () => {
-    if (pipeState.provider === PipeConnectors.XWallet) {
-      if (!Escrow.secret) {
-        setXWalletState({
-          title: "Unlock account",
-          header: true,
-          state: "unlock",
-          request: "connect",
-        });
-        dispatch({ type: "SET_CURRENT_SCREEN", payload: "loading" });
-        openXWalletModal();
-      } else {
-        signInWithSIWA();
-      }
-    }
-    if (pipeState.provider !== PipeConnectors.XWallet) {
-      signInWithSIWA();
-    }
+    signInWithSIWA();
   };
 
   const renderScreen = () => {
@@ -449,14 +417,6 @@ export const LoginModalHelper = ({ showLoginModal, setShowLoginModal }) => {
     setShowLoginModal(false);
     dispatch({ type: "RESET" });
   };
-
-  useEffect(() => {
-    if (isXWalletModalOpen) {
-      dispatch({ type: "SET_DIALOG_STACK", payload: true });
-    } else if (!isXWalletModalOpen) {
-      dispatch({ type: "SET_DIALOG_STACK", payload: false });
-    }
-  }, [isXWalletModalOpen]);
 
   return (
     <BaseDialog isOpen={showLoginModal} onClose={onClose}>
