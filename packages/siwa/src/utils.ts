@@ -40,7 +40,7 @@ export const verifySignature = async (
   encodedTransaction?: string,
   nfd?: string
 ): Promise<boolean> => {
-  // Prepare hashed message bytes for Pera and Kibisis
+  // Prepare hashed message bytes for Kibisis
   const hashedMessage = new Uint8Array(Buffer.from(JSON.stringify(message.prepareMessage())));
 
   // Decode the signature from base64 to Uint8Array
@@ -52,16 +52,16 @@ export const verifySignature = async (
   }
 
   // Handle provider-specific verification
-  if (provider === "Pera" || provider === "Kibisis") {
+  if (provider === "Kibisis") {
     try {
       const isValid = algosdk.verifyBytes(hashedMessage, signatureUint8Array, message.address);
-      return isValid; // Return isValid (boolean) in Pera/Kibisis
+      return isValid; // Return isValid (boolean) in Kibisis
     } catch (error) {
       return false; // Return false if verification fails
     }
   }
 
-  if (provider === "Lute" || provider === "Defly") {
+  if (provider === "Lute" || provider === "Defly" || provider === "Pera") {
     if (!encodedTransaction) {
       return false; // Return false if no encodedTransaction is provided
     }
@@ -228,3 +228,69 @@ export const resolveNFDToAddress = async (nfd: string): Promise<string | null> =
   }
   return null; // Return null in case of any errors
 };
+
+/**
+ * Shape of the NFD record returned by the "lookup" endpoint.
+ */
+export interface NFDRecord {
+  appID?: number;
+  name?: string;
+  owner?: string;
+  properties?: {
+    verified?: Record<string, any>;
+    userDefined?: Record<string, any>;
+    [key: string]: any;
+  };
+  [key: string]: any; // The NFD response can have many other fields
+}
+
+/**
+ * Resolves an Algorand address to its full NFD record (if any).
+ * If not found or on error, returns null.
+ *
+ * @param address The Algorand address to look up
+ * @returns A full NFD record object or null if none found
+ */
+export const resolveAddressToFullNFD = async (
+  address: string
+): Promise<NFDRecord | null> => {
+  try {
+    const response = await fetch(
+      `https://api.nf.domains/nfd/lookup?address=${address}`,
+      {
+        method: 'GET',
+        headers: {},
+      }
+    );
+
+    if (!response.ok) {
+      console.log(`HTTP error! status: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    // Data is keyed by address, e.g.: { "<address>": {...} }
+    const keys = Object.keys(data);
+
+    if (keys.length === 0) {
+      console.log('NFD record not found or response malformed.');
+      return null;
+    }
+
+    // We only asked for one address, so let's just read the first key
+    const record = data[keys[0]];
+
+    // Return the entire record object as is
+    if (record && typeof record === 'object') {
+      return record as NFDRecord;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error resolving full NFD record:', error);
+    return null;
+  }
+};
+
+
+

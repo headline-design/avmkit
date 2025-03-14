@@ -23,8 +23,6 @@ export function verifySignedTransaction(stxn: SignedTransaction) {
   const isValid = nacl.sign.detached.verify(msg_bytes, sig_bytes, pk_bytes);
   const signature = Buffer.from(stxn.sig).toString("base64");
 
-  console.log("Verification result (pay transaction):", isValid, signature);
-
   return {
     isValid,
     signature,

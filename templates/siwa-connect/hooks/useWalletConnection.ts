@@ -146,20 +146,31 @@ export const useWalletConnection = () => {
     const hashedMessage = hashMessage(message);
     const encodedHashedMessage = getMessageBytes(Buffer.from(hashedMessage).toString("utf8"));
 
-    const suggestedParams = ["Defly", "Lute"].includes(provider)
+    const suggestedParams = ["Defly", "Lute", "Pera"].includes(provider)
       ? await algodClient.getTransactionParams().do()
       : null;
 
     switch (provider) {
       case "Pera":
-        const peraSigArray = await peraWallet.signData(
-          [{ data: encodedHashedMessage, message: "" }],
-          address
-        );
-        return {
-          signature: peraSigArray[0],
-          transaction: null,
+        if (!suggestedParams) {
+          throw new Error("Suggested params are not available");
         }
+        const peraTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+          note: encodedHashedMessage,
+          from: address,
+          to: address,
+          amount: 0,
+          suggestedParams,
+        } as any);
+
+        const peraTxnGroup = [{ txn: peraTxn, signerAddress: [address] }];
+        const peraSigArray = await peraWallet.signTransaction([peraTxnGroup]);
+        const decodedPeraTxn = algosdk.decodeSignedTransaction(peraSigArray[0]);
+        return {
+          signature: decodedPeraTxn.sig as unknown as Uint8Array,
+          transaction: peraSigArray[0],
+        }
+
 
       case "Defly":
         if (!suggestedParams) {
