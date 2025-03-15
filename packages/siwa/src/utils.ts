@@ -28,7 +28,6 @@ const ISO8601 =
  * Verifies a signature against a message or transaction.
  * @param message The SIWA message.
  * @param signature The signature in base64 format.
- * @param provider The Algorand wallet used for signing.
  * @param encodedTransaction The encoded transaction in Base64 format.
  * @param nfd The optional NFD domain for address resolution.
  * @returns True if the signature is valid, otherwise false.
@@ -36,57 +35,38 @@ const ISO8601 =
 export const verifySignature = async (
   message: SiwaMessage,
   signature: string,
-  provider: string,
   encodedTransaction?: string,
   nfd?: string
 ): Promise<boolean> => {
-  // Prepare hashed message bytes for Kibisis
-  const hashedMessage = new Uint8Array(Buffer.from(JSON.stringify(message.prepareMessage())));
-
-  // Decode the signature from base64 to Uint8Array
-  const signatureUint8Array = Uint8Array.from(atob(signature).split("").map((char) => char.charCodeAt(0)));
 
   // Optional NFD validation
   if (nfd && !(await validateNFDAddress(message.address, nfd))) {
     return false; // Direct return on failure
   }
 
-  // Handle provider-specific verification
-  if (provider === "Kibisis") {
-    try {
-      const isValid = algosdk.verifyBytes(hashedMessage, signatureUint8Array, message.address);
-      return isValid; // Return isValid (boolean) in Kibisis
-    } catch (error) {
-      return false; // Return false if verification fails
-    }
+
+  if (!encodedTransaction) {
+    return false; // Return false if no encodedTransaction is provided
   }
 
-  if (provider === "Lute" || provider === "Defly" || provider === "Pera") {
-    if (!encodedTransaction) {
-      return false; // Return false if no encodedTransaction is provided
-    }
-
-    try {
-      const packTransaction = Buffer.from(encodedTransaction, "base64");
-      const decodedTransaction = algosdk.decodeSignedTransaction(packTransaction);
-      const transactionResult = verifySignedTransaction(decodedTransaction);
-      if (!transactionResult) {
-        return false; // Return false if verification fails
-      }
-
-      const { isValid: isTransactionValid, signature: txnSignature } = transactionResult;
-      // Check if the transaction signature matches the provided signature
-
-      const isSignatureValid = txnSignature === signature; // Compare the signatures
-      const isValid = isTransactionValid && isSignatureValid; // Combine the results
-
-      return isValid;
-    } catch (error) {
+  try {
+    const packTransaction = Buffer.from(encodedTransaction, "base64");
+    const decodedTransaction = algosdk.decodeSignedTransaction(packTransaction);
+    const transactionResult = verifySignedTransaction(decodedTransaction);
+    if (!transactionResult) {
       return false; // Return false if verification fails
     }
-  }
 
-  return false; // Return false if the provider is not recognized
+    const { isValid: isTransactionValid, signature: txnSignature } = transactionResult;
+    // Check if the transaction signature matches the provided signature
+
+    const isSignatureValid = txnSignature === signature; // Compare the signatures
+    const isValid = isTransactionValid && isSignatureValid; // Combine the results
+
+    return isValid;
+  } catch (error) {
+    return false; // Return false if verification fails
+  }
 };
 
 

@@ -132,7 +132,6 @@ export default function SIWAConnect() {
       setCredentials({
         message: JSON.stringify(siwaMessage),
         encodedTransaction: encodedTransaction || null,
-        provider: provider || null,
         signature: algoSig,
         address: address,
       });
@@ -167,7 +166,6 @@ export default function SIWAConnect() {
       const verifyParams = {
         signature: credentials?.signature,
         domain: typeof window !== "undefined" ? window.location.host : "",
-        provider: provider || null,
         encodedTransaction: credentials?.encodedTransaction || null,
       };
 

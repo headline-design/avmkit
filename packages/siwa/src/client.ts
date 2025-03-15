@@ -184,7 +184,6 @@ export class SiwaMessage {
    * @deprecated
    * Verifies the integrity of the object by matching its signature.
    * @param signature Signature to match the address in the message.
-   * @param provider Wallet provider to be used for validation
    */
   async validate(signature: string) {
     console.warn(
@@ -244,7 +243,7 @@ export class SiwaMessage {
         });
       }
 
-      const { signature, address, scheme, domain, nonce, time, nfd, provider, encodedTransaction } = params;
+      const { signature, address, scheme, domain, nonce, time, nfd, encodedTransaction } = params;
 
 
 
@@ -345,7 +344,6 @@ export class SiwaMessage {
         const EIP1271Promise = verifySignature(
           this,
           signature,
-          provider,
           encodedTransaction,
           nfd
         )

@@ -34,9 +34,6 @@ export interface VerifyParams {
 
   scheme?: string;
 
-  /** Provider wallet used for signing */
-  provider?: string;
-
   /** Encoded transaction for signTransaction providers */
   encodedTransaction?: string;
 
@@ -49,7 +46,6 @@ export const VerifyParamsKeys: Array<keyof VerifyParams> = [
   'address',
   'nfd',
   'encodedTransaction',
-  'provider',
   'domain',
   'scheme',
   'nonce',
