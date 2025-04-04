@@ -30,7 +30,7 @@ npm install @avmkit/siwa
 Alternatively, clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/headline-design/avmkit.git
+git clone https://github.com/headline-design/avmkit.git
 ```
 
 ## Documentation
